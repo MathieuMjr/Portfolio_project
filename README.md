@@ -90,17 +90,27 @@ Since there is no need of extensibility, specific data types and no advanced fea
 
 ### INTERNAL API DOCUMENTATION
 
-This section show the details of the RESTful API with:
+This section shows the details of the RESTful API with:
 - a list of routes, 
-- methods allowed for each routes,
+- methods allowed for each route,
 - data format for POST methods,
 - data format returned,
-- status code and messages,
+- status codes and messages,
 
-So that you can identify any error code you would be struggling with.
+This documentation helps identify possible error cases and understand how to interact with the API.
+
+Just a quick reminder :
+- POST methods are for ressource creation
+- GET methods are for ressource retrieval
+- PUT methods are for ressource update
+- DELETE methods are fore ressource deletion
 
 ROUTE | Methods | Input (POST and PUT) | Output | JWT Protected ?
 --|--|--|--|--|
-/login | **POST** | {"email" : "\<email>", "password" : "\<password>"} | 200 OK, {"access_token" : <access_token>}<br>401, {"error" : "invalid credentials"} | ✘
-/reservation | **POST** <br> **GET**<br>**GET** `./<reservation_id>`<br>**PUT** `./<reservation_id>`| {"Structure": "\<structure_id>", "author": "\<user_id>", "date": "\<date>", "status": "\<status>", "contact": {"first_name": "\<name>", "last_name": "\<name>", "role": "\<role>", "email": "\<email>", "phone": "\<phone>"}, "price": "\<price>", "type": "\<reservationtype_id>"} | 200, OK<br>201, Created<br>400, {"error" : "Invalid input"}<br>403, {"error" : "Unauthorized action"}<br>404 {"error" : "Reservation id not found"} | **✓**
+`/login` | **POST** | {"email" : "\<email>", "password" : "\<password>"} | 200 OK, {"access_token" : <access_token>}<br>401, {"error" : "invalid credentials"} | ✘
+`/reservation` | **POST** | {"structure": "\<structure_id>", "author": "\<user_id>", "date": "\<date>", "status": "\<status>", "contact": {"first_name": "\<name>", "last_name": "\<name>", "role": "\<role>", "email": "\<email>", "phone": "\<phone>"}, "price": "\<price>", "type": "\<reservationtype_id>"} | 201, Created<br>400, {"error" : "Invalid input"}<br>403, {"error" : "Unauthorized action"} | **✓**
+`/reservation` | **GET** | / | 200, OK<br>403, {"error" : "Unauthorized action"} | **✓**
+`/reservation/<reservation_id>` | <br>**GET**  |/  | 200, OK<br>403, {"error" : "Unauthorized action"} 404 {"error" : "Reservation id not found"} | **✓**
+`/reservation/<reservation_id>` | **PUT** | {"structure": "\<structure_id>", "author": "\<user_id>", "date": "\<date>", "status": "\<status>", "contact": {"first_name": "\<name>", "last_name": "\<name>", "role": "\<role>", "email": "\<email>", "phone": "\<phone>"}, "price": "\<price>", "type": "\<reservationtype_id>"} | 200, OK<br>403, {"error" : "Unauthorized action"} 404 {"error" : "Reservation id not found"} | **✓**
+
 
