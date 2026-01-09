@@ -19,14 +19,41 @@ This application aims to bring together three main features :
 
 ## TECHNICAL DOCUMENTATION
 ### USERS STORIES
+**As a user...**
+I want to create booking an register client informations
 
 ### MOCKUPS
-### SYSTEM ARCHITECTURE AND TECHNOLOGY STACK
-This application will follow a client-server monolithic 3 tiers logic architecture :
-- a `front-end` interface that allow users to loggin and create, update and display the bookings;
-- a `database` to save the bookings, structures, booking types, users, etc.
-- a `back-end` exposing a RESTful API that receive user queries from the front-end to serve data
 
+### SYSTEM ARCHITECTURE AND TECHNOLOGY STACK
+<details><summary> Display section details</summary>
+
+<img src="./Documentation_files/portfolio_architecture.jpg"></img>
+
+This application follow a monolithic application three-tiers client-server logic architecture :
+- <u>presentation layer</u> : a `front-end` interface allowing users to log in and create, update and view bookings;
+- <u>business logic</u> : a `back-end` exposing a RESTful API that receive user queries from the front-end and apply business rules;
+- <u>data an persistence layer</u> : a `relational database` used to store bookings, structures, booking types, users, etc.;
+
+
+#### Technology stack : 
+-  <u>Front-end</u> : <br>
+**HTML5, CSS3, JavaScript**<br>
+Interface is built with `HTML5`, `CSS3` and `JavaScript` for interactivity and `client-side rendering`.<br>
+Users access to data via HTTP requests through a RESTful API.
+
+- <u>Back-end</u> :<br>
+**Facade pattern, python, Flask RESTX API, ORM SQLAlchemy**<br>
+Back-end is responsible of `business logic`.<br>
+It exposes a `RESTful API` that receives user requests and returns data.<br>
+A `Facade pattern` is used to process requests :  it orchestrates object creation and data storage making the code easier to maintain and update.<br>
+`SQLAlchemy` will allow to manipulate data as objects, making requests safer and to focus on object-oriented paradigm.
+
+- <u>Database</u> :<br>
+**MySQL**<br>
+Entities have strong relationships, that is why an SQL database is chosen.<br>
+`SQLAlchemy ORM` is used by the back end to define models, manage database schema and perform queries.<br>
+Since there is no need of extensibility, specific data types and no advanced features, `MySQL` is well suited for the project's requirements : easy to maintain, open-source, well documented, and well known by the developer team. 
+</details>
 
 ### COMPONENTS - CLASS DIAGRAM
 ### ENTITIES RELATIONSHIP DIAGRAM
