@@ -90,27 +90,47 @@ Since there is no need of extensibility, specific data types and no advanced fea
 
 ### INTERNAL API DOCUMENTATION
 
+This section explain the application, API rules, the routes and methods allowed, the status codes and the input and output formats for the main classes.
+
+All the other classes will follow the same pattern.
 This section shows the details of the RESTful API with:
-- a list of routes, 
-- methods allowed for each route,
-- data format for POST methods,
-- data format returned,
-- status codes and messages,
+
+**Priviledges**
+- <u>Users</u> :<br>
+Can access their own booking (create, list, update, delete),<br>
+Create, list and update structures,<br>
+Create and list themes,<br>
+List reservation types they are allowed to
+- Manager :<br>
+Can access every booking,<br> 
+Create, list and update users, <br>
+Create, update, list structures
+Create, update, list, delete types (reservation type, structure type)
+
+**Status codes and messages** :
+
+Status code | Message | Meaning | Related methods
+|--|--|--|--|
+200 | OK | Resource sucessfully retrieved | **GET**
+201 | Created | Ressource sucessfully created |**POST**
+400 | Invalid input | Some data in the input are not in the expected format | **POST**<br> **PUT**
+401 | Invalid credentials | Wrong credentials registered while logging in | **POST**<br> *(on /login route)*
+403 | Unauthorized action | User try to access a route he is not allowed to
+
 
 This documentation helps identify possible error cases and understand how to interact with the API.
 
-Just a quick reminder :
-- POST methods are for ressource creation
-- GET methods are for ressource retrieval
-- PUT methods are for ressource update
-- DELETE methods are fore ressource deletion
+ROUTE | Methods | Input (POST and PUT) | Output | JWT Protected ? | Action
+--|--|--|--|--|--|
+`/login` | **POST** | {"email" : "\<email>", "password" : "\<password>"} | 200 OK, {"access_token" : <access_token>}<br>401, {"error" : "invalid credentials"} | ✘ | Log a user
+`/user` | **POST** | {"first_name": "\<first_name>", "last_name": "\<last_name>", "email": "\<email>", "password": "\<password>", "role": "\<role">} | 201, Created<br>400, {"error" : "Invalid input"}<br>403, {"error" : "Unauthorized action"} | **✓** | Create a user (Admin priviledge)
+`/user` | **GET** | / | 200, OK<br>403, {"error" : "Unauthorized action"} | **✓** | Retrieve a list of user(Admin priviledge) | 200, OK<br>403, {"error" : "Unauthorized action"} 404 {"error" : "Reservation id not found"} | **✓** | Update a specific user (Admin priviledge)
+`/user/<user_id>` | **GET** | / | 200, OK<br>403, {"error" : "Unauthorized action"}<br> 404 {"error" : "Reservation id not found"} | **✓** | Retrieve a specific user(Admin priviledge)
+`/user/<user_id>` | **PUT** | {"first_name": "\<first_name>", "last_name": "\<last_name>", "email": "\<email>", "password": "\<password>", "role": "\<role">} |
+`/reservation` | **POST** | {"structure_id": "\<structure_id>", "author_id": "\<user_id>", "date": "\<date>", "status_id": "\<status_id>", "contact": {"first_name": "\<name>", "last_name": "\<name>", "role": "\<role>", "email": "\<email>", "phone": "\<phone>"}, "price": "\<price>", "reservation_type_id": "\<type_id>"} | 201, Created<br>400, {"error" : "Invalid input"}<br>403, {"error" : "Unauthorized action"} | **✓** | Create a reservation
+`/reservation` | **GET** | / | 200, OK<br>403, {"error" : "Unauthorized action"} | **✓** | Retrieve a list of all reservation
+`/reservation/<reservation_id>` | <br>**GET**  |/  | 200, OK<br>403, {"error" : "Unauthorized action"}<br> 404 {"error" : "Reservation id not found"} | **✓** |Retrieve a specific reservation
+`/reservation/<reservation_id>` | **PUT** | {"structure_id": "\<structure_id>", "author_id": "\<user_id>", "date": "\<date>", "status_id": "\<status_id>", "contact": {"first_name": "\<name>", "last_name": "\<name>", "role": "\<role>", "email": "\<email>", "phone": "\<phone>"}, "price": "\<price>", "reservation_type_id": "\<type_id>"}  | 200, OK<br>403, {"error" : "Unauthorized action"} 404 {"error" : "Reservation id not found"} | **✓** |Update a specific reservation
 
-ROUTE | Methods | Input (POST and PUT) | Output | JWT Protected ?
---|--|--|--|--|
-`/login` | **POST** | {"email" : "\<email>", "password" : "\<password>"} | 200 OK, {"access_token" : <access_token>}<br>401, {"error" : "invalid credentials"} | ✘
-`/reservation` | **POST** | {"structure": "\<structure_id>", "author": "\<user_id>", "date": "\<date>", "status": "\<status>", "contact": {"first_name": "\<name>", "last_name": "\<name>", "role": "\<role>", "email": "\<email>", "phone": "\<phone>"}, "price": "\<price>", "type": "\<reservationtype_id>"} | 201, Created<br>400, {"error" : "Invalid input"}<br>403, {"error" : "Unauthorized action"} | **✓**
-`/reservation` | **GET** | / | 200, OK<br>403, {"error" : "Unauthorized action"} | **✓**
-`/reservation/<reservation_id>` | <br>**GET**  |/  | 200, OK<br>403, {"error" : "Unauthorized action"} 404 {"error" : "Reservation id not found"} | **✓**
-`/reservation/<reservation_id>` | **PUT** | {"structure": "\<structure_id>", "author": "\<user_id>", "date": "\<date>", "status": "\<status>", "contact": {"first_name": "\<name>", "last_name": "\<name>", "role": "\<role>", "email": "\<email>", "phone": "\<phone>"}, "price": "\<price>", "type": "\<reservationtype_id>"} | 200, OK<br>403, {"error" : "Unauthorized action"} 404 {"error" : "Reservation id not found"} | **✓**
 
 
