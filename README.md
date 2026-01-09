@@ -14,18 +14,45 @@ Cultural organisations such as local museums and associations need sometimes som
 
 This application aims to bring together three main features : 
 - booking scheduling, 
-- automatic document generation based on scheduling informations (contracts, invoices...),
+- automatic document generation based on scheduling information (contracts, invoices...),
 - data extraction for reporting purpose,
 
 ## TECHNICAL DOCUMENTATION
 ### USERS STORIES
-**As a user...**
-I want to create booking an register client informations
+This section present users stories so that we can imagine the app and define requirements from a user perspective.
+<details> <summary>Display users stories</summary>
+
+#### As a user I want to...
+
+- `create a booking` so that I can manage my activity
+
+- `register client's contact` information so that I can keep in contact with them all along the booking process.
+
+- `register the activity information` (theme, price, audience) requested by the client, so that I can prepare the activity (animation, exhibition visit, etc.).
+
+- use booking information to `generate an agreement`, so that I can formalize the booking.
+
+- use booking information to `generate a recap` for the client, so that the client and I have the same information of the booking.
+
+- use booking of the information to `generate an invoice`, so that I can be paid by the client after the service has been delivered. 
+
+- `track the booking status`, so that I can know which work still need to be done.
+
+- `extract my bookings` in a csv file so that I can analyze my audiences and my general activity. 
+
+#### As a manager, I want to...
+- `view every booking` of all users so I can have an overview of the activity.
+
+- be able to `extract all the bookings` sur I can produce an activity report for the organisation.
+
+- `access every booking : creation and update` so I can take action in case a collaborator is unavailable.
+</details>
 
 ### MOCKUPS
+This section offer few mockups to illustrate some major users stories.
 
 ### SYSTEM ARCHITECTURE AND TECHNOLOGY STACK
-<details><summary> Display section details</summary>
+<details><summary> Display architecture and technology details</summary>
 
 <img src="./Documentation_files/portfolio_architecture.jpg"></img>
 
@@ -55,7 +82,25 @@ Entities have strong relationships, that is why an SQL database is chosen.<br>
 Since there is no need of extensibility, specific data types and no advanced features, `MySQL` is well suited for the project's requirements : easy to maintain, open-source, well documented, and well known by the developer team. 
 </details>
 
-### COMPONENTS - CLASS DIAGRAM
 ### ENTITIES RELATIONSHIP DIAGRAM
+
+### COMPONENTS - CLASS DIAGRAM
+
 ### SEQUENCES DIAGRAMS
+
 ### INTERNAL API DOCUMENTATION
+
+This section show the details of the RESTful API with:
+- a list of routes, 
+- methods allowed for each routes,
+- data format for POST methods,
+- data format returned,
+- status code and messages,
+
+So that you can identify any error code you would be struggling with.
+
+ROUTE | Methods | Input (POST and PUT) | Output | JWT Protected ?
+--|--|--|--|--|
+/login | **POST** | {"email" : "\<email>", "password" : "\<password>"} | 200 OK, {"access_token" : <access_token>}<br>401, {"error" : "invalid credentials"} | ✘
+/reservation | **POST** <br> **GET**<br>**GET** `./<reservation_id>`<br>**PUT** `./<reservation_id>`| {"Structure": "\<structure_id>", "author": "\<user_id>", "date": "\<date>", "status": "\<status>", "contact": {"first_name": "\<name>", "last_name": "\<name>", "role": "\<role>", "email": "\<email>", "phone": "\<phone>"}, "price": "\<price>", "type": "\<reservationtype_id>"} | 200, OK<br>201, Created<br>400, {"error" : "Invalid input"}<br>403, {"error" : "Unauthorized action"}<br>404 {"error" : "Reservation id not found"} | **✓**
+
