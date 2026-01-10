@@ -5,20 +5,7 @@ This project is part the first-year "Fundamentals" curriculum at Holberton Schoo
 We were asked to imagine, design and develop a web application of our choice.
 
 This README describes **the different stages of my work** on this portfolio project, from `technical documentation` to code.
-## NAVIGATION :
-- [Introduction](#introduction-)
-- [Technical documentation](#technical-documentation)
-    - [Users stories](#users-stories)
-    - [Mockups](#mockups)
-    - [System architecture and technology stack](#system-architecture-and-technology-stack)
-    - [Entities relationship diagram](#entities-relationship-diagram)
-    - [Components - class diagram](#components---class-diagram)
-    - [Sequences diagrams](#sequences-diagrams)
-    - [Internal API documentation](#internal-api-documentation)
-        - [Methods rules](#methods-rules-)
-        - [Routes and authorizations](#routes-and-authorizations-)
-        - [Data input and output format](#data-input-and-output-format-)
-        - [Status code and messages](#status-codes-and-messages)
+
 ## INTRODUCTION :
 ### Purpose of the application:
 This application offers an open-source solution for cultural organisations to manage their reservations.
