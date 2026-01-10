@@ -108,6 +108,7 @@ The following diagram was creating using Mermaid.js.
 
 `Click on the picture` to get a full view of the diagram or copy the following code in [Mermaid.js](https://mermaid.live/).
 <details><summary> Show Mermaid.js code</summary>
+```
 erDiagram
     USERS {
         varchar id(PK)
@@ -183,7 +184,7 @@ erDiagram
     STRUCTURES }o--|| STRUCTURE_TYPES : has
     AUDIENCES ||--|{ AUDIENCE_TYPES : has
     RESERVATIONS ||--o{ AUDIENCES : has
-
+```
 </details>
 
 [<img src='./Documentation_files/er_diagram.png'></img>](https://www.mermaidchart.com/d/88b7aaa7-8f0f-4790-bf29-e7feb92990aa)
