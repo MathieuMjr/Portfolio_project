@@ -39,28 +39,28 @@ Users stories describe what users can do within the application, and what they a
 
 #### As a user I want to...
 
-- `create a reservation` so that I can manage my activity
+- `create a reservation` so that I can manage my activity<br>*`Must have`*
 
-- `register client's contact` information so that I can keep in contact with them all along the reservation process.
+- `register client's contact` information so that I can keep in contact with them all along the reservation process.<br>*`Must have`*
 
-- `register the activity information` (theme, price, audience) requested by the client, so that I can prepare the activity (animation, exhibition visit, etc.).
+- `register the activity information` (theme, price, audience) requested by the client, so that I can prepare the activity (animation, exhibition visit, etc.).<br>*`Must have`*
 
-- use reservation information to `generate an agreement`, so that I can formalize the reservation.
+- use reservation information to `generate an agreement`, so that I can formalize the reservation.<br>*`Should have`*
 
-- use reservation information to `generate a recap` for the client, so that the client and I have the same information of the reservation.
+- use reservation information to `generate a recap` for the client, so that the client and I have the same information of the reservation.<br>*`Should have`*
 
-- use reservation information to `generate an invoice`, so that I can be paid by the client after the service has been delivered. 
+- use reservation information to `generate an invoice`, so that I can be paid by the client after the service has been delivered. <br>*`Should have`*
 
-- `track the reservation status`, so that I can know which work still needs to be done.
+- `track the reservation status`, so that I can know which work still needs to be done.<br>*`Could have`*
 
-- `extract my reservations` in a csv file so that I can analyze my audiences and my general activity. 
+- `extract my reservations` in a csv file so that I can analyze my audiences and my general activity.<br> *`Should have`*
 
 #### As a manager, I want to...
-- `view every reservation` of all users so I can have an overview of the activity.
+- `view every reservation` of all users so I can have an overview of the activity.<br> *`Should have`*
 
-- be able to `extract all the reservations` so I can produce an activity report for the organisation.
+- be able to `extract all the reservations` so I can produce an activity report for the organisation.<br> *`Should have`*
 
-- `access every reservation : creation and update` so I can take action in case a collaborator is unavailable.
+- `access every reservation : creation and update` so I can take action in case a collaborator is unavailable.<br> *`Should have`*
 </details>
 
 ### MOCKUPS
@@ -149,7 +149,6 @@ AUDIENCES | 1-N | A reservation have several audiences ; and audience is a schoo
 STATUS | 1-N | A reservation got only one status, indicating at which step the reservation is<br> Many reservation use the same statuses.
 
 </details>
-
 
 ### COMPONENTS - CLASS DIAGRAM
 
