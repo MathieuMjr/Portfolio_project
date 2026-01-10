@@ -125,7 +125,7 @@ The following points explain specific modeling decisions :
 - `reservation attributes "contact"`<br> Is not the structure contact but the contact of the specific person, from the structure, in charge of the reservation. <br>Sometimes, the contact from the structure is not the same person from a reservation to another. <br>Then, the contact is specific to the reservation.
 
 **Relationships**
-- `relationship users/reservation_types`<br> User can't create type of reservation.<br> A list of reservation_types tels which type of reservation a user can manipulate.<br> Someone in charge of animation can't create reservation for an exhibition rental.
+- `relationship users/reservation_types`<br> User can't create any type of reservation.<br> A list of reservation_types tels which type of reservation a user can manipulate.<br> Someone in charge of animation can't create reservation for an exhibition rental.
 
 - `relationship themes/reservation_types` <br> Each kind of reservation_types have a specific list of themes.
 
@@ -141,7 +141,7 @@ Let's take a look at relationships with reservation entity.
 
 Table | Relationship with reservation | Commentary
 --|--|--|
-USERS | 1-N | A reservation is authored by one USER<br> A user can author zero or many reservations
+USERS | 1-N | A reservation is authored by one user<br> A user can author zero or many reservations
 STRUCTURES | 1-N | A reservation has one structure<br> A structure can do many reservations
 RESERVATION_TYPES | 1-N | The structure must book one activity<br> An activity can be booked many times
 THEMES | N-N | A structure can book many themes <br> A theme can be booked many times
