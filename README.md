@@ -153,7 +153,7 @@ Status code | Message | Meaning |
 401 | Invalid credentials | Wrong credentials registered while logging in<br> `POST method` *on login route* 
 403 | Unauthorized action | User tried to access a route he is not allowed to 
 404 | Resource not found | User tried to access a specific resource, but it can't be found<br> `PUT method`<br> `GET method`
-<details>
+</details>
 
 
 
