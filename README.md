@@ -100,11 +100,11 @@ Since there is no need of extensibility, specific data types and no advanced fea
 </details>
 
 ### ENTITIES RELATIONSHIP DIAGRAM
-Since this application is about storing datas on bookings, ER diagram has been designed first. 
+Since this application is about storing data on bookings, ER diagram was the first designed. 
 
 The following diagram shows the different entities of our booking system and their relationships.
 
-The following diagram has been made with Mermaid.js. 
+The following diagram was creating using Mermaid.js. 
 
 `Click on the picture` to get a full view of the diagram or copy the following code in [Mermaid.js](https://mermaid.live/).
 <details><summary> Show Mermaid.js code</summary>
@@ -190,21 +190,21 @@ erDiagram
 
 Bookings are at the core of our structure. 
 
-Attributes `highlighted` are refering to entities (tables) linked to the booking.
+Attributes `highlighted` are referring to entities (tables) linked to the booking.
 
 
 A booking is : 
 - authored by one `user` ; users can create several bookings
 - for a `structure` ; a structure can have many reservations
-- refering to on specific activity (animation, exhibition visit, exhibition rent, etc.) : `reservation_type` ; many reservations can have the same reservation_type
+- refering to a specific activity (reservation_type) such as animation, exhibition visit, or exhibition rent ; many bookings can share the same reservation_type.
 - having some `themes`, according to the `reservation_type` ; themes can be shared by many reservations
 - have many `audiences` from the structures details by their school level ; an audience is unique to a reservation
-- have contacts informations ; this contact is not linked to the structures since teachers booking can change from a booking to another.
+- have contact information ; this contact is not linked to the structures since teachers booking can change from a booking to another.
 - a price
 - one `status` indicating at which step the booking is ; status are shared by many reservations
 
 
-For **consistency reasons**, some `types` have been created for `reservations`, `structures` and `audiences`. Users will use types instead of wrighting it on their own, which could result in types written in different ways. 
+For **consistency reasons**, some `types` have been created for `reservations`, `structures` and `audiences`. Users will use types instead of writing it on their own, which could result in types written in different ways. 
 
 
 ### COMPONENTS - CLASS DIAGRAM
