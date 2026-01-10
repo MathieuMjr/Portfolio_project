@@ -100,8 +100,115 @@ Since there is no need of extensibility, specific data types and no advanced fea
 </details>
 
 ### ENTITIES RELATIONSHIP DIAGRAM
+Since this application is about storing datas on bookings, ER diagram has been designed first. 
+
+The following diagram shows the different entities of our booking system and their relationships.
+
+The following diagram has been made with Mermaid.js. 
+
+`Click on the picture` to get a full view of the diagram or copy the following code in [Mermaid.js](https://mermaid.live/).
+<details><summary> Show Mermaid.js code</summary>
+erDiagram
+    USERS {
+        varchar id(PK)
+        varchar first_name
+        varchar last_name
+        varchar password
+        varchar email
+        varchar role
+    }
+    RESERVATIONS {
+        varchar id(PK)
+        varchar date
+        varchar structure_id(FK)
+        varchar author_id(FK)
+        varchar type_id(FK)
+        varchar status_id(FK)
+        float price
+        varchar contact_first_name
+        varchar contact_last_name
+        varchar contact_role
+        varchar contact_email
+        varchar contact_phone
+    }
+    STATUS {
+        varchar id(PK)
+        varchar name
+    }
+    AUDIENCES {
+        varchar id(PK)
+        varchar reservation_id(FK)
+        varchar audience_type_id(FK)
+        int count
+    }
+    AUDIENCE_TYPES {
+        varchar id(PK)
+        varchar name
+    }
+    STRUCTURES {
+        varchar id(PK)
+        varchar name
+        varchar adress
+        varchar zip_code
+        varchar town
+        varchar email
+        varchar phone
+        varchar structure_type_id
+    }
+    STRUCTURE_TYPES {
+        varchar id(PK)
+        string name
+        bool is_school
+    }
+    RESERVATION_TYPES{
+        string id(PK)
+        string name
+    }
+    THEMES {
+        string id(PK)
+        string reservation_type_id(FK)
+        string name
+    }
+    RESERVATION_THEMES {
+        string reservations_id(FK)
+        string theme_id(FK)
+    }
+    RESERVATIONS }o--|| RESERVATION_TYPES : has
+    THEMES ||--|{ RESERVATION_THEMES : part_of
+    RESERVATIONS ||--|{ RESERVATION_THEMES : has
+    RESERVATION_TYPES ||--|{ THEMES : has
+    USERS ||--o{ RESERVATIONS : makes
+    STATUS ||--|{ RESERVATIONS : has
+    RESERVATIONS }o--|| STRUCTURES : has
+    STRUCTURES }o--|| STRUCTURE_TYPES : has
+    AUDIENCES ||--|{ AUDIENCE_TYPES : has
+    RESERVATIONS ||--o{ AUDIENCES : has
+
+</details>
+
+[<img src='./Documentation_files/er_diagram.png'></img>](https://www.mermaidchart.com/d/88b7aaa7-8f0f-4790-bf29-e7feb92990aa)
+
+Bookings are at the core of our structure. 
+
+Attributes `highlighted` are refering to entities (tables) linked to the booking.
+
+
+A booking is : 
+- authored by one `user` ; users can create several bookings
+- for a `structure` ; a structure can have many reservations
+- refering to on specific activity (animation, exhibition visit, exhibition rent, etc.) : `reservation_type` ; many reservations can have the same reservation_type
+- having some `themes`, according to the `reservation_type` ; themes can be shared by many reservations
+- have many `audiences` from the structures details by their school level ; an audience is unique to a reservation
+- have contacts informations ; this contact is not linked to the structures since teachers booking can change from a booking to another.
+- a price
+- one `status` indicating at which step the booking is ; status are shared by many reservations
+
+
+For **consistency reasons**, some `types` have been created for `reservations`, `structures` and `audiences`. Users will use types instead of wrighting it on their own, which could result in types written in different ways. 
+
 
 ### COMPONENTS - CLASS DIAGRAM
+
 
 ### SEQUENCES DIAGRAMS
 
