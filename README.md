@@ -21,12 +21,12 @@ This README describes **the different stages of my work** on this portfolio proj
         - [Status code and messages](#status-codes-and-messages)
 ## INTRODUCTION :
 ### Purpose of the application:
-This application offers an open-source solution for cultural organisations to manage their bookings.
+This application offers an open-source solution for cultural organisations to manage their reservations.
 ### Problem statement:
-Cultural organisations such as local museums and associations need sometimes some open-source or free-to-use solutions for economic reasons : they use several tools to manage their booking, analyze their audiences, generate invoices...
+Cultural organisations such as local museums and associations need sometimes some open-source or free-to-use solutions for economic reasons : they use several tools to manage their reservations, analyze their audiences, generate invoices...
 
 This application aims to bring together three main features : 
-- booking scheduling, 
+- reservation scheduling, 
 - automatic document generation based on scheduling information (contracts, invoices...),
 - data extraction for reporting purpose,
 
@@ -39,28 +39,28 @@ Users stories describe what users can do within the application, and what they a
 
 #### As a user I want to...
 
-- `create a booking` so that I can manage my activity
+- `create a reservation` so that I can manage my activity
 
-- `register client's contact` information so that I can keep in contact with them all along the booking process.
+- `register client's contact` information so that I can keep in contact with them all along the reservation process.
 
 - `register the activity information` (theme, price, audience) requested by the client, so that I can prepare the activity (animation, exhibition visit, etc.).
 
-- use booking information to `generate an agreement`, so that I can formalize the booking.
+- use reservation information to `generate an agreement`, so that I can formalize the reservation.
 
-- use booking information to `generate a recap` for the client, so that the client and I have the same information of the booking.
+- use reservation information to `generate a recap` for the client, so that the client and I have the same information of the reservation.
 
-- use booking information to `generate an invoice`, so that I can be paid by the client after the service has been delivered. 
+- use reservation information to `generate an invoice`, so that I can be paid by the client after the service has been delivered. 
 
-- `track the booking status`, so that I can know which work still needs to be done.
+- `track the reservation status`, so that I can know which work still needs to be done.
 
-- `extract my bookings` in a csv file so that I can analyze my audiences and my general activity. 
+- `extract my reservations` in a csv file so that I can analyze my audiences and my general activity. 
 
 #### As a manager, I want to...
-- `view every booking` of all users so I can have an overview of the activity.
+- `view every reservation` of all users so I can have an overview of the activity.
 
-- be able to `extract all the bookings` so I can produce an activity report for the organisation.
+- be able to `extract all the reservations` so I can produce an activity report for the organisation.
 
-- `access every booking : creation and update` so I can take action in case a collaborator is unavailable.
+- `access every reservation : creation and update` so I can take action in case a collaborator is unavailable.
 </details>
 
 ### MOCKUPS
@@ -74,9 +74,9 @@ Now we know what users and managers want to do and why, let's put those stories 
 <img src="./Documentation_files/portfolio_architecture.jpg"></img>
 
 This application follow a monolithic application three-tiers logic client-server architecture :
-- <u>presentation layer</u> : a `front-end` interface allowing users to log in and create, update and view bookings;
+- <u>presentation layer</u> : a `front-end` interface allowing users to log in and create, update and view reservations;
 - <u>business logic</u> : a `back-end` exposing a RESTful API that receive user queries from the front-end and apply business rules;
-- <u>data and persistence layer</u> : a `relational database` used to store bookings, structures, booking types, users, etc.;
+- <u>data and persistence layer</u> : a `relational database` used to store reservations, structures, reservation types, users, etc.;
 
 
 #### Technology stack : 
@@ -100,115 +100,55 @@ Since there is no need of extensibility, specific data types and no advanced fea
 </details>
 
 ### ENTITIES RELATIONSHIP DIAGRAM
-Since this application is about storing data on bookings, ER diagram was the first designed. 
+Based on user needs identified in the user stories, this section present the entities, relationships and explains key design choices of the model.
 
-The following diagram shows the different entities of our booking system and their relationships.
+<details><summary>Show entities relationship section</summary>
+Since this application is about storing data on reservations, the ER diagram was designed first.
 
-The following diagram was creating using Mermaid.js. 
+#### <u>Diagram</u> :
+This diagram picture the general structure of the database tables and, attribute types, primary and foreign keys and relationships. 
 
-`Click on the picture` to get a full view of the diagram or copy the following code in [Mermaid.js](https://mermaid.live/).
-<details>
-<summary> Show Mermaid.js code</summary>
+[<img src='./Documentation_files/er_diagram.png'></img>]()
+[Access to full view](https://www.mermaidchart.com/d/88b7aaa7-8f0f-4790-bf29-e7feb92990aa)<br>
+[Access to Mermaid code](./Documentation_files/er_diagram_code.txt)
 
-```
-erDiagram
-    USERS {
-        varchar id(PK)
-        varchar first_name
-        varchar last_name
-        varchar password
-        varchar email
-        varchar role
-    }
-    RESERVATIONS {
-        varchar id(PK)
-        varchar date
-        varchar structure_id(FK)
-        varchar author_id(FK)
-        varchar type_id(FK)
-        varchar status_id(FK)
-        float price
-        varchar contact_first_name
-        varchar contact_last_name
-        varchar contact_role
-        varchar contact_email
-        varchar contact_phone
-    }
-    STATUS {
-        varchar id(PK)
-        varchar name
-    }
-    AUDIENCES {
-        varchar id(PK)
-        varchar reservation_id(FK)
-        varchar audience_type_id(FK)
-        int count
-    }
-    AUDIENCE_TYPES {
-        varchar id(PK)
-        varchar name
-    }
-    STRUCTURES {
-        varchar id(PK)
-        varchar name
-        varchar adress
-        varchar zip_code
-        varchar town
-        varchar email
-        varchar phone
-        varchar structure_type_id
-    }
-    STRUCTURE_TYPES {
-        varchar id(PK)
-        string name
-        bool is_school
-    }
-    RESERVATION_TYPES{
-        string id(PK)
-        string name
-    }
-    THEMES {
-        string id(PK)
-        string reservation_type_id(FK)
-        string name
-    }
-    RESERVATION_THEMES {
-        string reservations_id(FK)
-        string theme_id(FK)
-    }
-    RESERVATIONS }o--|| RESERVATION_TYPES : has
-    THEMES ||--|{ RESERVATION_THEMES : part_of
-    RESERVATIONS ||--|{ RESERVATION_THEMES : has
-    RESERVATION_TYPES ||--|{ THEMES : has
-    USERS ||--o{ RESERVATIONS : makes
-    STATUS ||--|{ RESERVATIONS : has
-    RESERVATIONS }o--|| STRUCTURES : has
-    STRUCTURES }o--|| STRUCTURE_TYPES : has
-    AUDIENCES ||--|{ AUDIENCE_TYPES : has
-    RESERVATIONS ||--o{ AUDIENCES : has
-```
+The reservation entity is central in the ER diagram and almost all its attributes are related to other entities. 
+
+In order to understand the relationships between reservation and other entities, some clarifications might be needed on modeling decisions.
+
+#### <u>Modeling decisions</u>:
+The following points explain specific modeling decisions :
+
+**Attributes**
+- `users role`<br> User can be a manager or not.<br> A manager have access to specific CRUD operations (see [Internal API Documentation](#routes-and-authorizations-)).
+
+- `reservation attributes "contact"`<br> Is not the structure contact but the contact of the specific person, from the structure, in charge of the reservation. <br>Sometimes, the contact from the structure is not the same person from a reservation to another. <br>Then, the contact is specific to the reservation.
+
+**Relationships**
+- `relationship users/reservation_types`<br> User can't create type of reservation.<br> A list of reservation_types tels which type of reservation a user can manipulate.<br> Someone in charge of animation can't create reservation for an exhibition rental.
+
+- `relationship themes/reservation_types` <br> Each kind of reservation_types have a specific list of themes.
+
+**Entities**
+- `reservation_types`<br> Are referring to the kind of activity booked : exhibition visit, outdoor animation, etc.
+
+- `audiences_types, themes, reservation_types, structures_types`<br> Are needed to keep data consistency and integrity.<br> Types can be useful for reports. Having types entities avoids having the same value written in different ways.
+
+
+#### <u>Relationships with reservation entity</u>:
+
+Let's take a look at relationships with reservation entity.
+
+Table | Relationship with reservation | Commentary
+--|--|--|
+USERS | 1-N | A reservation is authored by one USER<br> A user can author zero or many reservations
+STRUCTURES | 1-N | A reservation has one structure<br> A structure can do many reservations
+RESERVATION_TYPES | 1-N | The structure must book one activity<br> An activity can be booked many times
+THEMES | N-N | A structure can book many themes <br> A theme can be booked many times
+AUDIENCES | 1-N | A reservation have several audiences ; and audience is a school level and a count of school children<br> An audience is unique to a reservation. 
+STATUS | 1-N | A reservation got only one status, indicating at which step the reservation is<br> Many reservation use the same statuses.
 
 </details>
-
-[<img src='./Documentation_files/er_diagram.png'></img>](https://www.mermaidchart.com/d/88b7aaa7-8f0f-4790-bf29-e7feb92990aa)
-
-Bookings are at the core of our structure. 
-
-Attributes `highlighted` are referring to entities (tables) linked to the booking.
-
-
-A booking is : 
-- authored by one `user` ; users can create several bookings
-- for a `structure` ; a structure can have many reservations
-- refering to a specific activity (reservation_type) such as animation, exhibition visit, or exhibition rent ; many bookings can share the same reservation_type.
-- having some `themes`, according to the `reservation_type` ; themes can be shared by many reservations
-- have many `audiences` from the structures details by their school level ; an audience is unique to a reservation
-- have contact information ; this contact is not linked to the structures since teachers booking can change from a booking to another.
-- a price
-- one `status` indicating at which step the booking is ; status are shared by many reservations
-
-
-For **consistency reasons**, some `types` have been created for `reservations`, `structures` and `audiences`. Users will use types instead of writing it on their own, which could result in types written in different ways. 
 
 
 ### COMPONENTS - CLASS DIAGRAM
