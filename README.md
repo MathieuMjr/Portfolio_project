@@ -1,11 +1,24 @@
 # PORTFOLIO PROJECT - HOLBERTON SCHOOL DIJON
 
-This project is part the first year "Fundamentals" curriculum at Holberton School.
+This project is part the first-year "Fundamentals" curriculum at Holberton School.
 
-We were asked to imagine, design and develop a web application of our choice and to develop it.
+We were asked to imagine, design and develop a web application of our choice.
 
 This README describes **the different stages of my work** on this portfolio project, from `technical documentation` to code.
-
+## NAVIGATION :
+- [Introduction](#introduction-)
+- [Technical documentation](#technical-documentation)
+    - [Users stories](#users-stories)
+    - [Mockups](#mockups)
+    - [System architecture and technology stack](#system-architecture-and-technology-stack)
+    - [Entities relationship diagram](#entities-relationship-diagram)
+    - [Components - class diagram](#components---class-diagram)
+    - [Sequences diagrams](#sequences-diagrams)
+    - [Internal API documentation](#internal-api-documentation)
+        - [Methods rules](#methods-rules-)
+        - [Routes and authorizations](#routes-and-authorizations-)
+        - [Data input and output format](#data-input-and-output-format-)
+        - [Status code and messages](#status-codes-and-messages)
 ## INTRODUCTION :
 ### Purpose of the application:
 This application offers an open-source solution for cultural organisations to manage their bookings.
@@ -34,16 +47,16 @@ This section present users stories so that we can imagine the app and define req
 
 - use booking information to `generate a recap` for the client, so that the client and I have the same information of the booking.
 
-- use booking of the information to `generate an invoice`, so that I can be paid by the client after the service has been delivered. 
+- use booking information to `generate an invoice`, so that I can be paid by the client after the service has been delivered. 
 
-- `track the booking status`, so that I can know which work still need to be done.
+- `track the booking status`, so that I can know which work still needs to be done.
 
 - `extract my bookings` in a csv file so that I can analyze my audiences and my general activity. 
 
 #### As a manager, I want to...
 - `view every booking` of all users so I can have an overview of the activity.
 
-- be able to `extract all the bookings` sur I can produce an activity report for the organisation.
+- be able to `extract all the bookings` so I can produce an activity report for the organisation.
 
 - `access every booking : creation and update` so I can take action in case a collaborator is unavailable.
 </details>
@@ -56,10 +69,10 @@ This section offer few mockups to illustrate some major users stories.
 
 <img src="./Documentation_files/portfolio_architecture.jpg"></img>
 
-This application follow a monolithic application three-tiers client-server logic architecture :
+This application follow a monolithic application three-tiers logic client-server architecture :
 - <u>presentation layer</u> : a `front-end` interface allowing users to log in and create, update and view bookings;
 - <u>business logic</u> : a `back-end` exposing a RESTful API that receive user queries from the front-end and apply business rules;
-- <u>data an persistence layer</u> : a `relational database` used to store bookings, structures, booking types, users, etc.;
+- <u>data and persistence layer</u> : a `relational database` used to store bookings, structures, booking types, users, etc.;
 
 
 #### Technology stack : 
@@ -70,7 +83,7 @@ Users access to data via HTTP requests through a RESTful API.
 
 - <u>Back-end</u> :<br>
 **Facade pattern, python, Flask RESTX API, ORM SQLAlchemy**<br>
-Back-end is responsible of `business logic`.<br>
+Back-end is responsible for `business logic`.<br>
 It exposes a `RESTful API` that receives user requests and returns data.<br>
 A `Facade pattern` is used to process requests :  it orchestrates object creation and data storage making the code easier to maintain and update.<br>
 `SQLAlchemy` will allow to manipulate data as objects, making requests safer and to focus on object-oriented paradigm.
@@ -90,47 +103,57 @@ Since there is no need of extensibility, specific data types and no advanced fea
 
 ### INTERNAL API DOCUMENTATION
 
-This section explain the application, API rules, the routes and methods allowed, the status codes and the input and output formats for the main classes.
-
-All the other classes will follow the same pattern.
-This section shows the details of the RESTful API with:
-
-**Priviledges**
-- <u>Users</u> :<br>
-Can access their own booking (create, list, update, delete),<br>
-Create, list and update structures,<br>
-Create and list themes,<br>
-List reservation types they are allowed to
-- Manager :<br>
-Can access every booking,<br> 
-Create, list and update users, <br>
-Create, update, list structures
-Create, update, list, delete types (reservation type, structure type)
-
-**Status codes and messages** :
-
-Status code | Message | Meaning | Related methods
-|--|--|--|--|
-200 | OK | Resource sucessfully retrieved | **GET**
-201 | Created | Ressource sucessfully created |**POST**
-400 | Invalid input | Some data in the input are not in the expected format | **POST**<br> **PUT**
-401 | Invalid credentials | Wrong credentials registered while logging in | **POST**<br> *(on /login route)*
-403 | Unauthorized action | User try to access a route he is not allowed to
+This section explain the application API rules, the routes and methods allowed, the status codes and the input and output formats for the main classes.
+<details><summary>Show API Documentation</summary>
 
 
-This documentation helps identify possible error cases and understand how to interact with the API.
+#### <u>Methods rules </u>:
+- **POST** <br> Allows resource creation, a data input is required;
+- **GET**<br> Allows resource retrieval.<br> A specific resource can be retrieved if route allow `path parameter` - otherwise, all resources are retrieved;
+- **PUT** <br>Allows resource update ; a data input is required and `path parameter` is necessary to specify which resource to update;
+- **DELETE** <br>
+`Delete methods are not allowed` to keep data integrity and historical consistency.<br> Instead, resources will be marked as `inactive`;
 
-ROUTE | Methods | Input (POST and PUT) | Output | JWT Protected ? | Action
---|--|--|--|--|--|
-`/login` | **POST** | {"email" : "\<email>", "password" : "\<password>"} | 200 OK, {"access_token" : <access_token>}<br>401, {"error" : "invalid credentials"} | ✘ | Log a user
-`/user` | **POST** | {"first_name": "\<first_name>", "last_name": "\<last_name>", "email": "\<email>", "password": "\<password>", "role": "\<role">} | 201, Created<br>400, {"error" : "Invalid input"}<br>403, {"error" : "Unauthorized action"} | **✓** | Create a user (Admin priviledge)
-`/user` | **GET** | / | 200, OK<br>403, {"error" : "Unauthorized action"} | **✓** | Retrieve a list of user(Admin priviledge) | 200, OK<br>403, {"error" : "Unauthorized action"} 404 {"error" : "Reservation id not found"} | **✓** | Update a specific user (Admin priviledge)
-`/user/<user_id>` | **GET** | / | 200, OK<br>403, {"error" : "Unauthorized action"}<br> 404 {"error" : "Reservation id not found"} | **✓** | Retrieve a specific user(Admin priviledge)
-`/user/<user_id>` | **PUT** | {"first_name": "\<first_name>", "last_name": "\<last_name>", "email": "\<email>", "password": "\<password>", "role": "\<role">} |
-`/reservation` | **POST** | {"structure_id": "\<structure_id>", "author_id": "\<user_id>", "date": "\<date>", "status_id": "\<status_id>", "contact": {"first_name": "\<name>", "last_name": "\<name>", "role": "\<role>", "email": "\<email>", "phone": "\<phone>"}, "price": "\<price>", "reservation_type_id": "\<type_id>"} | 201, Created<br>400, {"error" : "Invalid input"}<br>403, {"error" : "Unauthorized action"} | **✓** | Create a reservation
-`/reservation` | **GET** | / | 200, OK<br>403, {"error" : "Unauthorized action"} | **✓** | Retrieve a list of all reservation
-`/reservation/<reservation_id>` | <br>**GET**  |/  | 200, OK<br>403, {"error" : "Unauthorized action"}<br> 404 {"error" : "Reservation id not found"} | **✓** |Retrieve a specific reservation
-`/reservation/<reservation_id>` | **PUT** | {"structure_id": "\<structure_id>", "author_id": "\<user_id>", "date": "\<date>", "status_id": "\<status_id>", "contact": {"first_name": "\<name>", "last_name": "\<name>", "role": "\<role>", "email": "\<email>", "phone": "\<phone>"}, "price": "\<price>", "reservation_type_id": "\<type_id>"}  | 200, OK<br>403, {"error" : "Unauthorized action"} 404 {"error" : "Reservation id not found"} | **✓** |Update a specific reservation
+#### <u>Routes and authorizations</u> :
+**Users** can create `reservations` and `themes` in reservation types they are allowed to.<br>
+They can create, update and retrieve `structures`.<br>
+They can `access reservations` they authored. <br>
+They can create and modify `audiences` to their reservations.
+
+**Manager** can `access all resources`.<br>
+They are the only ones that can perform `types` (reservation, audience, structure) and `status` creation and update. 
+
+`Some routes might need to be refactored, as certain resources can be better represented as sub-resources.`
+
+Route | Methods allowed | Path parameter | Authorizations | Action
+|--|--|--|--|--|
+`/login` | **POST** | / | - No authorizations needed | Gives access token to user if authentication success
+`/user` | **POST**<br>**PUT**<br>**GET** |  user_id | - Manager role required | User(s) management
+`/reservations` | **POST**<br>**PUT**<br>**GET** | reservation_id | - Reservation type authorization required<br> -Author authorization<br>- Manager role | Manage reservations
+`/reservation_types` | **POST**<br>**PUT**<br>**GET** | type_id | - Manager role for POST and PUT<br> - Authentication for GET | Manager reservation types
+`/structures` | **POST**<br>**PUT**<br>**GET** | structure_id<br> | - Authentication needed | Manage structres
+`/structure_types` | **POST**<br>**PUT**<br>**GET** | structure_id | - Manager role for POST and PUT<br> - Authentication for GET | Manage structure types
+`/themes` | **POST**<br>**PUT**<br>**GET** | theme_id | - Reservation type authorization<br> - Manager role | Manage themes
+`/audience` | **POST**<br>**PUT**<br>**GET** | reservation_id ? | - Reservation's author authorization<br> - Manager role | Manage audiences
+`/audience_types` | **POST**<br>**PUT**<br>**GET** | type_id | - Manager role for POST and PUT<br> - Authentication for GET | Manage audience types
+
+#### <u>Data input and output format</u> :
+
+Input and output data is in `JSON` format.<br>
+
+To perform **POST** and **PUT** request, you can refer to the attribute shown in the [`class diagram`](#components---class-diagram). 
+
+#### <u>Status codes and messages</u>:
+
+Status code | Message | Meaning |
+|--|--|--|
+200 | OK | Resource successfully retrieved<br> `GET method` | 
+201 | Created | Resource successfully created<br> `POST method`|
+400 | Invalid input | Some data in the input are not in the expected format<br> `POST method`
+401 | Invalid credentials | Wrong credentials registered while logging in<br> `POST method` *on login route* 
+403 | Unauthorized action | User tried to access a route he is not allowed to 
+404 | Resource not found | User tried to access a specific resource, but it can't be found<br> `PUT method`<br> `GET method`
+<details>
 
 
 
