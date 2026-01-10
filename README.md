@@ -32,8 +32,10 @@ This application aims to bring together three main features :
 
 ## TECHNICAL DOCUMENTATION
 ### USERS STORIES
-This section present users stories so that we can imagine the app and define requirements from a user perspective.
+This section presents users stories so that we can imagine the app and define requirements from a user perspective.
 <details> <summary>Display users stories</summary>
+
+Users stories describe what users can do within the application, and what they aim to achieve. They help understand their needs and  will guide the following steps in designing the application.
 
 #### As a user I want to...
 
@@ -62,7 +64,9 @@ This section present users stories so that we can imagine the app and define req
 </details>
 
 ### MOCKUPS
-This section offer few mockups to illustrate some major users stories.
+This section provide few mockups to illustrate some main users stories.
+
+Now we know what users and managers want to do and why, let's put those stories in pictures with mockups to get an overview of the user experience. 
 
 ### SYSTEM ARCHITECTURE AND TECHNOLOGY STACK
 <details><summary> Display architecture and technology details</summary>
