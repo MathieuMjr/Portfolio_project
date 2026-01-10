@@ -1,0 +1,86 @@
+---
+config:
+  theme: dark
+---
+erDiagram
+    USERS {
+        varchar id(PK)
+        varchar first_name
+        varchar last_name
+        varchar password
+        varchar email
+        varchar role
+    }
+    USER_RESERVATION_TYPE{
+        varchar id(PK)
+        varchar user_id(FK)
+        varchar reservation_type_id(FK)
+    }
+    RESERVATIONS {
+        varchar id(PK)
+        varchar date
+        varchar structure_id(FK)
+        varchar author_id(FK)
+        varchar type_id(FK)
+        varchar status_id(FK)
+        float price
+        varchar contact_first_name
+        varchar contact_last_name
+        varchar contact_role
+        varchar contact_email
+        varchar contact_phone
+    }
+    STATUS {
+        varchar id(PK)
+        varchar name
+    }
+    AUDIENCES {
+        varchar id(PK)
+        varchar reservation_id(FK)
+        varchar audience_type_id(FK)
+        int count
+    }
+    AUDIENCE_TYPES {
+        varchar id(PK)
+        varchar name
+    }
+    STRUCTURES {
+        varchar id(PK)
+        varchar name
+        varchar adress
+        varchar zip_code
+        varchar town
+        varchar email
+        varchar phone
+        varchar structure_type_id
+    }
+    STRUCTURE_TYPES {
+        varchar id(PK)
+        string name
+        bool is_school
+    }
+    RESERVATION_TYPES{
+        string id(PK)
+        string name
+    }
+    THEMES {
+        string id(PK)
+        string reservation_type_id(FK)
+        string name
+    }
+    RESERVATION_THEMES {
+        string reservations_id(FK)
+        string theme_id(FK)
+    }
+    RESERVATIONS }o--|| RESERVATION_TYPES : has
+    THEMES ||--|{ RESERVATION_THEMES : part_of
+    RESERVATIONS ||--|{ RESERVATION_THEMES : has
+    RESERVATION_TYPES ||--|{ THEMES : has
+    USERS ||--o{ RESERVATIONS : makes
+    STATUS ||--|{ RESERVATIONS : has
+    RESERVATIONS }o--|| STRUCTURES : has
+    STRUCTURES }o--|| STRUCTURE_TYPES : has
+    AUDIENCES ||--|{ AUDIENCE_TYPES : has
+    RESERVATIONS ||--o{ AUDIENCES : has
+    USERS ||--|{ USER_RESERVATION_TYPE: has
+    RESERVATION_TYPES ||--|{ USER_RESERVATION_TYPE : part_of
