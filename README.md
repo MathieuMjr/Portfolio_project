@@ -193,7 +193,6 @@ Three high-level sequences diagrams will show the communication between each lay
 **Login**
 <img src='./Documentation_files/auth_sequence_diagram.png'></img>
 [Access Mermaid JS code](#./Documentation_files/auth_sequence_diagram.txt)
-</details>
 
 Users send credentials to the API. An access token is generated if authentication succeed, or an error message otherwise. 
 
@@ -213,6 +212,7 @@ If the user is a manager, every reservations for the current month are displayed
 
 When a user create a reservation, his token identity is checked to know if he has required authorizations to create a reservation of a specific reservation type.<br>
 Data input checked and if everything is ok, the resource is created.
+</details>
 
 ### INTERNAL API DOCUMENTATION
 <details><summary>Show API Documentation</summary>
