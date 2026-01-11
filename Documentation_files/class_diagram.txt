@@ -1,0 +1,127 @@
+---
+config:
+  theme: dark
+---
+classDiagram
+  class BaseClass{
+    -UUID id
+    -date created_at
+    -bool is_active
+    +save()
+    +update()
+  }
+  class User{
+    -str first_name
+    -str last_name
+    -str email
+    -str password
+    -str role
+    +modify_password()
+    +hash_password()
+  }
+
+  class Reservation{
+    -Structure structure
+    -User author
+    -date date
+    -Status status
+    -str contact_first_name
+    -str contact_last_name
+    -str contact_role
+    -str contact_email
+    -str contact_phone
+    -float price
+    -ReservationType reservation_type
+    -list themes_list
+    -list audiences_list
+    +add_audience()
+    +add_theme()
+  }
+
+  class Status {
+    - str name
+  }
+
+  class Audience{
+    -Reservation reservation
+    -AudienceType audience_type
+    -int count
+  }
+
+  class AudienceType{
+    -str name
+  }
+
+  class Structure{
+    -str name
+    -str phone
+    -str email
+    -str adress
+    -str zip_code
+    -str town
+    -StructureType structure_type
+    -list reservations_list
+    +add_reservation()
+  }
+
+  class StructureType{
+    -str name
+    -bool is_school
+  }
+
+  class ReservationType{
+    -str name
+    -list themes_list
+    +add_theme()
+  }
+
+  class Theme{
+    -ReservationType reservation_type
+    -str name
+  }
+
+  class Facade{
+    -Repository structure_repo
+    -Repository user_repo
+    -Repository status_repo
+    -Repository audience_repo
+    -Repository reservation_repo
+    -Repository audiencetype_repo
+    -Repository reservationtype_repo
+    -Repository structuretype_repo
+    -Repository theme_repo
+    +create_object(payload)
+    +get_by_id(id)
+    +get_allobjects()
+    +update_object(id, payload)
+    +delete(id)
+    +get_by_attr(attribut_name, attribut_value)
+  }
+
+    BaseClass <|-- User : inherits
+    BaseClass <|-- Reservation : inherits
+    BaseClass <|-- Status : inherits
+    BaseClass <|-- Structure : inherits
+    BaseClass <|-- Audience : inherits
+    BaseClass <|-- ReservationType : inherits
+    BaseClass <|-- Theme : inherits
+    BaseClass <|-- StructureType : inherits
+    BaseClass <|-- AudienceType : inherits
+    User"1" -- "*"Reservation : makes
+    Reservation"*" -- "1"Status : has
+    Reservation"*" -- "1"Structure: has
+    Reservation"1" *-- "*"Audience: has
+    Reservation"*" -- "1"ReservationType: has
+    Reservation"*" -- "*"Theme: has
+    ReservationType"1" *-- "*"Theme: has
+    Structure"*" -- "1"StructureType: has
+    Audience"*" -- "1"AudienceType: has
+    Facade ..> User : uses
+    Facade ..> Reservation : uses
+    Facade ..> ReservationType : uses
+    Facade ..> Theme : uses
+    Facade ..> Structure : uses
+    Facade ..> StructureType : uses
+    Facade ..> Audience: uses
+    Facade ..> AudienceType : uses
+    Facade ..> Status : uses
