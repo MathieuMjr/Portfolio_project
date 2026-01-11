@@ -16,9 +16,11 @@ This project is currently in the technical documentation stage.<br>It provide an
 - API Documentation
 - SCM and QA strategy plan
 
-Few things might need refinement later :
+**Few things might need refinement later** :
 - Dynamic mock ups could be done instead of static ones
 - API : somes routes might need to be refactored as some resources are more sub-resources
+- API : use PATCH method for soft delete instead of DELETE method
+- Diagrams : create better diagram, more readable
 
 ## INTRODUCTION :
 ### Purpose of the application:
@@ -181,20 +183,48 @@ STATUS | 1-N | A reservation got only one status, indicating at which step the r
 </details>
 
 ### COMPONENTS - CLASS DIAGRAM
+<details><summary>Show Class diagram section</summary>
+This section presents the classes and methods of our business logic layer.\
+The use of SQLAchemy ORM helped to transform tables (except join tables) from ER diagram into classes. 
 
+<img src='./Documentation_files/class_diagram.png'></img>
+[Access to Mermaid JS Code](./Documentation_files/class_diagram.txt)
+
+#### Modeling choices
+
+**Base class**
+
+The base class is an abstract class that all objects inherit from. It give them an auto-generated UUID and a creation date (timestamp). 
+
+In addition, a boolean attribute "is_active" is *defined, since data deletion won't be authorized to keep integrity and historical consistency to our database. 
+
+**Facade class**
+
+Using the facade pattern, a facade class will provide methods for object manipulation : creation, storage, update, etc. 
+
+This provide better maintainability of the codebase. 
+
+**Repository class**
+
+Ultimately, several repository classes will be implemented, inheriting from an abstract Repository class that defines core methods for objects. 
+
+Child repository classes might define specific methods once SQAlchemy is implemented, allowing fine grained request by specific attributes. 
+
+ 
+</details>
 
 ### SEQUENCES DIAGRAMS<br>
 
 <details><summary> Show sequences diagram section</summary>
 
-Three high-level sequences diagrams will show the communication between each layers detailed in previous section.
+hree high-level sequence diagrams illustrate the communication between each layer detailed in the previous section.
 <br><br>
 
 **Login**
 <img src='./Documentation_files/auth_sequence_diagram.png'></img>
 [Access Mermaid JS code](./Documentation_files/auth_sequence_diagram.txt)
 
-Users send credentials to the API. An access token is generated if authentication succeed, or an error message otherwise. 
+Users send credentials to the API. An access token is generated if authentication succeeds, otherwise, an error message is returned. 
 
 **Reservations view / Landing page loading**
 
@@ -202,20 +232,20 @@ Users send credentials to the API. An access token is generated if authenticatio
 
 [Access Mermaid JS code](./Documentation_files/reservation_display_sequence_diagram.txt)
 
-After the user logged in, the landing page is loaded and fetch the API to retrieve reservations for the current month.\
-Token identity is checked and only the reservations a user has authored are displayed.\
-If the user is a manager, every reservations for the current month are displayed. 
+After the user logs in, the landing page is loaded and fetches the API to retrieve reservations for the current month.\
+The token identity is checked and only the reservations a user has authored are displayed.\
+If the user is a manager, every reservation for the current month are displayed. 
 
 **Reservation creation**
 <img src='./Documentation_files/reservation_creation_seq_diagram.png'></img>
-[Access Mermaid JS code](./Documentation_files/reservation_creation_seq_diagram.txt') 
+[Access Mermaid JS code](./Documentation_files/reservation_creation_seq_diagram.txt) 
 
-When a user create a reservation, his token identity is checked to know if he has required authorizations to create a reservation of a specific reservation type.<br>
-Data input checked and if everything is ok, the resource is created.
+When a user creates a reservation, the token identity is checked to determine if he has required authorizations to create a reservation for the selected reservation type.<br>
+Data input is validated and if everything is correct, the resource is created.
 </details>
 
 ### INTERNAL API DOCUMENTATION
-<details><summary>Show API Documentation</summary>
+<details><summary>Show API Documentation section</summary>
 This section explain the application API rules, the routes and methods allowed, the status codes and the input and output formats for the main classes.
 
 #### <u>Methods rules </u>:
@@ -266,5 +296,45 @@ Status code | Message | Meaning |
 404 | Resource not found | User tried to access a specific resource, but it can't be found<br> `PUT method`<br> `GET method`
 </details>
 
+### SCM AND QA PLAN
 
+<details><summary>Show SCM and QA plan section</summary>
+This section details the modus operandi for versioning strategy and testing.<br><br>
+
+**SCM strategy**
+
+`Git` will be use for code version control. 
+
+`GitHub` will be used as a remote repository, making sure the latest version of code is available on the cloud.
+
+Three branches will be used :
+- <u>Production branch</u><br>
+This branch will contain stable and tested code, ensuring that a working version is always available.
+- <u>Development branch</u><br>
+This branch will be used to develop new features without breaking the production version.
+- <u>Test branch</u><br>
+This branch will be used to test the code from development branch before merging it into the production branch. 
+
+**Commit and merging strategy**
+
+A commit is made in development branch whenever a feature is developed and seems functional.<br>
+A verb will explain what action has been done : "added new function for...", "fixed return and status code", "configured database", etc.
+
+<u>Merges occurs in the following order</u> :<br> dev branch --> test branch -- *if success* --> production branch -- *new feature* --> dev branch<br>
+dev branch --> test branch -- *if fails* --> dev branch
+
+**QA strategy**
+
+Several tests will be performed according to the stage of development before any merge into the production branch.
+
+- <u>Object creation</u> :<br>
+Unit tests will check if objects are well created with the expected attribute values.<br>
+Tests should verify that  expected errors are thrown in case of wrong data type for exemple. 
+- <u>API methods and response</u> :<br>
+Postman will be used to test routes and methods.<br> IDs and tokens will be stored in environment variables.<br>
+Some failing tests will be implemented to verify expected status codes and response messages.
+- <u>SQLAlchemy ORM</u> :<br>
+When the project has transitioned from in memory repository to database repository, tests from Postman should still be functional and should give the same results.
+
+</details>
 
