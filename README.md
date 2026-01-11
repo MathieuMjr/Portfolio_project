@@ -21,7 +21,7 @@ This project is currently in the technical documentation stage.<br>It provide an
 - API : somes routes might need to be refactored as some resources are more sub-resources
 - API : use PATCH method for soft delete instead of DELETE method
 - Diagrams : create better diagram, more readable
-- ER diagram : a 1-N relationship between users and reservation_type would more realistic considering the consequences on front-end management for a MVP.
+
 
 ## INTRODUCTION :
 ### Purpose of the application:
