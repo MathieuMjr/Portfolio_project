@@ -2,9 +2,23 @@
 
 This project is part the first-year "Fundamentals" curriculum at Holberton School.
 
-We were asked to imagine, design and develop a web application of our choice.
+We were asked to imagine, design and develop a web application of our choice in three months.
 
 This README describes **the different stages of my work** on this portfolio project, from `technical documentation` to code.
+## REPORTING:
+This project is currently in the technical documentation stage.<br>It provide an overview with of the project with :
+- Users stories
+- Mockups
+- Architecture design and technology stack
+- Entities relantionship diagram
+- Classes diagram
+- Sequences diagrams
+- API Documentation
+- SCM and QA strategy plan
+
+Few things might need refinement later :
+- Dynamic mock ups could be done instead of static ones
+- API : somes routes might need to be refactored as some resources are more sub-resources
 
 ## INTRODUCTION :
 ### Purpose of the application:
@@ -19,10 +33,8 @@ This application aims to bring together three main features :
 
 ## TECHNICAL DOCUMENTATION
 ### USERS STORIES
-This section presents users stories so that we can imagine the app and define requirements from a user perspective.
-<details> <summary>Display users stories</summary>
-
-Users stories describe what users can do within the application, and what they aim to achieve. They help understand their needs and  will guide the following steps in designing the application.
+<details> <summary>Show users stories</summary>
+This section presents users stories so that we can imagine the app and define requirements from a user perspective : what they aime to achieve and what are their needs will guide the application designing later.
 
 #### As a user I want to...
 
@@ -51,12 +63,42 @@ Users stories describe what users can do within the application, and what they a
 </details>
 
 ### MOCKUPS
-This section provide few mockups to illustrate some main users stories.
+<details><summary>Show Mockups section</summary>
+On the basis of users stories, this section provide three mock ups illustrating the user journey on the application.
 
-Now we know what users and managers want to do and why, let's put those stories in pictures with mockups to get an overview of the user experience. 
+A sober style is intentionally chosen to make the application easy to use. 
+
+**Login screen**
+<img src='./Documentation_files/overview_login_screen.png'></img>
+
+A simple screen where users use their mail and password to authenticate. 
+
+**Planning screen**
+<img src='./Documentation_files/overview_planning_screen.png'><img>
+
+After login, users land on this page.<br>
+They can see essential reservation details for each days, and click on a reservation they want more details on.
+
+<u>UI evolutions</u> :
+- First card should be a monday and last card a sunday
+- May be a row for each day will be prefered if it is too hard to display by cards
+- The name of the day should be displayed
+- Some filters could sort reservations by status or reservation types.
+
+**Reservation creation screen**
+<img src='./Documentation_files/overview_reservation_screen.png'><img>
+<img src="./Documentation_files/overview_reservation_screen_bis.png"></img>
+
+On this screen, users can create a reservation.
+The type of structure is decided first, and then the ZIP code. Finally, the user have to check if the structure making the reservation already exists in the database in the 'Nom de la structure' drop-down box, or else, create it. <br>
+When a structure is selected, adress, phone and email fields are automatically filled.
+
+<u>UI Evolution</u> :
+- An icone to create structures should be displayed
+</details>
 
 ### SYSTEM ARCHITECTURE AND TECHNOLOGY STACK
-<details><summary> Display architecture and technology details</summary>
+<details><summary> Show architecture and technology section</summary>
 
 <img src="./Documentation_files/portfolio_architecture.jpg"></img>
 
@@ -87,10 +129,11 @@ Since there is no need of extensibility, specific data types and no advanced fea
 </details>
 
 ### ENTITIES RELATIONSHIP DIAGRAM
+<details><summary>Show entities relationship section</summary>
+
 Based on user needs identified in the user stories, this section present the entities, relationships and explains key design choices of the model.
 
-<details><summary>Show entities relationship section</summary>
-Since this application is about storing data on reservations, the ER diagram was designed first.
+Since storing data on reservations is a the core of the application, the ER diagram was designed first.
 
 #### <u>Diagram</u> :
 This diagram picture the general structure of the database tables and, attribute types, primary and foreign keys and relationships. 
@@ -143,10 +186,8 @@ STATUS | 1-N | A reservation got only one status, indicating at which step the r
 ### SEQUENCES DIAGRAMS
 
 ### INTERNAL API DOCUMENTATION
-
-This section explain the application API rules, the routes and methods allowed, the status codes and the input and output formats for the main classes.
 <details><summary>Show API Documentation</summary>
-
+This section explain the application API rules, the routes and methods allowed, the status codes and the input and output formats for the main classes.
 
 #### <u>Methods rules </u>:
 - **POST** <br> Allows resource creation, a data input is required;
