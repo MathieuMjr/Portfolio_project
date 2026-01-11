@@ -1,0 +1,25 @@
+sequenceDiagram
+    autonumber
+
+    actor Client
+    participant Frontend-JS
+    participant API
+    participant Backend
+    participant Database
+
+    Client->>Frontend-JS: Load landing page
+    Frontend-JS->>API: GET /reservations Authorization: Bearer token
+
+    API->>Backend: Validate token & extract user identity
+    Backend->>Backend: Check user role
+
+    alt User is manager
+        Backend->>Database: Get all reservations (for current month)
+    else User is not manager
+        Backend->>Database: Get user's reservations (for current month)
+    end
+
+    Database-->>Backend: Reservation list
+    Backend-->>API: Reservations data
+    API-->>Frontend-JS: 200 OK JSON reservations
+    Frontend-JS->>Frontend-JS: Build planning view (JS)

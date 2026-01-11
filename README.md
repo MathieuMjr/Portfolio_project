@@ -183,7 +183,36 @@ STATUS | 1-N | A reservation got only one status, indicating at which step the r
 ### COMPONENTS - CLASS DIAGRAM
 
 
-### SEQUENCES DIAGRAMS
+### SEQUENCES DIAGRAMS<br>
+
+<details><summary> Show sequences diagram section</summary>
+
+Three high-level sequences diagrams will show the communication between each layers detailed in previous section.
+<br><br>
+
+**Login**
+<img src='./Documentation_files/auth_sequence_diagram.png'></img>
+[Access Mermaid JS code](#./Documentation_files/auth_sequence_diagram.txt)
+</details>
+
+Users send credentials to the API. An access token is generated if authentication succeed, or an error message otherwise. 
+
+**Reservations view / Landing page loading**
+
+<img src='./Documentation_files/display_reservation_sequence_diagram.png'></img>
+
+[Access Mermaid JS code](#./Documentation_files/reservation_display_sequence_diagram.txt)
+
+After the user logged in, the landing page is loaded and fetch the API to retrieve reservations for the current month.\
+Token identity is checked and only the reservations a user has authored are displayed.\
+If the user is a manager, every reservations for the current month are displayed. 
+
+**Reservation creation**
+<img src='./Documentation_files/reservation_creation_seq_diagram.png'></img>
+<a href='./Documentation_files/reservation_creation_seq_diagram.txt'> Access Mermaid JS code</a>
+
+When a user create a reservation, his token identity is checked to know if he has required authorizations to create a reservation of a specific reservation type.<br>
+Data input checked and if everything is ok, the resource is created.
 
 ### INTERNAL API DOCUMENTATION
 <details><summary>Show API Documentation</summary>

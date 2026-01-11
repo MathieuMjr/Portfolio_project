@@ -1,0 +1,25 @@
+sequenceDiagram
+    autonumber
+
+    actor Client
+    participant API
+    participant Backend
+    participant Database
+
+    Client->>API: POST /login{ email, password }
+    API->>Backend: Forward credentials
+
+    Backend->>Backend: Hash received password
+    Backend->>Database: Get user by email
+    Database-->>Backend: User data + password_hash
+
+    alt Credentials are valid
+        Backend->>Backend: Generate JWT token
+        Backend-->>API: Auth success + access_token
+        API-->>Client: 200 OK { access_token }
+        Client->>Client: Redirect to landing page
+    else Credentials are invalid
+        Backend-->>API: Auth failed
+        API-->>Client: 401 Unauthorized { error: "Invalid credentials" }
+        Client->>Client: Display error message
+    end

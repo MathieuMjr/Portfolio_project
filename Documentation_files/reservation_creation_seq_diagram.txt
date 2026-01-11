@@ -1,0 +1,31 @@
+sequenceDiagram
+    actor Client
+    participant API
+    participant Backend
+    participant Database
+
+    Client ->> API: POST /reservations (payload + JWT)
+    API ->> Backend: forward request
+
+    Backend ->> Backend: verify JWT token
+    alt Token invalid
+        Backend -->> API: 401 Unauthorized
+        API -->> Client: Error message
+    else Token valid
+        Backend ->> Backend: check reservation type authorization
+        alt Not authorized
+            Backend -->> API: 403 Forbidden
+            API -->> Client: Unauthorized action
+        else Authorized
+            Backend ->> Backend: validate input data
+            alt Invalid data
+                Backend -->> API: 400 Bad Request
+                API -->> Client: Invalid input
+            else Valid data
+                Backend ->> Database: create reservation
+                Database -->> Backend: reservation saved
+                Backend -->> API: 201 Created
+                API -->> Client: Confirmation message
+            end
+        end
+    end
