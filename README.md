@@ -192,7 +192,7 @@ Three high-level sequences diagrams will show the communication between each lay
 
 **Login**
 <img src='./Documentation_files/auth_sequence_diagram.png'></img>
-[Access Mermaid JS code](#./Documentation_files/auth_sequence_diagram.txt)
+[Access Mermaid JS code](./Documentation_files/auth_sequence_diagram.txt)
 
 Users send credentials to the API. An access token is generated if authentication succeed, or an error message otherwise. 
 
@@ -200,7 +200,7 @@ Users send credentials to the API. An access token is generated if authenticatio
 
 <img src='./Documentation_files/display_reservation_sequence_diagram.png'></img>
 
-[Access Mermaid JS code](#./Documentation_files/reservation_display_sequence_diagram.txt)
+[Access Mermaid JS code](./Documentation_files/reservation_display_sequence_diagram.txt)
 
 After the user logged in, the landing page is loaded and fetch the API to retrieve reservations for the current month.\
 Token identity is checked and only the reservations a user has authored are displayed.\
@@ -208,7 +208,7 @@ If the user is a manager, every reservations for the current month are displayed
 
 **Reservation creation**
 <img src='./Documentation_files/reservation_creation_seq_diagram.png'></img>
-<a href='./Documentation_files/reservation_creation_seq_diagram.txt'> Access Mermaid JS code</a>
+[Access Mermaid JS code](./Documentation_files/reservation_creation_seq_diagram.txt') 
 
 When a user create a reservation, his token identity is checked to know if he has required authorizations to create a reservation of a specific reservation type.<br>
 Data input checked and if everything is ok, the resource is created.
