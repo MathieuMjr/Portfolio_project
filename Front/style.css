@@ -16,7 +16,7 @@ body {
     margin:auto;
     background-color: rgb(51, 71, 152);
     width:100%;
-    max-width: 400px;
+    max-width: 500px;
     display:flex;
     flex-direction: column;
     color:white;
@@ -53,9 +53,10 @@ body {
 .login-form button{
     width: 50%;
     padding: 0.5rem;
-    font-size:1rem;
+    font-size:1.2rem;
     border-radius: 5px;
     cursor:pointer;
     margin:auto;
+    margin-top:10%;
 }
 
