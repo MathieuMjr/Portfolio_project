@@ -1,0 +1,48 @@
+/* couleurs : 
+#EB9315 orange : 235, 147, 21
+#1550EA bleu : 21, 80, 234
+#EBC715 jaune: 235, 199, 21
+Adobe colour wheel : complémentaires partagées */
+
+* {
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    margin: 0;
+}
+
+.navigation {
+    display:flex;
+    flex-direction: row;
+    background-color: rgb(235, 199, 21);
+    /* border-bottom: solid rgb(235, 199, 21); */
+    padding: 1rem 2rem;
+    align-items: center;
+
+}
+
+.navigation img {
+    display:inline-block;
+    height: 6rem;
+    margin: 0 2rem;
+}
+
+.identity {
+    text-align: right;
+    width: 100%;
+}
+
+.identity p {
+    /* color: rgb(248, 248, 248); */
+    margin: 0.75rem;
+    text-transform: uppercase;
+    font-size: 2rem;
+}
+
+body {
+    min-height:100vh;
+    display: flex;
+    flex-direction: column;
+}
