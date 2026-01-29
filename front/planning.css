@@ -10,39 +10,94 @@ Adobe colour wheel : complémentaires partagées */
 }
 
 body {
+    /* min-height:100vh; */
+    /* il faut une width sur le body pour que es boîtes sachent où s'arrêter, malheureusement déclarer en vw est pour l'instant impossible, se pencher sur le box-sizingu */
+/* width:1200px; */
+/* end stance */
+    display: flex;
+    flex-direction: column;
     margin: 0;
+}
+
+main h1 {
+    text-transform: uppercase;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    padding : 2rem;
+    
 }
 
 .navigation {
     display:flex;
     flex-direction: row;
-    background-color: rgb(235, 199, 21);
+    background-color:  rgb(51, 71, 152);
     /* border-bottom: solid rgb(235, 199, 21); */
-    padding: 1rem 2rem;
+    padding: 1rem 3rem;
     align-items: center;
+}
 
+.icons {
+    display: flex;
+    flex-direction: row;
+    gap: clamp(1rem, 1.5rem, 2rem);
 }
 
 .navigation img {
-    display:inline-block;
-    height: 6rem;
-    margin: 0 2rem;
+    width: clamp(2rem, 5vw, 4rem);
+    height: clamp(2rem, 5vw, 4rem);
 }
 
 .identity {
     text-align: right;
-    width: 100%;
+    margin-left: auto;
+    color: white;
 }
 
 .identity p {
     /* color: rgb(248, 248, 248); */
-    margin: 0.75rem;
+    margin: 0.5rem;
     text-transform: uppercase;
-    font-size: 2rem;
+    font-size: clamp(1rem, 2vw, 2rem);
 }
 
-body {
-    min-height:100vh;
+.month-wrapper {
     display: flex;
     flex-direction: column;
+}
+
+.month-wrapper h2 {
+    text-transform: uppercase;
+}
+
+.day-planning {
+    display:flex;
+    flex-direction: row;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.day-card {
+    border: dotted;
+    border-radius: 10px;
+    padding: 1rem;
+    border-color: rgb(235, 147, 21);
+    border-width: 0.3rem;
+}
+
+.day-card a:link, a:visited, a:hover, a:active{
+    text-decoration: none;
+    color:black;
+}
+
+.hour {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.theme {
+    font-weight: bold;
 }
