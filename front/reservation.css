@@ -57,6 +57,10 @@ main {
     flex-direction: column;
 }
 
+label {
+    font-size: 1rem;
+}
+
 .field {
     padding-top: 1rem;
 }
@@ -70,4 +74,9 @@ main {
 
 .struct_form, .contact_form {
     flex:1;
+}
+
+input[type="submit"] {
+    margin-top: 2rem;
+    width: 7rem;
 }
