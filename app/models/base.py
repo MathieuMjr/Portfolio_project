@@ -14,6 +14,7 @@ class BaseModel(db.Model):
     creation_date
     is_active: a boolean functioning as a soft delete for resources
     """
+    __abstract__ = True
     id: Mapped[str] = mapped_column(
         String,
         default=lambda: str(uuid.uuid4()),
