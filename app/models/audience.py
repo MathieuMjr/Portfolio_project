@@ -1,0 +1,31 @@
+from base import BaseModel
+from sqlalchemy import Integer, String, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+
+class Audience(BaseModel):
+    """
+    Docstring pour Audience
+    Audience describes what an Audience is:
+    - count : the number of attendees
+    - an audience type : children, adults, classes ?
+    - related to a reservation
+    """
+    __tablename__ = 'audiences'
+
+    count: Mapped[int] = mapped_column(
+        Integer,
+        nullable=False
+    )
+    audience_type_id: Mapped[str] = mapped_column(
+        String,
+        ForeignKey('audience_types.id'),
+        nullable=False
+    )
+    reservation_id: Mapped[str] = mapped_column(
+        String,
+        ForeignKey('reservations.id'),
+        nullable=False
+    )
+    # audience_type_id = relationship()
+    # reservation_id = relationship()
