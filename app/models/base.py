@@ -2,7 +2,7 @@ from extensions import db
 from sqlalchemy import Boolean, String, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 import uuid
-import datetime
+from datetime import datetime
 
 
 class BaseClass(db.Model):
