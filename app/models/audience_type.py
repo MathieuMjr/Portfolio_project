@@ -1,9 +1,9 @@
-from base import BaseModel
+from base import BaseClass
 from sqlalchemy import String, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
-class AudienceType(BaseModel):
+class AudienceType(BaseClass):
     """
     Docstring pour AudienceType
     Audience type describes what an audience is :

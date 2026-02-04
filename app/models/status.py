@@ -1,9 +1,9 @@
-from base import BaseModel
+from base import BaseClass
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
-class Status(BaseModel):
+class Status(BaseClass):
     """
     Docstring pour Status
     This class describe the status of a reservation.

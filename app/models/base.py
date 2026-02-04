@@ -5,7 +5,7 @@ import uuid
 import datetime
 
 
-class BaseModel(db.Model):
+class BaseClass(db.Model):
     """
     Docstring pour Base:
     Base is the base model and define fields/attributes and methods

@@ -1,10 +1,10 @@
-from base import BaseModel
+from base import BaseClass
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from user import user_reservation_type
 
 
-class ReservationType(BaseModel):
+class ReservationType(BaseClass):
     """
     Docstring pour ReservationType
     This class describe the kind of possible reservations:

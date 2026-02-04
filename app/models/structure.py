@@ -1,9 +1,9 @@
-from base import BaseModel
+from base import BaseClass
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
-class Structure(BaseModel):
+class Structure(BaseClass):
     """
     Docstring pour Structure
     Structure describes what a structure is:

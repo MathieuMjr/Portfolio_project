@@ -1,4 +1,4 @@
-from base import BaseModel
+from base import BaseClass
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 import datetime
 from datetime import time
@@ -29,7 +29,7 @@ reservation_theme = Table(
     )
 
 
-class Reservation(BaseModel):
+class Reservation(BaseClass):
     """
     Docstring pour Reservation
     Reservation describes what a reservation is:

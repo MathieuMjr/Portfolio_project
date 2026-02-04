@@ -1,4 +1,4 @@
-from base import BaseModel
+from base import BaseClass
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.extensions import db
 from sqlalchemy import (String,
@@ -23,7 +23,7 @@ user_reservation_type = Table(
 )
 
 
-class User(BaseModel):
+class User(BaseClass):
     """
     Docstring pour User
     user describes what a user is :

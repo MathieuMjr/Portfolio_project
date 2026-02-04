@@ -1,10 +1,10 @@
-from base import BaseModel
+from base import BaseClass
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from reservation import reservation_theme
 
 
-class Theme(BaseModel):
+class Theme(BaseClass):
     """
     Docstring pour Theme
     Theme describes what a theme is:

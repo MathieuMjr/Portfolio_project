@@ -1,9 +1,9 @@
-from base import BaseModel
+from base import BaseClass
 from sqlalchemy import Integer, String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
-class Audience(BaseModel):
+class Audience(BaseClass):
     """
     Docstring pour Audience
     Audience describes what an Audience is:

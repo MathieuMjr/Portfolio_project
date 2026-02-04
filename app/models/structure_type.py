@@ -1,9 +1,9 @@
-from base import BaseModel
+from base import BaseClass
 from sqlalchemy import String, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
-class StructureType(BaseModel):
+class StructureType(BaseClass):
     """
     Docstring pour StructureType
     StructureType describes what a type of structure is.
