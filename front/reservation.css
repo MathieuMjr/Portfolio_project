@@ -72,7 +72,7 @@ label {
     flex-wrap: wrap;
 }
 
-.struct_form, .contact_form {
+.struct_form, .contact_form, .theme_form, .date_hour_form {
     flex:1;
 }
 
