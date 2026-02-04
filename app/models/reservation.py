@@ -61,7 +61,7 @@ class Reservation(BaseClass):
         ForeignKey('reservation_types.id'),
         nullable=False
     )
-    date: Mapped[datetime.datetime] = mapped_column(
+    reservation_date: Mapped[datetime.datetime] = mapped_column(
         DateTime,
         nullable=False
     )
@@ -129,7 +129,7 @@ class Reservation(BaseClass):
             "id": self.id,
             "status": self.status.to_dict(),
             "structure": self.structure.to_dict(),
-            "date": self.date.isoformat(),
+            "reservation_date": self.reservation_date.isoformat(),
             "hour": self.hour.isoformat(),
             "reservation_type": self.reservation_type.to_dict(),
             "themes": [theme.to_dict() for theme in self.themes],
