@@ -1,6 +1,26 @@
 from base import BaseModel
-from sqlalchemy import String, ForeignKey, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from app.extensions import db
+from sqlalchemy import (String,
+                        ForeignKey,
+                        Boolean,
+                        Table,
+                        Column)
+
+user_reservation_type = Table(
+    'user_reservation_type',
+    db.metadata,
+    Column('user_id',
+           String,
+           ForeignKey('users.id'),
+           nullable=False,
+           primary_key=True),
+    Column('reservation_type_id',
+           String,
+           ForeignKey('reservation_types.id'),
+           nullable=False,
+           primary_key=True)
+)
 
 
 class User(BaseModel):
@@ -36,5 +56,10 @@ class User(BaseModel):
         Boolean,
         nullable=False
     )
-    # reservation_types_ids_list = relationship()
-    # reservation_ids_list =relationship()
+    reservation_types = relationship('ReservationType',
+                                     secondary=user_reservation_type,
+                                     lazy='subquery',
+                                     back_populates='users')
+
+    reservations = relationship('Reservation',
+                                back_populates='author')

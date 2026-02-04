@@ -27,5 +27,7 @@ class Audience(BaseModel):
         ForeignKey('reservations.id'),
         nullable=False
     )
-    # audience_type_id = relationship()
-    # reservation_id = relationship()
+    audience_type = relationship('AudienceType',
+                                 lazy='joined',
+                                 back_populates='audiences')
+    reservation = relationship('Reservation', back_populates='audiences')

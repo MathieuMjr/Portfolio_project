@@ -1,9 +1,32 @@
 from base import BaseModel
-from sqlalchemy import String, Numeric, DateTime, Time, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 import datetime
 from datetime import time
 from decimal import Decimal
+from app.extensions import db
+from sqlalchemy import (String,
+                        Numeric,
+                        DateTime,
+                        Time,
+                        ForeignKey,
+                        Table,
+                        Column)
+
+reservation_theme = Table(
+    db.metadata,
+    'reservation_theme',
+    Column(
+        'reservation_id',
+        String,
+        ForeignKey('reservations.id'),
+        primary_key=True,
+        nullable=False),
+    Column('theme_id',
+           String,
+           ForeignKey('themes.id'),
+           primary_key=True,
+           nullable=False)
+    )
 
 
 class Reservation(BaseModel):
@@ -19,6 +42,7 @@ class Reservation(BaseModel):
     - have price
     - is for a reservation type
     - have a list of audiences
+    - have a list of themes
     """
     __tablename__ = 'reservations'
 
@@ -74,7 +98,28 @@ class Reservation(BaseModel):
         ForeignKey('status.id'),
         nullable=False
     )
-    # author_id =relationship()
-    # themes_ids_list=relationship()
-    # audience_ids_list=relationship()
-    # reservation_type_id = relationship()
+    author = relationship('User',
+                          lazy='joined',
+                          back_populates='reservations')
+
+    themes = relationship('Theme',
+                          secondary=reservation_theme,
+                          lazy='subquery',
+                          back_populates='reservations')
+
+    audiences = relationship('Audience',
+                             lazy='subquery',
+                             back_populates='reservation')
+
+    reservation_type = relationship(
+        'ReservationType',
+        lazy='joined',
+        back_populates='reservations')
+
+    status = relationship('Status',
+                          lazy='joined',
+                          back_populates='reservations')
+
+    structure = relationship('Structure',
+                             lazy='joined',
+                             back_populates='reservations')

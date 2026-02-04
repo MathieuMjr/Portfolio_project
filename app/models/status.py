@@ -1,6 +1,6 @@
 from base import BaseModel
 from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
 class Status(BaseModel):
@@ -16,3 +16,4 @@ class Status(BaseModel):
         nullable=False,
         unique=True,
     )
+    reservations = relationship('Reservation', back_populates='status')

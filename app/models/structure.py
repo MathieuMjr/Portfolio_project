@@ -49,5 +49,9 @@ class Structure(BaseModel):
         nullable=False
     )
 
-    # reservation_ids_list = relationship()
-    # structure_type_id = relationship()
+    reservations = relationship('Reservation',
+                                lazy='joined',
+                                back_populates='structure')
+    structure_type = relationship('StructureType',
+                                  lazy='joined',
+                                  back_populates='structures')

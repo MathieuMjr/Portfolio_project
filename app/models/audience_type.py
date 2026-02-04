@@ -21,3 +21,4 @@ class AudienceType(BaseModel):
         Boolean,
         nullable=False,
     )
+    audiences = relationship('Audience', back_populates='audience_type')

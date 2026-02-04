@@ -1,6 +1,7 @@
 from base import BaseModel
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from user import user_reservation_type
 
 
 class ReservationType(BaseModel):
@@ -16,4 +17,13 @@ class ReservationType(BaseModel):
         nullable=False,
         unique=True
     )
-    # themes_ids_list = relationship()
+    reservations = relationship(
+        'Reservation',
+        back_populates='reservation_type')
+
+    themes = relationship('Theme',
+                          back_populates='reservation_type')
+
+    users = relationship('User',
+                         secondary=user_reservation_type,
+                         back_populates='reservation_types')

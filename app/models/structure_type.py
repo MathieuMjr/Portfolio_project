@@ -22,4 +22,4 @@ class StructureType(BaseModel):
         Boolean,
         nullable=False
     )
-    # structure = relationship()
+    structures = relationship('Structure', back_populates='structure_type')

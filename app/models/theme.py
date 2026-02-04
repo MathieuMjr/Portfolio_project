@@ -1,6 +1,7 @@
 from base import BaseModel
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from reservation import reservation_theme
 
 
 class Theme(BaseModel):
@@ -23,4 +24,9 @@ class Theme(BaseModel):
         ForeignKey('reservation_types.id'),
         nullable=False
     )
-    # reservation_type_id= relationship()
+    reservation_type = relationship('ReservationType',
+                                    back_populates='themes')
+
+    reservations = relationship('Reservation',
+                                secondary=reservation_theme,
+                                back_populates='themes')
