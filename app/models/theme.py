@@ -30,3 +30,10 @@ class Theme(BaseModel):
     reservations = relationship('Reservation',
                                 secondary=reservation_theme,
                                 back_populates='themes')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "reservation_type": self.reservation_type.to_dict()
+        }

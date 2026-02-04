@@ -27,3 +27,9 @@ class ReservationType(BaseModel):
     users = relationship('User',
                          secondary=user_reservation_type,
                          back_populates='reservation_types')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }

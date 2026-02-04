@@ -123,3 +123,23 @@ class Reservation(BaseModel):
     structure = relationship('Structure',
                              lazy='joined',
                              back_populates='reservations')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "status": self.status.to_dict(),
+            "structure": self.structure.to_dict(),
+            "date": self.date.isoformat(),
+            "hour": self.hour.isoformat(),
+            "reservation_type": self.reservation_type.to_dict(),
+            "themes": [theme.to_dict() for theme in self.themes],
+            "price": float(self.price),  # float pour JS
+            "contact": {"firstname": self.contact_firstname,
+                        "lastname": self.contact_lastname,
+                        "email": self.contact_email,
+                        "phone": self.contact_phone,
+                        "role": self.contact_role
+                        },
+            "audiences": [
+                audience.to_dict() for audience in self.audiences]
+        }

@@ -22,3 +22,10 @@ class AudienceType(BaseModel):
         nullable=False,
     )
     audiences = relationship('Audience', back_populates='audience_type')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "is_school": self.is_school
+        }

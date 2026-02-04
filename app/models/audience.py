@@ -31,3 +31,12 @@ class Audience(BaseModel):
                                  lazy='joined',
                                  back_populates='audiences')
     reservation = relationship('Reservation', back_populates='audiences')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "reservation_id": self.reservation_id,
+            "audience_type": self.audience_type.to_dict(),
+            # to_dict car le champs is_school est important
+            "count": self.count
+        }

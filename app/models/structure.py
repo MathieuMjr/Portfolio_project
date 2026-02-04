@@ -55,3 +55,15 @@ class Structure(BaseModel):
     structure_type = relationship('StructureType',
                                   lazy='joined',
                                   back_populates='structures')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "structure_type": self.structure_type.to_dict(),
+            "zip_code": self.zip_code,
+            "address": self.address,
+            "town": self.town,
+            "email": self.email,
+            "phone": self.phone
+        }

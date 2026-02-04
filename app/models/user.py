@@ -56,6 +56,7 @@ class User(BaseModel):
         Boolean,
         nullable=False
     )
+
     reservation_types = relationship('ReservationType',
                                      secondary=user_reservation_type,
                                      lazy='subquery',
@@ -63,3 +64,14 @@ class User(BaseModel):
 
     reservations = relationship('Reservation',
                                 back_populates='author')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "firstname": self.firstname,
+            "lastname": self.lastname,
+            "email": self.email,
+            "role": self.role,
+            "reservation_types": [
+                element.to_dict() for element in self.reservation_types],
+        }

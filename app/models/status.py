@@ -17,3 +17,9 @@ class Status(BaseModel):
         unique=True,
     )
     reservations = relationship('Reservation', back_populates='status')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
