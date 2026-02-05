@@ -1,4 +1,4 @@
-from base import BaseClass
+from .base import BaseClass
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 import datetime
 from datetime import time
@@ -13,8 +13,8 @@ from sqlalchemy import (String,
                         Column)
 
 reservation_theme = Table(
-    db.metadata,
     'reservation_theme',
+    db.metadata,
     Column(
         'reservation_id',
         String,

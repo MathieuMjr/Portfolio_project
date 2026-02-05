@@ -1,7 +1,7 @@
-from base import BaseClass
+from .base import BaseClass
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from user import user_reservation_type
+from .user import user_reservation_type
 
 
 class ReservationType(BaseClass):

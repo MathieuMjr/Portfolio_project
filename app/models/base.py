@@ -1,4 +1,4 @@
-from extensions import db
+from app.extensions import db
 from sqlalchemy import Boolean, String, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 import uuid
@@ -21,11 +21,11 @@ class BaseClass(db.Model):
         primary_key=True,
         nullable=False,
         unique=True)
-    creation_date: Mapped[datetime.datetime] = mapped_column(
+    creation_date: Mapped[datetime] = mapped_column(
         DateTime,
         default=datetime.utcnow,
         nullable=False)
-    update_date: Mapped[datetime.datetime] = mapped_column(
+    update_date: Mapped[datetime] = mapped_column(
         DateTime,
         default=datetime.utcnow,
         onupdate=datetime.utcnow,

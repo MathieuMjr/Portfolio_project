@@ -1,4 +1,4 @@
-from base import BaseClass
+from .base import BaseClass
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.extensions import db
 from sqlalchemy import (String,
