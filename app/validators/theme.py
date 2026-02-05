@@ -1,12 +1,12 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from app.models.reservation_type import ReservationType
 
 
 class ThemePayload(BaseModel):
-    name: str
-    reservation_type_id: str
+    name: str = Field(min_length=1)
+    reservation_type_id: str = Field(min_length=1)
 
 
 class ThemeCreation(BaseModel):
-    name: str
+    name: str = Field(min_length=1)
     reservation_type: ReservationType

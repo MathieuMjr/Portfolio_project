@@ -1,22 +1,22 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from app.models.structure_type import StructureType
 
 
 class StructurePaylaod(BaseModel):
-    name: str
-    phone: str
+    name: str = Field(min_length=1)
+    phone: str = Field(min_length=1)
     email: EmailStr
-    zip_code: str
-    address: str
-    town: str
-    structure_type_id: str
+    zip_code: str = Field(min_length=5, max_length=5)
+    address: str = Field(min_length=1)
+    town: str = Field(min_length=1)
+    structure_type_id: str = Field(min_length=1)
 
 
 class StructureCreation(BaseModel):
-    name: str
-    phone: str
+    name: str = Field(min_length=1)
+    phone: str = Field(min_length=1)
     email: EmailStr
-    zip_code: str
-    address: str
-    town: str
+    zip_code: str = Field(min_length=5, max_length=5)
+    address: str = Field(min_length=1)
+    town: str = Field(min_length=1)
     structure_type: StructureType

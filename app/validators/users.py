@@ -1,20 +1,20 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from app.models.reservation_type import ReservationType
 
 
 class UserPayload(BaseModel):
-    firstname: str
-    lastname: str
+    firstname: str = Field(min_length=1)
+    lastname: str = Field(min_length=1)
     email: EmailStr
-    password: str
+    password: str = Field(min_length=1)
     role: bool
-    reservation_types: list[str]
+    reservation_types: list[str] = Field(min_length=1)
 
 
 class UserCreation(BaseModel):
-    firstname: str
-    lastname: str
-    email: str
-    password: str
+    firstname: str = Field(min_length=1)
+    lastname: str = Field(min_length=1)
+    email: EmailStr
+    password: str = Field(min_length=1)
     role: bool
     reservation_types: list[ReservationType]
