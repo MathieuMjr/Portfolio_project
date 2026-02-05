@@ -30,5 +30,8 @@ class Repository:
     def get_by_attribute(self, attribute_name, attribute_value):
         if not hasattr(self.model, attribute_name):
             return []
-        return db.session.execute(db.select(self.model).where(
-            getattr(self.model, attribute_name) == attribute_value)).all()
+        return db.session.scalars(
+            db.select(self.model).where(
+                getattr(self.model, attribute_name) == attribute_value
+            )
+        ).all()
