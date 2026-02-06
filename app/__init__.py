@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restx import Api
 from .extensions import db
-from ..config import DevelopmentConfig
+from config import DevelopmentConfig
 
 
 def create_app(config_class=DevelopmentConfig):
