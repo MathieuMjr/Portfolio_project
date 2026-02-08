@@ -2,7 +2,7 @@ from app.extensions import db
 from sqlalchemy import Boolean, String, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class BaseClass(db.Model):
@@ -23,12 +23,12 @@ class BaseClass(db.Model):
         unique=True)
     creation_date: Mapped[datetime] = mapped_column(
         DateTime,
-        default=datetime.utcnow,
+        default=datetime.now(timezone.utc),
         nullable=False)
     update_date: Mapped[datetime] = mapped_column(
         DateTime,
-        default=datetime.utcnow,
-        onupdate=datetime.utcnow,
+        default=datetime.now(timezone.utc),
+        onupdate=datetime.now(timezone.utc),
         nullable=False)
     is_active: Mapped[bool] = mapped_column(
         Boolean,
