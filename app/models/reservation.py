@@ -1,12 +1,11 @@
 from .base import BaseClass
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-import datetime
-from datetime import time
+from datetime import time, date
 from decimal import Decimal
 from app.extensions import db
 from sqlalchemy import (String,
                         Numeric,
-                        DateTime,
+                        Date,
                         Time,
                         ForeignKey,
                         Table,
@@ -61,8 +60,8 @@ class Reservation(BaseClass):
         ForeignKey('reservation_types.id'),
         nullable=False
     )
-    reservation_date: Mapped[datetime.datetime] = mapped_column(
-        DateTime,
+    reservation_date: Mapped[date] = mapped_column(
+        Date,
         nullable=False
     )
     hour: Mapped[time] = mapped_column(
