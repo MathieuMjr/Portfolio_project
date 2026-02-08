@@ -20,12 +20,13 @@ class ReservationPayload(BaseModel):
     hour: time
     contact_firstname: str = Field(min_length=1)
     contact_lastname: str = Field(min_length=1)
-    contact_phone: str = Field(min_length=1)
+    contact_phone: str = Field(min_length=10, max_length=10)
     contact_email: str = Field(min_length=1)
     contact_role: str = Field(min_length=1)
     price: Decimal = Field(gt=0)
     # validateur de price positif
     status_id: str = Field(min_length=1)
+    themes_id: list[str] = Field(min_length=1)
 
     @field_validator('reservation_date')
     def check_date(cls, value):
