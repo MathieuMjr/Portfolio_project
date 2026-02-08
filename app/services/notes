@@ -1,0 +1,21 @@
+Il faudra un soft delete reversible : 
+Quand une data est soft delete, elle apparait : 404 si on essaie de l'avoir
+Par contre, si l'utilisateur essaie de la recréer:
+- ça fait doublon au mieux
+- ça bloque au pire quand name Unique dans la db (structure_type etc.)
+
+Dans ce cas, a logique dans service doit être de faire cette vérification à la création :
+- est-ce qu'il existe déjà une ressource avec cet attribut unique ?
+- si oui, est-ce que is_active est false ?
+- si oui, update pour is_active = True 
+
+Le repo filtre les actif désactivé sur get all. Il a même une function tous les soft deleted. 
+
+Par contre ! Au niveau du service, on bloquera certains inactive...
+Il faudra décider où et qui pourra faire ça...
+- on voudrait à la fois pouvoir update un objet is active false pour le réactiver
+- mais en même temps on ne veut pas qu'il soit utiliser dans une réservation et donc get_id is active false doit renvoyer parfois 404...
+
+
+On aura une seule route pour les updates, mais il y aura un contexte possible : est-ce un appelle classique ? ou un appelle pour revive un objet ?
+On peut imaginer que le front envoi dans le payload un champs contexte avec une valeur. Selon s'il est présent ou non, on autorise ou pas le get même si is active False. 
