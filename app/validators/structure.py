@@ -4,7 +4,7 @@ from app.models.structure_type import StructureType
 
 class StructurePaylaod(BaseModel):
     name: str = Field(min_length=1)
-    phone: str = Field(min_length=1)
+    phone: str = Field(min_length=10, max_length=10)
     email: EmailStr
     zip_code: str = Field(min_length=5, max_length=5)
     address: str = Field(min_length=1)
@@ -16,7 +16,7 @@ class StructureCreation(BaseModel):
     name: str = Field(min_length=1)
     phone: str = Field(min_length=1)
     email: EmailStr
-    zip_code: str = Field(min_length=5, max_length=5)
+    zip_code: str = Field(min_length=10, max_length=10)
     address: str = Field(min_length=1)
     town: str = Field(min_length=1)
     structure_type: StructureType
