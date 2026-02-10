@@ -1,5 +1,4 @@
 from pydantic import BaseModel, EmailStr, Field
-from app.models.reservation_type import ReservationType
 
 
 class UserPayload(BaseModel):
@@ -11,10 +10,10 @@ class UserPayload(BaseModel):
     reservation_types: list[str] = Field(min_length=1)
 
 
-class UserCreation(BaseModel):
-    firstname: str = Field(min_length=1)
-    lastname: str = Field(min_length=1)
-    email: EmailStr
-    password: str = Field(min_length=1)
-    role: bool
-    reservation_types: list[ReservationType]
+# class UserCreation(BaseModel):
+#     firstname: str = Field(min_length=1)
+#     lastname: str = Field(min_length=1)
+#     email: EmailStr
+#     password: str = Field(min_length=1)
+#     role: bool
+#     reservation_types: list[ReservationType]
