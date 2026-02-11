@@ -1,19 +1,25 @@
+import os
+
+
 class Config:
     DEBUG = False
     TESTING = False
-    SECRET_KEY = 'default'
+    SECRET_KEY = os.getenv('SECRET_KEY')
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
     SQLALCHEMY_DATABASE_URI = "sqlite:///project.db"
 
 
 class DevelopmentConfig(Config):
     DEBUG = True
     SECRET_KEY = 'dev-key'
+    JWT_SECRET_KEY = 'jwt-dev-key'
     SQLALCHEMY_DATABASE_URI = "sqlite:///project.db"
 
 
 class TestingConfig(Config):
     TESTING = True
     SECRET_KEY = 'test-key'
+    JWT_SECRET_KEY = 'jwt-test-key'
     SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
 # :memory: est une valeur spéciale qui créera une db en RAM
 # les fixtures de conftest prévoient que cette db sera créée
