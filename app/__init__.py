@@ -3,6 +3,7 @@ from flask_restx import Api
 from .extensions import db, jwt, bcrypt
 from config import DevelopmentConfig
 from app.api.users import api as users_ns
+from app.api.login import api as login_ns
 
 
 def create_app(config_class=DevelopmentConfig):
@@ -17,5 +18,6 @@ def create_app(config_class=DevelopmentConfig):
 
     # namespaces à ajouter ici
     api.add_namespace(users_ns, path='/api/users')
+    api.add_namespace(login_ns, path='/api/login')
 
     return app
