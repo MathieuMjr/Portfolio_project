@@ -11,10 +11,8 @@ class UserServices():
         self.res_type_repo = ReservationTypeRepository()
 
     def create_user(self, payload):
-        print('payload in service')
         # Payload values and type verifications
         valid_payload = UserPayload(**payload).model_dump()
-        print('payload validated')
 
         # extract reservation_types id
         res_type_data = valid_payload.pop('reservation_types')
@@ -39,10 +37,8 @@ class UserServices():
         new_user = User(**valid_payload)
         print('user obj created')
         new_user.hash_pwd(valid_payload['password'])
-
-        print('res types extracted')
-
         self.user_repo.add(new_user)
+
         # Populate relationship
         new_user.reservation_types = res_types
 

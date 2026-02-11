@@ -11,9 +11,7 @@ class Users(Resource):
     @jwt_required()
     def post(self):
         data = api.payload
-        print('payload received')
         claims = get_jwt()
-        print('token accessed')
         if not claims['is_admin']:
             return {'error': 'Priviledge authorizations required'}, 403
         try:
