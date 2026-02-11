@@ -72,12 +72,12 @@ On the basis of users stories, this section provide three mock ups illustrating 
 A sober style is intentionally chosen to make the application easy to use. 
 
 **Login screen**
-<img src='./Documentation_files/overview_login_screen.png'></img>
+<img src='./documentation_files/overview_login_screen.png'></img>
 
 A simple screen where users use their mail and password to authenticate. 
 
 **Planning screen**
-<img src='./Documentation_files/overview_planning_screen.png'><img>
+<img src='./documentation_files/overview_planning_screen.png'><img>
 
 After login, users land on this page.<br>
 They can see essential reservation details for each days, and click on a reservation they want more details on.
@@ -89,8 +89,8 @@ They can see essential reservation details for each days, and click on a reserva
 - Some filters could sort reservations by status or reservation types.
 
 **Reservation creation screen**
-<img src='./Documentation_files/overview_reservation_screen.png'><img>
-<img src="./Documentation_files/overview_reservation_screen_bis.png"></img>
+<img src='./documentation_files/overview_reservation_screen.png'><img>
+<img src="./documentation_files/overview_reservation_screen_bis.png"></img>
 
 On this screen, users can create a reservation.
 The type of structure is decided first, and then the ZIP code. Finally, the user have to check if the structure making the reservation already exists in the database in the 'Nom de la structure' drop-down box, or else, create it. <br>
@@ -103,7 +103,7 @@ When a structure is selected, adress, phone and email fields are automatically f
 ### SYSTEM ARCHITECTURE AND TECHNOLOGY STACK
 <details><summary> Show architecture and technology section</summary>
 
-<img src="./Documentation_files/portfolio_architecture.jpg"></img>
+<img src="./documentation_files/portfolio_architecture.jpg"></img>
 
 This application follow a monolithic application three-tiers logic client-server architecture :
 - <u>presentation layer</u> : a `front-end` interface allowing users to log in and create, update and view reservations;
@@ -141,9 +141,9 @@ Since storing data on reservations is a the core of the application, the ER diag
 #### <u>Diagram</u> :
 This diagram picture the general structure of the database tables and, attribute types, primary and foreign keys and relationships. 
 
-[<img src='./Documentation_files/er_diagram.png'></img>]()
+[<img src='./documentation_files/er_diagram.png'></img>]()
 [Access to full view](https://www.mermaidchart.com/d/88b7aaa7-8f0f-4790-bf29-e7feb92990aa)<br>
-[Access to Mermaid code](./Documentation_files/er_diagram_code.txt)
+[Access to Mermaid code](./documentation_files/er_diagram_code.txt)
 
 The reservation entity is central in the ER diagram and almost all its attributes are related to other entities. 
 
@@ -188,8 +188,8 @@ STATUS | 1-N | A reservation got only one status, indicating at which step the r
 This section presents the classes and methods of our business logic layer.\
 The use of SQLAchemy ORM helped to transform tables (except join tables) from ER diagram into classes. 
 
-<img src='./Documentation_files/class_diagram.png'></img>
-[Access to Mermaid JS Code](./Documentation_files/class_diagram.txt)
+<img src='./documentation_files/class_diagram.png'></img>
+[Access to Mermaid JS Code](./documentation_files/class_diagram.txt)
 
 #### Modeling choices
 
@@ -222,24 +222,24 @@ hree high-level sequence diagrams illustrate the communication between each laye
 <br><br>
 
 **Login**
-<img src='./Documentation_files/auth_sequence_diagram.png'></img>
-[Access Mermaid JS code](./Documentation_files/auth_sequence_diagram.txt)
+<img src='./documentation_files/auth_sequence_diagram.png'></img>
+[Access Mermaid JS code](./documentation_files/auth_sequence_diagram.txt)
 
 Users send credentials to the API. An access token is generated if authentication succeeds, otherwise, an error message is returned. 
 
 **Reservations view / Landing page loading**
 
-<img src='./Documentation_files/display_reservation_sequence_diagram.png'></img>
+<img src='./documentation_files/display_reservation_sequence_diagram.png'></img>
 
-[Access Mermaid JS code](./Documentation_files/reservation_display_sequence_diagram.txt)
+[Access Mermaid JS code](./documentation_files/reservation_display_sequence_diagram.txt)
 
 After the user logs in, the landing page is loaded and fetches the API to retrieve reservations for the current month.\
 The token identity is checked and only the reservations a user has authored are displayed.\
 If the user is a manager, every reservation for the current month are displayed. 
 
 **Reservation creation**
-<img src='./Documentation_files/reservation_creation_seq_diagram.png'></img>
-[Access Mermaid JS code](./Documentation_files/reservation_creation_seq_diagram.txt) 
+<img src='./documentation_files/reservation_creation_seq_diagram.png'></img>
+[Access Mermaid JS code](./documentation_files/reservation_creation_seq_diagram.txt) 
 
 When a user creates a reservation, the token identity is checked to determine if he has required authorizations to create a reservation for the selected reservation type.<br>
 Data input is validated and if everything is correct, the resource is created.
