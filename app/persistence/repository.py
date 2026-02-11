@@ -6,7 +6,7 @@ class Repository:
         self.model = model
 
     def get_id(self, id):
-        return db.get_or_404(self.model, id)
+        return db.session.get(self.model, id)
         # Le service fera 404 si is_active:false
 
     def get_all(self, include_inactive=False):
