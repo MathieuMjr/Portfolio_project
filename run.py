@@ -31,6 +31,9 @@ def create_reservation_types():
         else:
             print('Reservation type already exist:')
             print(f'{rs[0].name}: {rs[0].id}')
+        check = resT_repo.get_id('2d7be5bb-2067-4201-8b5f-cc99ead829f7')
+        resT_repo.delete(check)
+        print(f'{check.name}: is_active: {check.is_active}')
 
 
 def create_default_admin():
@@ -45,6 +48,7 @@ def create_default_admin():
     check_admin = user_repo.get_by_attribute('email', data['email'])
     if len(check_admin) == 0:
         admin = User(**data)
+        admin.hash_pwd(admin.password)
         user_repo.add(admin)
         print(f'Admin created : {admin.id}')
     else:
