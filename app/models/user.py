@@ -1,6 +1,6 @@
 from .base import BaseClass
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from app.extensions import db
+from app.extensions import db, bcrypt
 from sqlalchemy import (String,
                         ForeignKey,
                         Boolean,
@@ -49,7 +49,7 @@ class User(BaseClass):
         nullable=False
     )
     password: Mapped[str] = mapped_column(
-        String,
+        String(128),
         nullable=False
     )
     role: Mapped[bool] = mapped_column(
@@ -75,3 +75,10 @@ class User(BaseClass):
             "reservation_types": [
                 element.to_dict() for element in self.reservation_types],
         }
+
+    def verify_pwd(self, pwd):
+        return bcrypt.check_password_hash(self.password, pwd)
+
+    def hash_pwd(self, pwd):
+        hashed = bcrypt.generate_password_hash(pwd)
+        self.password = hashed.decode('utf-8')
