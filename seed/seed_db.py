@@ -92,3 +92,5 @@ def run_seed():
 
 if __name__ == '__main__':
     run_seed()
+
+# pytho-m seed.seed_db dans mathieu@Mathieu:~/my_repos/Portfolio_project$
