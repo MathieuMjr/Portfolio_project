@@ -16,8 +16,6 @@ object.
 Service and API will be in charge of controlling access to
 soft delete objects and will be tested with Postman.
 """
-
-import pytest
 from app.persistence.user_repository import UserRepository
 from app.models.user import User
 import datetime

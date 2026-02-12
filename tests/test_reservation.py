@@ -1,4 +1,3 @@
-import pytest
 from app.models.reservation import Reservation
 from app.persistence.reservation_repository import ReservationRepository
 from app.models.theme import Theme

@@ -1,4 +1,3 @@
-import pytest
 from app.models.theme import Theme
 from app.persistence.theme_repository import ThemeRepository
 

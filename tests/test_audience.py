@@ -1,4 +1,3 @@
-import pytest
 from app.models.audience import Audience
 from app.persistence.audience_repository import AudienceRepository
 
