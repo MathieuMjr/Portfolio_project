@@ -28,7 +28,12 @@ def export():
     audT_repo = AudienceTypeRepository()
     user_repo = UserRepository()
 
-    values = []
+    values = [
+        {"key": "base_url",
+         "value": "http://127.0.0.1:5000/api",
+         "type": "default",
+         "enabled": True}
+         ]
 
     resT = [{"key": element.name,
              "value": element.id,
@@ -93,4 +98,4 @@ def run_seed():
 if __name__ == '__main__':
     run_seed()
 
-# pytho-m seed.seed_db dans mathieu@Mathieu:~/my_repos/Portfolio_project$
+# python -m seed.seed_db dans mathieu@Mathieu:~/my_repos/Portfolio_project$
