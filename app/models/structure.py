@@ -25,7 +25,6 @@ class Structure(BaseClass):
     phone: Mapped[str] = mapped_column(
         String,
         nullable=False,
-        unique=True
     )
     email: Mapped[str] = mapped_column(
         String,
@@ -50,10 +49,8 @@ class Structure(BaseClass):
     )
 
     reservations = relationship('Reservation',
-                                lazy='joined',
                                 back_populates='structure')
     structure_type = relationship('StructureType',
-                                  lazy='joined',
                                   back_populates='structures')
 
     def to_dict(self):
