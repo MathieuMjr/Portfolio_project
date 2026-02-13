@@ -20,8 +20,10 @@ class UserServices():
         # Check email uniqueness:
         check_user = self.user_repo.get_by_attribute(
             'email', valid_payload['email'])
-        if len(check_user) != 0:
-            raise LookupError('Email already registered')
+        if len(check_user) != 0 and check_user[0].is_active is False:
+            raise ValueError('Deactivated user exist with this email')
+        if len(check_user) != 0 and check_user[0].is_active is True:
+            raise ValueError('Email already registered')
 
         # Checking and building reservation_types object
         # to populate relationship:
@@ -35,7 +37,6 @@ class UserServices():
 
         # User creation:
         new_user = User(**valid_payload)
-        print('user obj created')
         new_user.hash_pwd(valid_payload['password'])
         self.user_repo.add(new_user)
 
