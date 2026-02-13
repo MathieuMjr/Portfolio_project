@@ -10,7 +10,7 @@ class Login(Resource):
     def post(self):
         data = api.payload
         user = user_service.user_repo.get_by_attribute('email', data['email'])
-        if len(user) == 0:
+        if len(user) == 0 or user[0].is_active is False:
             return {'error': 'Invalid credentials'}, 401
         else:
             res_types_ids = [
