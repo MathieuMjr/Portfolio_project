@@ -13,13 +13,13 @@ def test_structure_creation(app, structure_type_data):
     structureT_repo.add(st)
 
     data = {
-        'name': 'Ecole Saint-Joseph',
-        'phone': '0380403324',
-        'email': 'ecole@st-jo.fr',
-        'zip_code': '21000',
-        'address': '2 rue du coquelicot',
-        'town': 'Dijon',
-        'structure_type_id': st.id
+        "name": "Ecole Saint-Joseph",
+        "phone": "0380403324",
+        "email": "ecole@st-jo.fr",
+        "zip_code": "21000",
+        "address": "2 rue du coquelicot",
+        "town": "Dijon",
+        "structure_type_id": st.id
     }
     structure = Structure(**data)
     structure_repo.add(structure)
@@ -41,12 +41,12 @@ def test_bad_structure_creation(app, structure_type_data):
     structureT_repo.add(st)
 
     data = {
-        'name': 'Ecole Saint-Joseph',
-        'phone': '0380403324',
-        'email': 'ecole@st-jo.fr',
-        'zip_code': '21000',
-        'address': '2 rue du coquelicot',
-        'town': 'Dijon',
+        "name": "Ecole Saint-Joseph",
+        "phone": "0380403324",
+        "email": "ecole@st-jo.fr",
+        "zip_code": "21000",
+        "address": "2 rue du coquelicot",
+        "town": "Dijon",
     }
     structure = Structure(**data)
 
