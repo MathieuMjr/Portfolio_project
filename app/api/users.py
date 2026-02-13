@@ -27,3 +27,21 @@ class Users(Resource):
             return {'error': errors}, 400
         except LookupError as e:
             return {'error': str(e)}, 404
+        except ValueError as e:
+            return {'error': str(e)}, 400
+
+    def get(self):
+        pass
+
+
+@api.route('/<user_id>')
+class UserIds(Resource):
+    def get(self):
+        pass
+
+    def update(self):
+        pass
+
+    @jwt_required()
+    def delete(self):
+        pass
