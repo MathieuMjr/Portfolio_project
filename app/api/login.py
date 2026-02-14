@@ -19,7 +19,7 @@ class Login(Resource):
                 access_token = create_access_token(
                     identity=user[0].id,
                     additional_claims={
-                        'is_admin': user[0].role,
+                        'role': user[0].role,
                         'reservation_types': res_types_ids
                     }
                 )
