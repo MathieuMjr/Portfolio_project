@@ -98,29 +98,23 @@ class Reservation(BaseClass):
         nullable=False
     )
     author = relationship('User',
-                          lazy='joined',
                           back_populates='reservations')
 
     themes = relationship('Theme',
                           secondary=reservation_theme,
-                          lazy='subquery',
                           back_populates='reservations')
 
     audiences = relationship('Audience',
-                             lazy='subquery',
                              back_populates='reservation')
 
     reservation_type = relationship(
         'ReservationType',
-        lazy='joined',
         back_populates='reservations')
 
     status = relationship('Status',
-                          lazy='joined',
                           back_populates='reservations')
 
     structure = relationship('Structure',
-                             lazy='joined',
                              back_populates='reservations')
 
     def to_dict(self):
