@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
-from app.models.audience_type import AudienceType
-from app.models.reservation import Reservation
+# from app.models.audience_type import AudienceType
+# from app.models.reservation import Reservation
 
 
 class AudiencePayload(BaseModel):
@@ -10,7 +10,7 @@ class AudiencePayload(BaseModel):
     reservation_id: str = Field(min_length=1)
 
 
-class AudienceCreation(BaseModel):
-    count: int = Field(gt=0)
-    audience_type: AudienceType
-    reservation: Reservation
+# class AudienceCreation(BaseModel):
+#     count: int = Field(gt=0)
+#     audience_type: AudienceType
+#     reservation: Reservation
