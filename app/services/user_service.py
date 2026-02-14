@@ -3,6 +3,7 @@ from app.persistence.user_repository import UserRepository
 from app.persistence.reservation_type_repository import (
     ReservationTypeRepository)
 from app.validators.users import UserPayload
+from app.services.utils import check_id, check_unique
 
 
 class UserServices():
@@ -18,22 +19,16 @@ class UserServices():
         res_type_data = valid_payload.pop('reservation_types')
 
         # Check email uniqueness:
-        check_user = self.user_repo.get_by_attribute(
-            'email', valid_payload['email'])
-        if len(check_user) != 0 and check_user[0].is_active is False:
-            raise ValueError('Deactivated user exist with this email')
-        if len(check_user) != 0 and check_user[0].is_active is True:
-            raise ValueError('Email already registered')
+        check_unique(
+            'User', 'email', valid_payload['email'], self.user_repo)
 
         # Checking and building reservation_types object
         # to populate relationship:
         res_types = []
         for element in res_type_data:
-            resT_obj = self.res_type_repo.get_id(element)
-            if resT_obj is None or not resT_obj.is_active:
-                raise LookupError(f'Reservation_type: {element} not found')
-            else:
-                res_types.append(resT_obj)
+            resT_obj = check_id(
+                "Reservation_Type", element, self.res_type_repo)
+            res_types.append(resT_obj)
 
         # User creation:
         new_user = User(**valid_payload)
