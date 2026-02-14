@@ -2,6 +2,8 @@ from flask_restx import Resource, Namespace
 from flask_jwt_extended import (get_jwt, jwt_required)
 from app.services import user_service
 from pydantic import ValidationError
+from app.services.errors import (UniqueContraintError,
+                                 DeactivatedResourceError)
 
 api = Namespace('users', description='User operations')
 
@@ -12,7 +14,7 @@ class Users(Resource):
     def post(self):
         data = api.payload
         claims = get_jwt()
-        if not claims['is_admin']:
+        if not claims['role']:
             return {'error': 'Priviledge authorizations required'}, 403
         try:
             response = user_service.create_user(data)
@@ -25,10 +27,10 @@ class Users(Resource):
                     'value': element['input'],
                     'msg': element['msg']})
             return {'error': errors}, 400
-        except LookupError as e:
+        except (LookupError, DeactivatedResourceError) as e:
             return {'error': str(e)}, 404
-        except ValueError as e:
-            return {'error': str(e)}, 400
+        except UniqueContraintError as e:
+            return {'error': str(e)}, 409
 
     def get(self):
         pass
@@ -39,7 +41,7 @@ class UserIds(Resource):
     def get(self):
         pass
 
-    def update(self):
+    def put(self):
         pass
 
     @jwt_required()
