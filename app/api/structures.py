@@ -2,6 +2,8 @@ from flask_restx import Namespace, Resource
 from flask_jwt_extended import (jwt_required)
 from app.services import structure_service
 from pydantic import ValidationError
+from app.services.errors import (UniqueContraintError,
+                                 DeactivatedResourceError)
 
 api = Namespace('structures', description='Structures operations')
 
@@ -21,7 +23,7 @@ class Structures(Resource):
                     'value': element['input'],
                     'msg': element['msg']})
             return {'error': errors}, 400
-        except LookupError as e:
+        except (LookupError, DeactivatedResourceError) as e:
             return {'error': str(e)}, 404
-        except ValueError as e:
-            return {'error': str(e)}, 400
+        except UniqueContraintError as e:
+            return {'error': str(e)}, 409
