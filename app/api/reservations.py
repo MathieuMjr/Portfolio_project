@@ -7,6 +7,8 @@ from pydantic import ValidationError
 from app.services.errors import (UniqueContraintError,
                                  ThemeDontMatchResType,
                                  DeactivatedResourceError)
+from flask import request
+from datetime import datetime
 
 api = Namespace('reservations', description='Reservations operations')
 
@@ -45,5 +47,28 @@ class Reservations(Resource):
             return {'error': str(e)}, 409
         except ThemeDontMatchResType as e:
             return {'error': str(e)}, 400
+        except (LookupError, DeactivatedResourceError) as e:
+            return {'error': str(e)}, 404
+
+
+@api.route('/me/reservations')
+class UserReservations(Resource):
+    @jwt_required()
+    def get(self):
+        print('test')
+        identity = get_jwt_identity()
+        start = request.args.get('from')
+        end = request.args.get('to')
+        print(start)
+        print(end)
+
+        if not start or not end:
+            return {'error': "from date and to date are missing"}, 400
+
+        start_date = datetime.strptime(start, "%Y-%m-%d").date()
+        end_date = datetime.strptime(end, "%Y-%m-%d").date()
+        try:
+            return res_service.user_reservations(
+                identity, start_date, end_date)
         except (LookupError, DeactivatedResourceError) as e:
             return {'error': str(e)}, 404
