@@ -55,12 +55,9 @@ class Reservations(Resource):
 class UserReservations(Resource):
     @jwt_required()
     def get(self):
-        print('test')
         identity = get_jwt_identity()
         start = request.args.get('from')
         end = request.args.get('to')
-        print(start)
-        print(end)
 
         if not start or not end:
             return {'error': "from date and to date are missing"}, 400
