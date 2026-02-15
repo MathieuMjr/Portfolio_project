@@ -65,6 +65,9 @@ class UserReservations(Resource):
         if not start or not end:
             return {'error': "from date and to date are missing"}, 400
 
+        if start > end:
+            return {'error': "from value must be before to value"}, 400
+
         start_date = datetime.strptime(start, "%Y-%m-%d").date()
         end_date = datetime.strptime(end, "%Y-%m-%d").date()
         try:
