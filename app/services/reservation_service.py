@@ -85,16 +85,9 @@ class ReservationService:
 
         return new_res.to_dict()
 
-        # Check author - oui
-        # Check structure_id -oui
-        # Check reservation_type_id - oui
-        # Check status_id - oui
-        # Extract theme_id_list -oui
-        # Check theme_idis from theme_id_list :
-        #   s'ils sont du bon reservation type
-        #   + s'ils existent - oui
-        # Extract data sur l'Audience et audience type - oui
-        # Créer la réservation -oui
-        # Vérifier le payload des audiences - oui
-        # Vérifier les audiences type id existent - oui
-        # Creer les audiences liée à la reservation - oui
+    def user_reservations(self, user_id, start, end):
+        user = check_id('User', user_id, self.user_repo)
+
+        user_res = self.res_repo.user_res_beetween(user.id, start, end)
+        user_res_list = [res.to_dict() for res in user_res]
+        return user_res_list
