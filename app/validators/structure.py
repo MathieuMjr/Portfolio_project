@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 
 
 class StructurePaylaod(BaseModel):
@@ -9,3 +9,5 @@ class StructurePaylaod(BaseModel):
     address: str = Field(min_length=1)
     town: str = Field(min_length=1)
     structure_type_id: str = Field(min_length=1)
+
+    model_config = ConfigDict(extra='forbid')
