@@ -33,10 +33,12 @@ class UserServices():
         # User creation:
         new_user = User(**valid_payload)
         new_user.hash_pwd(valid_payload['password'])
-        self.user_repo.add(new_user)
 
         # Populate relationship
         new_user.reservation_types = res_types
+
+        # Add to db
+        self.user_repo.add(new_user)
 
         return new_user.to_dict()
 
@@ -51,7 +53,6 @@ class UserServices():
             self.user_repo.update(user, data)
 
     def delete(self, user_id):
-        print(user_id)
         user = self.user_repo.get_id(user_id)
         if not user:
             raise LookupError(f'User {user_id} does not exist')
