@@ -7,6 +7,8 @@ from pydantic import ValidationError
 from app.services.errors import (UniqueContraintError,
                                  ThemeDontMatchResType,
                                  DeactivatedResourceError)
+from app.persistence.user_repository import UserRepository
+from app.services.utils import check_id
 from flask import request
 from datetime import datetime
 
@@ -30,7 +32,11 @@ class Reservations(Resource):
             return {'error': 'Unauthorized action'}, 403
 
         # add identity to data
-        data['author_id'] = identity
+        if role is True and data['author_id']:
+            user_repo = UserRepository()
+            check_id('User', data['author_id'], user_repo)
+        else:
+            data['author_id'] = identity
 
         # create reservation
         try:
