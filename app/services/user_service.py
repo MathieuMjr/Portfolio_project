@@ -39,3 +39,20 @@ class UserServices():
         new_user.reservation_types = res_types
 
         return new_user.to_dict()
+
+    def get_by_id(self, user_id):
+        return self.user_repo.get_id(user_id).to_dict()
+
+    def put(self, user_id, data):
+        user = self.user_repo.get_id(user_id)
+        if data['email']:
+            check_unique('User', 'email', data['email'], self.user_repo)
+        if user:
+            self.user_repo.update(user, data)
+
+    def delete(self, user_id):
+        print(user_id)
+        user = self.user_repo.get_id(user_id)
+        if not user:
+            raise LookupError(f'User {user_id} does not exist')
+        self.user_repo.delete(user)
