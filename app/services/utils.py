@@ -36,6 +36,6 @@ def check_unique(obj_name, key, value, repo):
     obj = repo.get_by_attribute(key, value)
     if len(obj) != 0 and obj[0].is_active is True:
         raise UniqueContraintError(f'{obj_name} already exists')
-    if len(obj) != 0 and obj.is_active is False:
+    if len(obj) != 0 and obj[0].is_active is False:
         raise UniqueContraintError(
             f'Deactivated {obj_name} exist with this {key}')
