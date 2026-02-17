@@ -32,7 +32,7 @@ class Reservations(Resource):
             return {'error': 'Unauthorized action'}, 403
 
         # add identity to data
-        if role is True and data['author_id']:
+        if role is True and 'author_id' in data:
             user_repo = UserRepository()
             check_id('User', data['author_id'], user_repo)
         else:
@@ -77,4 +77,20 @@ class UserReservations(Resource):
             return res_service.user_reservations(
                 identity, start_date, end_date)
         except (LookupError, DeactivatedResourceError) as e:
+            return {'error': str(e)}, 404
+
+
+@api.route('/<reservation_id>')
+class ReservationId(Resource):
+    @jwt_required()
+    def get(self, reservation_id):
+        identity = get_jwt_identity()
+        claims = get_jwt()
+        role = claims['role']
+        try:
+            res = res_service.get_by_id(reservation_id)
+            if not role and identity != res.author_id:
+                return {'error': 'Unauthorized action'}, 403
+            return res.to_dict()
+        except LookupError as e:
             return {'error': str(e)}, 404
