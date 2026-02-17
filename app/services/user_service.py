@@ -45,7 +45,7 @@ class UserServices():
 
     def put(self, user_id, data):
         user = self.user_repo.get_id(user_id)
-        if data['email']:
+        if 'email' in data:
             check_unique('User', 'email', data['email'], self.user_repo)
         if user:
             self.user_repo.update(user, data)
