@@ -91,3 +91,6 @@ class ReservationService:
         user_res = self.res_repo.user_res_beetween(user.id, start, end)
         user_res_list = [res.to_dict() for res in user_res]
         return user_res_list
+
+    def get_by_id(self, reservation_id):
+        return check_id('Reservation', reservation_id, self.res_repo)
