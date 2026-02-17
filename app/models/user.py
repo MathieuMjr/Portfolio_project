@@ -74,6 +74,7 @@ class User(BaseClass):
             "role": self.role,
             "reservation_types": [
                 element.to_dict() for element in self.reservation_types],
+            "is_active": self.is_active
         }
 
     def verify_pwd(self, pwd):
