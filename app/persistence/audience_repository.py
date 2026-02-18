@@ -12,7 +12,7 @@ class AudienceRepository(Repository):
     def hard_delete(self, obj):
         """
         This method should be used only when updating
-        audiences from a reservation udpate to delete
+        audiences from a reservation udpate : to delete
         previous audiences before creating new ones.
 
         :param self:
