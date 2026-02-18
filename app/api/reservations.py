@@ -6,7 +6,8 @@ from flask_jwt_extended import (jwt_required,
 from pydantic import ValidationError
 from app.services.errors import (UniqueContraintError,
                                  ThemeDontMatchResType,
-                                 DeactivatedResourceError)
+                                 DeactivatedResourceError,
+                                 UnauthorizedAction)
 from app.persistence.user_repository import UserRepository
 from app.services.utils import check_id
 from flask import request
@@ -94,3 +95,20 @@ class ReservationId(Resource):
             return res.to_dict()
         except LookupError as e:
             return {'error': str(e)}, 404
+
+    @jwt_required()
+    def put(self, reservation_id):
+        data = api.payload
+        print("payload received")
+        identity = get_jwt_identity()
+        claims = get_jwt()
+        role = claims['role']
+
+        try:
+            print("start update")
+            res_service.update(reservation_id, data, identity, role)
+            return {'message': "Reservation successfully updated"}, 200
+        except LookupError as e:
+            return {'error': str(e)}, 404
+        except UnauthorizedAction as e:
+            return {'error': str(e)}, 403
