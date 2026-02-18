@@ -22,7 +22,6 @@ def create_app(config_class=DevelopmentConfig):
     jwt.init_app(app)
     bcrypt.init_app(app)
 
-    # namespaces à ajouter ici
     api.add_namespace(users_ns, path='/api/users')
     api.add_namespace(login_ns, path='/api/login')
     api.add_namespace(structures_ns, path='/api/structures')
