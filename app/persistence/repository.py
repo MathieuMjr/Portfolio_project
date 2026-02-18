@@ -6,17 +6,26 @@ class Repository:
         self.model = model
 
     def get_id(self, id):
+        """
+        Retrieve an entity with its ID.
+        Becarefull, object "is_active": False are retrieved too.
+
+        :param id: Entity id
+        """
         return db.session.get(self.model, id)
-        # Le service fera 404 si is_active:false
 
     def get_all(self, include_inactive=False):
+        """
+        Retrieve all active entities of a repository.
+        Include_inactive specify to add or not entities with "is_active": False
+
+        :param include_inactive: True if "is_active": False are wanted
+        """
         if not include_inactive:
             return db.session.scalars(
                 db.select(self.model).filter_by(
                     is_active=True)).all()
         return db.session.scalars(db.select(self.model)).all()
-        # prend un paramètre pour savoir si doit afficher les
-        # is_active False
 
     def add(self, obj):
         db.session.add(obj)
@@ -26,8 +35,6 @@ class Repository:
         for key, value in data.items():
             if hasattr(obj, key):
                 setattr(obj, key, value)
-        # if 'password' in data:
-            # hashing
         db.session.commit()
         # doit recevoir un objet et pas un id
         # le service peut ainsi get_id, vérifier is_active
@@ -35,6 +42,11 @@ class Repository:
         # appelle update
 
     def delete(self, obj):
+        """
+        Method to soft delete an entity.
+
+        :param obj: Entity to soft delete
+        """
         return self.update(obj, {"is_active": False})
 
     def get_by_attribute(self, attribute_name, attribute_value):
@@ -47,6 +59,11 @@ class Repository:
         ).all()
 
     def get_all_deleted(self):
+        """
+        Retrieve only entities with field
+        "is_active": False
+
+        """
         return db.session.scalars(
             db.select(self.model).filter_by(
                 is_active=False)).all()
