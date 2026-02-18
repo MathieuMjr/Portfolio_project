@@ -49,6 +49,9 @@ class UserServices():
         user = self.user_repo.get_id(user_id)
         if 'email' in data:
             check_unique('User', 'email', data['email'], self.user_repo)
+        if 'password' in data:
+            user.hash_pwd(data['password'])
+            data.pop('password')
         if user:
             self.user_repo.update(user, data)
 
