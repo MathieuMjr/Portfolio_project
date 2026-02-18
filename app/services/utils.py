@@ -4,14 +4,12 @@ from app.services.errors import (UniqueContraintError,
 
 def check_id(obj_name, id, repo):
     """
-    Docstring pour check_id
-
-    :param obj_name: Is the name of the object id checked
-    :param id: Is the id of the object
-    :param repo: Is an instance of the object repository
-
-    This function check if the id refer to an existing object
+    Checks if the id refer to an existing object
     in database.
+
+    :param obj_name: Name of the object to return it in error msg
+    :param id: Id of the object
+    :param repo: Instance of the object repository
     """
     obj = repo.get_id(id)
     if not obj:
@@ -26,7 +24,9 @@ def check_id(obj_name, id, repo):
 
 def check_unique(obj_name, key, value, repo):
     """
-    Docstring pour check_unique
+    Checks a unique constrainted field by looking for
+    another entity already existing with this value for this
+    unique constrainted field.
 
     :param obj_name: The entity name
     :param key: The key/attribute name of the entity
