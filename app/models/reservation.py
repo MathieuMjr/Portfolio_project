@@ -120,6 +120,7 @@ class Reservation(BaseClass):
     def to_dict(self):
         return {
             "id": self.id,
+            "author": self.author.to_dict(),
             "status": self.status.to_dict(),
             "structure": self.structure.to_dict(),
             "reservation_date": self.reservation_date.isoformat(),
