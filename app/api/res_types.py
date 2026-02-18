@@ -13,14 +13,17 @@ api = Namespace(
 @api.route('/')
 class ResTypes(Resource):
     @jwt_required()
+    @api.response(200, 'OK')
     def get(self):
         resType_repo = ReservationTypeRepository()
-        return [element.to_dict() for element in resType_repo.get_all()]
+        return [element.to_dict() for element in resType_repo.get_all()], 200
 
 
 @api.route('/<reservation_type_id>/themes')
 class Themes(Resource):
     @jwt_required()
+    @api.response(200, 'OK')
+    @api.response(404, 'Resource not found')
     def get(self, reservation_type_id):
         resT_repo = ReservationTypeRepository()
         theme_repo = ThemeRepository()
@@ -28,6 +31,6 @@ class Themes(Resource):
             check_id('Reservation type', reservation_type_id, resT_repo)
             return [
                 element.to_dict() for element in theme_repo.get_by_attribute(
-                    'reservation_type_id', reservation_type_id)]
+                    'reservation_type_id', reservation_type_id)], 200
         except (LookupError, DeactivatedResourceError) as e:
             return {'error': str(e)}, 404

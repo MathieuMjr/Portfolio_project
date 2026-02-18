@@ -19,6 +19,11 @@ api = Namespace('reservations', description='Reservations operations')
 @api.route('/')
 class Reservations(Resource):
     @jwt_required()
+    @api.response(201, 'Created')
+    @api.response(400, 'Invalid input')
+    @api.response(403, 'Priviledge required')
+    @api.response(404, 'Resource not found or deactivated')
+    @api.response(409, 'Unique constraint violation')
     def post(self):
         # fetch data
         data = api.payload
@@ -41,7 +46,7 @@ class Reservations(Resource):
 
         # create reservation
         try:
-            return res_service.create_reservation(data)
+            return res_service.create_reservation(data), 201
         except ValidationError as e:
             errors = []
             for element in e.errors():
@@ -61,6 +66,9 @@ class Reservations(Resource):
 @api.route('/me/reservations')
 class UserReservations(Resource):
     @jwt_required()
+    @api.response(200, 'OK')
+    @api.response(400, 'Invalid input')
+    @api.response(404, 'Resource not found')
     def get(self):
         identity = get_jwt_identity()
         start = request.args.get('from')
@@ -76,7 +84,7 @@ class UserReservations(Resource):
         end_date = datetime.strptime(end, "%Y-%m-%d").date()
         try:
             return res_service.user_reservations(
-                identity, start_date, end_date)
+                identity, start_date, end_date), 200
         except (LookupError, DeactivatedResourceError) as e:
             return {'error': str(e)}, 404
 
@@ -84,6 +92,9 @@ class UserReservations(Resource):
 @api.route('/<reservation_id>')
 class ReservationId(Resource):
     @jwt_required()
+    @api.response(200, 'OK')
+    @api.response(403, 'Priviledge required')
+    @api.response(404, 'Resource not found')
     def get(self, reservation_id):
         identity = get_jwt_identity()
         claims = get_jwt()
@@ -92,22 +103,32 @@ class ReservationId(Resource):
             res = res_service.get_by_id(reservation_id)
             if not role and identity != res.author_id:
                 return {'error': 'Unauthorized action'}, 403
-            return res.to_dict()
+            return res.to_dict(), 200
         except LookupError as e:
             return {'error': str(e)}, 404
 
     @jwt_required()
+    @api.response(200, 'OK')
+    @api.response(400, 'Invalid input')
+    @api.response(403, 'Priviledge required')
+    @api.response(404, 'Resource not found')
     def put(self, reservation_id):
         data = api.payload
-        print("payload received")
         identity = get_jwt_identity()
         claims = get_jwt()
         role = claims['role']
 
         try:
-            print("start update")
             res_service.update(reservation_id, data, identity, role)
             return {'message': "Reservation successfully updated"}, 200
+        except ValidationError as e:
+            errors = []
+            for element in e.errors():
+                errors.append({
+                    'field': element['loc'][0],
+                    'value': element['input'],
+                    'msg': element['msg']})
+            return {'error': errors}, 400
         except LookupError as e:
             return {'error': str(e)}, 404
         except UnauthorizedAction as e:

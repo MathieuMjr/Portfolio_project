@@ -8,6 +8,7 @@ api = Namespace('struct_types', description='Structure types operations')
 @api.route('/')
 class StructTypes(Resource):
     @jwt_required()
+    @api.response(200, 'OK')
     def get(self):
         strucT_repo = StructureTypeRepository()
-        return [element.to_dict() for element in strucT_repo.get_all()]
+        return [element.to_dict() for element in strucT_repo.get_all()], 200
