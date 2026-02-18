@@ -99,10 +99,11 @@ class ReservationService:
 
         return new_res.to_dict()
 
+    # --- GET USER'S RESERVATION IN A DATE INTERVAL --------------
     def user_reservations(self, user_id, start, end):
         """
         Retrieves reservations made by a user in a specific
-        date interval.
+        date interval (for pagination).
 
         :param self: Allow access to object repositories instances
         :param user_id: Id of a user
@@ -115,12 +116,15 @@ class ReservationService:
         user_res_list = [res.to_dict() for res in user_res]
         return user_res_list
 
+    # --- GET BY ID METHOD --------------------------------------
     def get_by_id(self, reservation_id):
         return check_id('Reservation', reservation_id, self.res_repo)
 
+    # --- UPDATE METHOD -----------------------------------------
     def update(self, reservation_id, data, identity, role):
         existing_res = check_id('Reservation', reservation_id, self.res_repo)
 
+        # Check if admin or author
         if not role and identity != existing_res.author_id:
             raise UnauthorizedAction('Unauthorized action')
 
@@ -128,14 +132,12 @@ class ReservationService:
         data_audiences = data.pop('audiences')
 
         # Validate payload
-        print("before pydantic")
         valid_payload = ReservationPayload(**data).model_dump()
-        print("after pydantic")
+
         # Remove field that cannot be updated
         valid_payload.pop('author_id')
         valid_payload.pop('structure_id')
         valid_payload.pop('reservation_type_id')
-        print("after pop author")
 
         # Variable for ids
         status_id = valid_payload['status_id']
@@ -148,8 +150,7 @@ class ReservationService:
 
         # Check themes + build list of theme object for MtM relationship
         res_type = existing_res.reservation_type
-        if not res_type:
-            raise LookupError('debug res_type relationship')
+
         themes_obj = []
         for element in theme_ids:
             theme = check_id('Theme', element, self.theme_repo)
@@ -158,11 +159,10 @@ class ReservationService:
                     f'{theme.name} is not of {res_type.name} reservation type')
             themes_obj.append(theme)
 
-        # Check audiences
+        # Retrieve existing reservation audiences
         existing_audiences = existing_res.audiences
-        if len(existing_audiences) == 0:
-            raise LookupError('Debug existing_audience')
 
+        # Validate new audiences in payload
         checked_audiences = []
         for audience in data_audiences:
             audience['reservation_id'] = existing_res.id
@@ -172,15 +172,17 @@ class ReservationService:
                 'Audience type', audience_type_id, self.audienceT_repo)
             checked_audiences.append(valid_audience)
 
+        # Hard delete existing audiences
         for audience in existing_audiences:
             self.audience_repo.hard_delete(audience)
 
+        # Create the new audiences from validated payload
         for audience in checked_audiences:
             new_audience = Audience(**audience)
             self.audience_repo.add(new_audience)
 
+        # Define new themes
         existing_res.themes = themes_obj
-        # on doit commit ça ? comment ?
 
         # Update in db
         self.res_repo.update(existing_res, valid_payload)
