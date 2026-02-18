@@ -1,4 +1,4 @@
-from .repository import Repository
+from .repository import Repository, db
 from app.models.audience import Audience
 
 
@@ -8,3 +8,7 @@ class AudienceRepository(Repository):
     # l'ORM a besoin d'un modèle objet pour fonctionner
     # c'est ce qu'on a mis dans l'init de Repository
     # Ici, on précise que le modèle sera User
+
+    def hard_delete(self, obj):
+        db.session.delete(obj)
+        db.session.commit()
