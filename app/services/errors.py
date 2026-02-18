@@ -8,3 +8,7 @@ class ThemeDontMatchResType(Exception):
 
 class DeactivatedResourceError(Exception):
     pass
+
+
+class UnauthorizedAction(Exception):
+    pass
