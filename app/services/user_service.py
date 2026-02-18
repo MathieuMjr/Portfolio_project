@@ -2,7 +2,7 @@ from app.models.user import User
 from app.persistence.user_repository import UserRepository
 from app.persistence.reservation_type_repository import (
     ReservationTypeRepository)
-from app.validators.users import UserPayload
+from app.validators.users import UserPayload, UserUpdate
 from app.services.utils import check_id, check_unique
 
 
@@ -43,17 +43,27 @@ class UserServices():
         return new_user.to_dict()
 
     def get_by_id(self, user_id):
-        return self.user_repo.get_id(user_id).to_dict()
+        user = self.user_repo.get_id(user_id)
+        if not user:
+            raise LookupError(f'User {user_id} not found')
+        return user.to_dict()
 
     def put(self, user_id, data):
+
+        valid_data = UserUpdate(**data).model_dump(exclude_unset=True)
+
         user = self.user_repo.get_id(user_id)
-        if 'email' in data:
-            check_unique('User', 'email', data['email'], self.user_repo)
-        if 'password' in data:
-            user.hash_pwd(data['password'])
-            data.pop('password')
+        if not user:
+            raise LookupError(f'User {user_id} not found')
+
+        if 'email' in valid_data:
+            check_unique('User', 'email', valid_data['email'], self.user_repo)
+
+        if 'password' in valid_data:
+            user.hash_pwd(valid_data['password'])
+            valid_data.pop('password')
         if user:
-            self.user_repo.update(user, data)
+            self.user_repo.update(user, valid_data)
 
     def delete(self, user_id):
         user = self.user_repo.get_id(user_id)

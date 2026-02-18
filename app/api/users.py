@@ -11,6 +11,10 @@ api = Namespace('users', description='User operations')
 @api.route('/')
 class Users(Resource):
     @jwt_required()
+    @api.response(201, 'Created')
+    @api.response(400, 'Invalid input')
+    @api.response(404, 'Resource not found')
+    @api.response(409, 'Unique constraint violation')
     def post(self):
         data = api.payload
         claims = get_jwt()
@@ -39,15 +43,25 @@ class Users(Resource):
 @api.route('/<user_id>')
 class UserIds(Resource):
     @jwt_required()
+    @api.response(200, 'OK')
+    @api.response(403, 'Priviledge required')
+    @api.response(404, 'Resource not found')
     def get(self, user_id):
         identity = get_jwt_identity()
         claims = get_jwt()
         role = claims['role']
         if not role and identity != user_id:
             return {'error': 'Unauthorized action'}, 403
-        return user_service.get_by_id(user_id), 200
+        try:
+            return user_service.get_by_id(user_id), 200
+        except LookupError as e:
+            return {'error': str(e)}, 404
 
     @jwt_required()
+    @api.response(200, 'OK')
+    @api.response(403, 'Priviledge required')
+    @api.response(404, 'Resource not found')
+    @api.response(409, 'Unique constrainte violation')
     def put(self, user_id):
         data = api.payload
         claims = get_jwt()
@@ -57,10 +71,23 @@ class UserIds(Resource):
         try:
             user_service.put(user_id, data)
             return {'message': 'User successfully udpated'}, 200
+        except ValidationError as e:
+            errors = []
+            for element in e.errors():
+                errors.append({
+                    'field': element['loc'][0],
+                    'value': element['input'],
+                    'msg': element['msg']})
+            return {'error': errors}, 400
         except UniqueContraintError as e:
             return {'error': str(e)}, 409
+        except LookupError as e:
+            return {'error': str(e)}, 404
 
     @jwt_required()
+    @api.response(200, 'OK')
+    @api.response(403, 'Priviledge required')
+    @api.response(404, 'Resource not found')
     def delete(self, user_id):
         claims = get_jwt()
         role = claims['role']
@@ -68,6 +95,6 @@ class UserIds(Resource):
             return {'error': 'Unauthorized action'}, 403
         try:
             user_service.delete(user_id)
-            return {'message': 'User successfully deactivated'}
+            return {'message': 'User successfully deactivated'}, 200
         except LookupError as e:
             return {'error': str(e)}, 404
