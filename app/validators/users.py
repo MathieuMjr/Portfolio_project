@@ -6,21 +6,30 @@ class UserPayload(BaseModel):
     firstname: str = Field(min_length=1)
     lastname: str = Field(min_length=1)
     email: EmailStr
-    password: str = Field(min_length=1)
+    password: str = Field(min_length=5)
     role: bool
     reservation_types: list[str] = Field(min_length=1)
 
     model_config = ConfigDict(extra='forbid')
 
 
-class UserUpdate(BaseModel):
-    email: Optional[EmailStr] = None
+class SelfUpdate(BaseModel):
+    password: str = Field(min_length=5)
+
+    model_config = ConfigDict(extra='forbid')
+
+
+class UpdateUserAsAdmin(BaseModel):
     password: Optional[str] = None
+    role: Optional[bool] = None
+    is_active: Optional[bool] = None
     reservation_types: Optional[list[str]] = None
+
+    model_config = ConfigDict(extra="forbid")
 
     @field_validator("password")
     def password_min_len(cls, value):
-        if value is not None and len(value) < 5:
+        if value is not None and len(value) < 4:
             raise ValueError("Password too short")
         return value
 
