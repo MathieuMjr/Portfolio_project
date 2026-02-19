@@ -40,6 +40,27 @@ class Users(Resource):
         pass
 
 
+@api.route('/me')
+class UserUpdate(Resource):
+    @jwt_required()
+    def put(self):
+        data = api.payload
+        identity = get_jwt_identity()
+        try:
+            user_service.self_update(identity, data)
+            return {'message': 'Password updated successfully'}
+        except ValidationError as e:
+            errors = []
+            for element in e.errors():
+                errors.append({
+                    'field': element['loc'][0],
+                    'value': element['input'],
+                    'msg': element['msg']})
+            return {'error': errors}, 400
+        except (LookupError, DeactivatedResourceError) as e:
+            return {'error': str(e)}, 404
+
+
 @api.route('/<user_id>')
 class UserIds(Resource):
     @jwt_required()
@@ -62,14 +83,14 @@ class UserIds(Resource):
     @api.response(403, 'Priviledge required')
     @api.response(404, 'Resource not found')
     @api.response(409, 'Unique constrainte violation')
-    def put(self, user_id):
+    def patch(self, user_id):
         data = api.payload
         claims = get_jwt()
         role = claims['role']
         if not role:
             return {'error': 'Unauthorized action'}, 403
         try:
-            user_service.put(user_id, data)
+            user_service.patch(user_id, data)
             return {'message': 'User successfully udpated'}, 200
         except ValidationError as e:
             errors = []
@@ -81,7 +102,7 @@ class UserIds(Resource):
             return {'error': errors}, 400
         except UniqueContraintError as e:
             return {'error': str(e)}, 409
-        except LookupError as e:
+        except (LookupError, DeactivatedResourceError) as e:
             return {'error': str(e)}, 404
 
     @jwt_required()
