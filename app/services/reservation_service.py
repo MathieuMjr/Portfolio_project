@@ -135,6 +135,7 @@ class ReservationService:
         valid_payload = ReservationPayload(**data).model_dump()
 
         # Remove field that cannot be updated
+        # /!\ success will be return but field not modified
         valid_payload.pop('author_id')
         valid_payload.pop('structure_id')
         valid_payload.pop('reservation_type_id')
