@@ -53,6 +53,3 @@ def create_reservation_types_and_themes():
                     element['reservation_type_id'] = new_rs.id
                     theme = Theme(**element)
                     theme_repo.add(theme)
-    if len(res_types_ids) != 0:
-        check = resT_repo.get_id(res_types_ids[-1])
-        resT_repo.delete(check)
