@@ -1,0 +1,1230 @@
+{
+  "info": {
+    "_postman_id": "16a49141-7f68-4618-8f92-0d987815543d",
+    "name": "Ko.tools",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49619338",
+    "_collection_link": "https://go.postman.co/collection/49619338-16a49141-7f68-4618-8f92-0d987815543d?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "item": [
+        {
+          "name": "Login Default Admin ✅",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();\r",
+                  "pm.environment.set(\"admin_token\", response.access_token);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"admin@kotools.fr\",\r\n    \"password\": \"12345\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/login/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "login",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login Default Admin ❌",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Invalid credentials\", function () {\r",
+                  "    pm.response.to.have.status(401);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"admin@kotools.fr\",\r\n    \"password\": \"tutu\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/login/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "login",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Loggin Mathieu",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();\r",
+                  "pm.environment.set(\"mathieu_token\", response.access_token);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"mathieu@trolol.fr\",\r\n    \"password\": \"123mdp!\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "POST User ✅",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();\r",
+                  "pm.environment.set(\"mathieu_id\", response.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstname\": \"Mathieu\",\r\n    \"lastname\": \"Mjr\",\r\n    \"email\": \"mathieu@trolol.fr\",\r\n    \"password\": \"123mdp!\",\r\n    \"role\": false,\r\n    \"reservation_types\": [\"{{Animation}}\"]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST User ❌",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstname\": \"Mathieu\",\r\n    \"lastname\": \"Mjr\",\r\n    \"email\": \"tdfsdfookotool.fr\",\r\n    \"password\": \"123mdp!\",\r\n    \"role\": false,\r\n    \"reservation_types\": [\"{{Animation}}\"],\r\n    \"false_field\": \"false value\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET user as admin",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstname\": \"Mathieu\",\r\n    \"lastname\": \"Mjr\",\r\n    \"email\": \"tdfsdfoo@kotool.fr\",\r\n    \"password\": \"123mdp!\",\r\n    \"role\": false,\r\n    \"reservation_types\": [\"{{Location d'expo volumes}}\"]\r\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/{{mathieu_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "{{mathieu_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET user as user",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mathieu_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/{{mathieu_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "{{mathieu_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET ❌ user as user to another user",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mathieu_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{base_url}}/users/{{Admin}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "{{Admin}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT via /me",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mathieu_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"password\": \"coucou\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT ❌ via /me with wrong field",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mathieu_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstname\": \"Mathieu\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE ✅ user as admin",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{base_url}}/users/{{mathieu_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "{{mathieu_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE ❌ user as user",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mathieu_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{base_url}}/users/{{mathieu_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "{{mathieu_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PATCH user as admin",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"role\": false,\r\n    \"is_active\": false,\r\n    \"password\": \"coucou\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/{{mathieu_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "{{mathieu_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Structures",
+      "item": [
+        {
+          "name": "POST Structure ✅",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();\r",
+                  "pm.environment.set(\"Ecole St Jo\", response.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Ecole Saint-Jo\",\r\n    \"phone\": \"0380403324\",\r\n    \"email\": \"ecole@st-jo.fr\",\r\n    \"zip_code\": \"21000\",\r\n    \"address\": \"2 rue du coquelicot\",\r\n    \"town\": \"Dijon\",\r\n    \"structure_type_id\": \"{{Ecole primaire}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/structures/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "structures",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Structure ❌",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Ecole Sait-Joseph\",\r\n    \"phone\": \"0380432400\",\r\n    \"email\": \"ecole@st-jo.fr\",\r\n    \"zip_code\": \"21000\",\r\n    \"address\": \"2 rue du coquelicot\",\r\n    \"town\": \"Dijon\",\r\n    \"structure_type_id\": \"fake_id\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/structures/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "structures",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reservations",
+      "item": [
+        {
+          "name": "POST Reservation as admin ✅",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();\r",
+                  "pm.environment.set(\"reservation_1\", response.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"structure_id\": \"{{Ecole St Jo}}\",\r\n    \"reservation_type_id\": \"{{Animation}}\",\r\n    \"reservation_date\": \"2027-02-10\",\r\n    \"hour\": \"10:00\",\r\n    \"contact_firstname\": \"Martin\",\r\n    \"contact_lastname\": \"Matin\",\r\n    \"contact_phone\": \"0678541717\",\r\n    \"contact_email\": \"martin.matin@trodrole.com\",\r\n    \"contact_role\": \"Prof d'histoire\",\r\n    \"price\": 200,\r\n    \"status_id\": \"{{En attente d'informations}}\",\r\n    \"themes_id_list\": [\"{{Retour vers la Préhistoire}}\", \"{{Fée éléctricité}}\"],\r\n    \"audiences\": [{\r\n        \"count\": 25,\r\n        \"audience_type_id\": \"{{CE2}}\"\r\n    }, {\r\n        \"count\": 15,\r\n        \"audience_type_id\": \"{{CE1}}\"\r\n    }]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/reservations/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reservations",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Reservation as Mathieu ✅",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();\r",
+                  "pm.environment.set(\"reservation_2\", response.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mathieu_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"structure_id\": \"{{Ecole St Jo}}\",\r\n    \"reservation_type_id\": \"{{Animation}}\",\r\n    \"reservation_date\": \"2027-02-10\",\r\n    \"hour\": \"10:00\",\r\n    \"contact_firstname\": \"Martin\",\r\n    \"contact_lastname\": \"Matin\",\r\n    \"contact_phone\": \"0678541717\",\r\n    \"contact_email\": \"martin.matin@trodrole.com\",\r\n    \"contact_role\": \"Prof d'histoire\",\r\n    \"price\": 200,\r\n    \"status_id\": \"{{En attente d'informations}}\",\r\n    \"themes_id_list\": [\"{{Retour vers la Préhistoire}}\", \"{{Fée éléctricité}}\"],\r\n    \"audiences\": [{\r\n        \"count\": 25,\r\n        \"audience_type_id\": \"{{CE2}}\"\r\n    }, {\r\n        \"count\": 15,\r\n        \"audience_type_id\": \"{{CE1}}\"\r\n    }]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/reservations/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reservations",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST ❌ Reservation as mathieu in an not allowed res type",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mathieu_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"structure_id\": \"{{Ecole St Jo}}\",\r\n    \"reservation_type_id\": \"{{Visite d'exposition}}\",\r\n    \"reservation_date\": \"2027-02-10\",\r\n    \"hour\": \"10:00\",\r\n    \"contact_firstname\": \"Martin\",\r\n    \"contact_lastname\": \"Matin\",\r\n    \"contact_phone\": \"0678541700\",\r\n    \"contact_email\": \"martin.matin@trodrole.com\",\r\n    \"contact_role\": \"Prof d'histoire\",\r\n    \"price\": 200,\r\n    \"status_id\": \"{{En attente d'informations}}\",\r\n    \"themes_id_list\": [\"{{Retour vers la Préhistoire}}\", \"{{Fée éléctricité}}\"],\r\n    \"audiences\": [{\r\n        \"count\": \"mdr\",\r\n        \"audience_type_id\": \"{{CE2}}\"\r\n    }, {\r\n        \"count\": 15,\r\n        \"audience_type_id\": \"{{CE1}}\"\r\n    }]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/reservations/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reservations",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET ✅ user's reservation for a specific month",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/reservations/me/reservations?from=2027-02-01&to=2027-02-28",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reservations",
+                "me",
+                "reservations"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "2027-02-01"
+                },
+                {
+                  "key": "to",
+                  "value": "2027-02-28"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET ❌ user's reservation for a specific month Copy",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/reservations/me/reservations?from=2027-02-01&to=2027-01-28",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reservations",
+                "me",
+                "reservations"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "2027-02-01"
+                },
+                {
+                  "key": "to",
+                  "value": "2027-01-28"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET ✅ reservation by id as admin",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/reservations/{{reservation_1}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reservations",
+                "{{reservation_1}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET ✅ reservation by id as owner",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mathieu_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/reservations/{{reservation_2}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reservations",
+                "{{reservation_2}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET ❌ reservation by id as not owner",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mathieu_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/reservations/{{reservation_1}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reservations",
+                "{{reservation_1}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT ✅  reservation as author",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mathieu_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"author_id\": \"{{mathieu_id}}\",\r\n    \"structure_id\": \"{{Ecole St Jo}}\",\r\n    \"reservation_type_id\": \"{{Animation}}\",\r\n    \"reservation_date\": \"2027-02-10\",\r\n    \"hour\": \"10:00\",\r\n    \"contact_firstname\": \"Martine\",\r\n    \"contact_lastname\": \"Matin\",\r\n    \"contact_phone\": \"0678541717\",\r\n    \"contact_email\": \"martin.matin@trodrole.com\",\r\n    \"contact_role\": \"Prof d'histoire\",\r\n    \"price\": 200,\r\n    \"status_id\": \"{{Reservée}}\",\r\n    \"themes_id_list\": [\"{{Les métamorphoses du lait}}\"],\r\n    \"audiences\": [{\r\n        \"count\": 20,\r\n        \"audience_type_id\": \"{{CP}}\"\r\n    }, {\r\n        \"count\": 12,\r\n        \"audience_type_id\": \"{{CM1}}\"\r\n    }]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/reservations/{{reservation_2}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reservations",
+                "{{reservation_2}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT ✅ reservation as admin",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"author_id\": \"{{mathieu_id}}\",\r\n    \"structure_id\": \"{{Ecole St Jo}}\",\r\n    \"reservation_type_id\": \"{{Animation}}\",\r\n    \"reservation_date\": \"2027-02-10\",\r\n    \"hour\": \"10:00\",\r\n    \"contact_firstname\": \"Martine\",\r\n    \"contact_lastname\": \"Matin\",\r\n    \"contact_phone\": \"0678541717\",\r\n    \"contact_email\": \"martin.matin@trodrole.com\",\r\n    \"contact_role\": \"Prof d'histoire\",\r\n    \"price\": 200,\r\n    \"status_id\": \"{{Reservée}}\",\r\n    \"themes_id_list\": [\"{{Les métamorphoses du lait}}\"],\r\n    \"audiences\": [{\r\n        \"count\": 20,\r\n        \"audience_type_id\": \"{{CP}}\"\r\n    }, {\r\n        \"count\": 8000,\r\n        \"audience_type_id\": \"{{CM1}}\"\r\n    }]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/reservations/{{reservation_2}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reservations",
+                "{{reservation_2}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT ❌ reservation as not owner",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mathieu_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"author_id\": \"{{mathieu_id}}\",\r\n    \"structure_id\": \"{{Ecole St Jo}}\",\r\n    \"reservation_type_id\": \"{{Animation}}\",\r\n    \"reservation_date\": \"2027-02-10\",\r\n    \"hour\": \"10:00\",\r\n    \"contact_firstname\": \"Martine\",\r\n    \"contact_lastname\": \"Matin\",\r\n    \"contact_phone\": \"0678541717\",\r\n    \"contact_email\": \"martin.matin@trodrole.com\",\r\n    \"contact_role\": \"Prof d'histoire\",\r\n    \"price\": 200,\r\n    \"status_id\": \"{{Reservée}}\",\r\n    \"themes_id_list\": [\"{{Les métamorphoses du lait}}\"],\r\n    \"audiences\": [{\r\n        \"count\": 20,\r\n        \"audience_type_id\": \"{{CP}}\"\r\n    }, {\r\n        \"count\": 12,\r\n        \"audience_type_id\": \"{{CM1}}\"\r\n    }]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/reservations/{{reservation_1}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reservations",
+                "{{reservation_1}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Structure types",
+      "item": [
+        {
+          "name": "GET Structure types ✅",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/struct_types",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "struct_types"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Statuses",
+      "item": [
+        {
+          "name": "GET Statuses ✅",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/statuses/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "statuses",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reservation types",
+      "item": [
+        {
+          "name": "GET Reservation types ✅",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/res_types/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "res_types",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET ✅  Reservation type's themes Copy",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/res_types/{{Animation}}/themes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "res_types",
+                "{{Animation}}",
+                "themes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET ❌ Deactivated reservation type's themes",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/res_types/{{Location d'expo volumes}}/themes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "res_types",
+                "{{Location d'expo volumes}}",
+                "themes"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Audience type",
+      "item": [
+        {
+          "name": "GET Audience types ✅",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/audience_types/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "audience_types",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
