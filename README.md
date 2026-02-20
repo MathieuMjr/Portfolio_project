@@ -2,32 +2,16 @@
 
 This project is part the first-year "Fundamentals" curriculum at Holberton School.
 
-We were asked to imagine, design and develop a web application of our choice in three months.
+The goal is to imagine, design and develop a web application of our choice in three months.
 
-This README describes **the different stages of my work** on this portfolio project, from `technical documentation` to code.
-## REPORTING:
-This project is currently in the technical documentation stage.<br>It provide an overview with of the project with :
-- Users stories
-- Mockups
-- Architecture design and technology stack
-- Entities relantionship diagram
-- Classes diagram
-- Sequences diagrams
-- API Documentation
-- SCM and QA strategy plan
-
-**Few things might need refinement later** :
-- Dynamic mock ups could be done instead of static ones
-- API : somes routes might need to be refactored as some resources are more sub-resources
-- API : use PATCH method for soft delete instead of DELETE method
-- Diagrams : create better diagram, more readable
-
+This README describes the final documentation of my project.
 
 ## INTRODUCTION :
 ### Purpose of the application:
 This application offers an open-source solution for cultural organisations to manage their reservations.
+The solutions proposed by my web app are strongly linked to my previous experience as employee of scientific culture association.
 ### Problem statement:
-Cultural organisations such as local museums and associations need sometimes some open-source or free-to-use solutions for economic reasons : they use several tools to manage their reservations, analyze their audiences, generate invoices...
+Cultural organisations such as local museums and associations need sometimes some open-source or free-to-use solutions for economic reasons : they use several tools to manage their reservations, analyze their audiences, generate invoices and agreements...
 
 This application aims to bring together three main features : 
 - reservation scheduling, 
@@ -37,11 +21,11 @@ This application aims to bring together three main features :
 ## TECHNICAL DOCUMENTATION
 ### USERS STORIES
 <details> <summary>Show users stories</summary>
-This section presents users stories so that we can imagine the app and define requirements from a user perspective : what they aime to achieve and what are their needs will guide the application designing later.
+This section presents the users stories, so that we can imagine the app and define requirements from a user perspective : what they aim to achieve and what are their.
 
 #### As a user I want to...
 
-- `create a reservation` so that I can manage my activity<br>*`Must have`*
+- `create a reservation` so that I can manage my planning<br>*`Must have`*
 
 - `register client's contact` information so that I can keep in contact with them all along the reservation process.<br>*`Must have`*
 
@@ -58,6 +42,8 @@ This section presents users stories so that we can imagine the app and define re
 - `extract my reservations` in a csv file so that I can analyze my audiences and my general activity.<br> *`Should have`*
 
 #### As a manager, I want to...
+- `Create and manage users` so my employees can loggin the application and create their reservations<br> *`Must have`*
+
 - `view every reservation` of all users so I can have an overview of the activity.<br> *`Should have`*
 
 - be able to `extract all the reservations` so I can produce an activity report for the organisation.<br> *`Should have`*
@@ -67,20 +53,20 @@ This section presents users stories so that we can imagine the app and define re
 
 ### MOCKUPS
 <details><summary>Show Mockups section</summary>
-On the basis of users stories, this section provide three mock ups illustrating the user journey on the application.
+On the basis of users stories, this section provide three statics mock ups, illustrating the user's journey on the application from login to the screen of reservation creation.
 
 A sober style is intentionally chosen to make the application easy to use. 
 
 **Login screen**
 <img src='./documentation_files/overview_login_screen.png'></img>
 
-A simple screen where users use their mail and password to authenticate. 
+Users use their mail and password to authenticate. It's the first screen every user encounters.
 
 **Planning screen**
 <img src='./documentation_files/overview_planning_screen.png'><img>
 
 After login, users land on this page.<br>
-They can see essential reservation details for each days, and click on a reservation they want more details on.
+They can see essential reservation details for each days, and access a reservation details by a simple click on the wanted reservation's card.
 
 <u>UI evolutions</u> :
 - First card should be a monday and last card a sunday
@@ -89,12 +75,16 @@ They can see essential reservation details for each days, and click on a reserva
 - Some filters could sort reservations by status or reservation types.
 
 **Reservation creation screen**
-<img src='./documentation_files/overview_reservation_screen.png'><img>
-<img src="./documentation_files/overview_reservation_screen_bis.png"></img>
+<img src='./documentation_files/initial_design/overview_reservation_screen.png'><img>
+<img src="./documentation_files/initial_design/overview_reservation_screen_bis.png"></img>
 
-On this screen, users can create a reservation.
-The type of structure is decided first, and then the ZIP code. Finally, the user have to check if the structure making the reservation already exists in the database in the 'Nom de la structure' drop-down box, or else, create it. <br>
-When a structure is selected, adress, phone and email fields are automatically filled.
+The screen display a form with all fields needed to create a reservation.
+
+After defining the structure type and the ZIP code of the beneficiary structure, a list of existing structure in the database is populated.<br>
+Once the wanted structure is selected, the adress, phone and email fields are populated.
+
+The same form is displayed when an existing reservation is accessed. 
+Then, the input fields are populated with data of the existing reservation and can be updated.
 
 <u>UI Evolution</u> :
 - An icone to create structures should be displayed
@@ -103,7 +93,7 @@ When a structure is selected, adress, phone and email fields are automatically f
 ### SYSTEM ARCHITECTURE AND TECHNOLOGY STACK
 <details><summary> Show architecture and technology section</summary>
 
-<img src="./documentation_files/portfolio_architecture.jpg"></img>
+<img src="./documentation_files/initial_design/portfolio_architecture.jpg"></img>
 
 This application follow a monolithic application three-tiers logic client-server architecture :
 - <u>presentation layer</u> : a `front-end` interface allowing users to log in and create, update and view reservations;
@@ -118,17 +108,19 @@ Interface is built with `HTML5`, `CSS3` and `JavaScript` for interactivity and `
 Users access to data via HTTP requests through a RESTful API.
 
 - <u>Back-end</u> :<br>
-**Facade pattern, python, Flask RESTX API, ORM SQLAlchemy**<br>
+**Services layer, Python, Flask RESTX API, ORM SQLAlchemy**<br>
 Back-end is responsible for `business logic`.<br>
-It exposes a `RESTful API` that receives user requests and returns data.<br>
-A `Facade pattern` is used to process requests :  it orchestrates object creation and data storage making the code easier to maintain and update.<br>
-`SQLAlchemy` will allow to manipulate data as objects, making requests safer and to focus on object-oriented paradigm.
+It exposes a `RESTful API` that receives client requests and returns structured data.<br>
+`Pydantic` validates values and types in payload received from the API when resources are created or updated.<br>
+`Services` classes are responsible for applying business rules before persisting data<br>
+`SQLAlchemy` allows data manipulation through Python objects, improving safety, readability, and adherence to the object-oriented paradigm.
 
 - <u>Database</u> :<br>
-**MySQL**<br>
-Entities have strong relationships, that is why an SQL database is chosen.<br>
+**SQLite**<br>
+The application relies on a relational database du to strong relationships between entities.<br>
 `SQLAlchemy ORM` is used by the back end to define models, manage database schema and perform queries.<br>
-Since there is no need of extensibility, specific data types and no advanced features, `MySQL` is well suited for the project's requirements : easy to maintain, open-source, well documented, and well known by the developer team. 
+For the MVP, an `SQLite` database is choosen ; this choice is well suited to the project's requirements: no need for horizontal scalability, no advanced data types or database-specific features, easy setup and maintenance, open-source and well documented.<br>
+In a second instance, a more robust database systeme such as MySQL can be implemented.
 </details>
 
 ### ENTITIES RELATIONSHIP DIAGRAM
