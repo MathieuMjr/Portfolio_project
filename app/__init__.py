@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_restx import Api
 from .extensions import db, jwt, bcrypt
 from config import DevelopmentConfig
@@ -21,6 +22,7 @@ def create_app(config_class=DevelopmentConfig):
     db.init_app(app)
     jwt.init_app(app)
     bcrypt.init_app(app)
+    CORS(app, resources={r"/api/*": {"origins": "http://localhost:5500"}})
 
     api.add_namespace(users_ns, path='/api/users')
     api.add_namespace(login_ns, path='/api/login')
