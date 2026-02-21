@@ -21,7 +21,7 @@ export async function login(payload) {
         body: JSON.stringify(payload)
     });
     if (!response.ok) {
-        error = await response.json();
+        const error = await response.json();
         if (response.status === 404) {
             throw new Error(error.message || 'Identifiants invalides');
         } else if (response.status === 500) {
