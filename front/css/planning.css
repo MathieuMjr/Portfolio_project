@@ -62,6 +62,7 @@ main {
     margin: 0.5rem;
     text-transform: uppercase;
     font-size: clamp(1rem, 2vw, 2rem);
+    font-weight: bold;
 }
 
 .month-wrapper {
