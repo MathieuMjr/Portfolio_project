@@ -43,6 +43,14 @@ class Users(Resource):
 @api.route('/me')
 class UserUpdate(Resource):
     @jwt_required()
+    def get(self):
+        identity = get_jwt_identity()
+        try:
+            return user_service.get_identity(identity)
+        except (LookupError, DeactivatedResourceError) as e:
+            return {'error': str(e)}, 404
+
+    @jwt_required()
     def put(self):
         data = api.payload
         identity = get_jwt_identity()

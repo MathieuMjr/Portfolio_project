@@ -53,6 +53,12 @@ class UserServices():
         self.user_repo.save(user)
 
     #  --- GET A USER BY ID -------------------------------------------
+    def get_identity(self, identity):
+        user = check_id('User', identity, self.user_repo)
+        return {
+            "firstname": user.firstname,
+            "lastname": user.lastname,
+        }
 
     def get_by_id(self, user_id):
         user = self.user_repo.get_id(user_id)
