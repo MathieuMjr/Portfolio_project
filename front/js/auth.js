@@ -48,6 +48,8 @@ export async function login(payload) {
             throw new Error("Utilisateur introuvable ou désactivé");
         } else if (response.status === 500) {
             throw new Error("Le serveur a rencontré un problème - contacter administrateur");
+        } else if (response.status === 401) {
+            throw new Error("Votre session a expiré, veuillez vous reconnecter");
         } else {
             throw new Error("Une erreur inconnue est survenue - contacter administrateur");
         }
