@@ -5,9 +5,9 @@ console.log(token);
 
 document.addEventListener('DOMContentLoaded', async () => {
 
-    if (token) {
-        window.location.href = '../html/planning.html';
-    }
+    // if (token) {
+    //     window.location.href = '../html/planning.html';
+    // }
 
     const loginForm = document.querySelector('.login-form');
     if (loginForm) {console.log('loginForm');}
