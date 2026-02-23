@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, Field, field_validator, ConfigDict
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from datetime import date
 from datetime import time
 from decimal import Decimal
@@ -22,11 +22,11 @@ class ReservationPayload(BaseModel):
 
     model_config = ConfigDict(extra='forbid')
 
-    @field_validator('reservation_date')
-    def check_date(cls, value):
-        if value < date.today():
-            raise ValueError('Date cannot be in the past')
-        return value
+    # @field_validator('reservation_date')
+    # def check_date(cls, value):
+    #     if value < date.today():
+    #         raise ValueError('Date cannot be in the past')
+    #     return value
 
 
 # class ReservationUpdate(BaseModel):
