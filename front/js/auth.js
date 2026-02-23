@@ -1,5 +1,6 @@
 import { API_BASE_URL } from "./config.js";
 
+// --- GET COOKIE BY NAME -------------------------------------------
 export function getCookie(cookie_name) {
     const decoded = decodeURIComponent(document.cookie);
     const decoded_array = decoded.split(';');
@@ -12,6 +13,7 @@ export function getCookie(cookie_name) {
     return null;
 }
 
+// --- LOGIN -------------------------------------------------------
 export async function login(payload) {
     const response = await fetch(`${API_BASE_URL}/api/login/`, {
         method: "POST",
@@ -21,15 +23,34 @@ export async function login(payload) {
         body: JSON.stringify(payload)
     });
     if (!response.ok) {
-        const error = await response.json();
-        if (response.status === 404) {
-            throw new Error(error.message || 'Identifiants invalides');
+        if (response.status === 401) {
+            throw new Error('Identifiants invalides');
         } else if (response.status === 500) {
-            throw new Error(error.message || 'Erreur serveur - contacter adminstrateur');
+            throw new Error('Erreur serveur - contacter adminstrateur');
         } else {
-            throw new Error(error.message || 'Une erreur est survenue');
+            throw new Error('Une erreur est survenue');
         }
         } else {
             return await response.json();
         }
     }
+
+// --- FETCH CURRENT USER ------------------------------------------
+    export async function fetchCurrentUser() {
+    const token = getCookie("token");
+    const response = await fetch(`${API_BASE_URL}/api/users/me`, {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    })
+    if (!response.ok) {
+        if (response.status === 404) {
+            throw new Error("Utilisateur introuvable ou désactivé");
+        } else if (response.status === 500) {
+            throw new Error("Le serveur a rencontré un problème - contacter administrateur");
+        } else {
+            throw new Error("Une erreur inconnue est survenue - contacter administrateur");
+        }
+    }
+    return await response.json();
+}
