@@ -1,5 +1,4 @@
 import { fetchCurrentUser } from "./auth.js";
-import { getCookie } from "./auth.js";
 
 export async function setHeader() {
     try {
