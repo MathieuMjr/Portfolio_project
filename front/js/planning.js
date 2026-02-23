@@ -24,8 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const lastDayString = formatDate(lastDay);
     try {
         const reservations_data = await fetchMonthRes(firstDayString, lastDayString, token);
-        display_planning(reservations_data, firstDay, lastDayString);
-
+        display_planning(firstDay, lastDay, reservations_data);
     } catch(error) {
         alert(error.message);
     }
@@ -56,7 +55,7 @@ async function fetchMonthRes(firstDay, lastDay, token) {
     }
 }
 
-function display_planning(data, firstDay, lastDay) {
+function display_planning(firstDay, lastDay, res_data) {
 
     const MONTHS = ["Janvier", "Février", "Mars", "Avril", "Mai",
         "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre",
@@ -65,10 +64,61 @@ function display_planning(data, firstDay, lastDay) {
 
     const month_wrapper = document.querySelector(".month-wrapper");
     month_wrapper.querySelector("h1").textContent = MONTHS[firstDay.getMonth()] + " " + firstDay.getFullYear();
-        
 
-    }
+    let iterated_day = new Date(firstDay);
+
+    while(iterated_day <= lastDay) {
+        const day_string = formatDate(iterated_day);
+
+        const resOfDay = res_data.filter(
+            res => res.reservation_date === day_string
+        );
+        const sortedRes = resOfDay.toSorted(
+            (a, b) => a.hour.localeCompare(b.hour)
+        );
+        
+        displayReservationCards(sortedRes, month_wrapper, iterated_day);
+
+        iterated_day = new Date(
+            iterated_day.getFullYear(),
+            iterated_day.getMonth(),
+            iterated_day.getDate() +1)
+    }}
 
 function formatDate(date) {
     return date.toISOString().split("T")[0];
+}
+
+function displayReservationCards(data, parent_div, dayDate) {
+    const DAYS = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+    const dayTitle = document.createElement('h2');
+    dayTitle.textContent = `${DAYS[dayDate.getDay()]} ${dayDate.getDate()}`;
+    parent_div.appendChild(dayTitle);
+    const dayPlanning = document.createElement('div');
+    dayPlanning.classList.add('day-planning');
+    data.forEach((element) => {
+        const card = document.createElement('div');
+        card.classList.add('day-card');
+        const link = document.createElement('a');
+        link.href = `reservation.html?id=${element.id}`;
+        const pHour = document.createElement('p');
+        pHour.classList.add('hour');
+        pHour.textContent = element.hour.slice(0, 5);
+        link.appendChild(pHour);
+        const pTheme = document.createElement('p');
+        pTheme.classList.add('theme');
+        const themes = element.themes.map(theme => theme.name);
+        pTheme.textContent = themes.join('<br>');
+        link.appendChild(pTheme);
+        const pResType = document.createElement('p');
+        pResType.textContent = element.reservation_type.name;
+        link.appendChild(pResType);
+        const pStruct = document.createElement('p');
+        const dpt = element.structure.zip_code.slice(0, 2);
+        pStruct.textContent = `${element.structure.name} (${dpt})`;
+        link.appendChild(pStruct);
+        card.appendChild(link);
+        dayPlanning.appendChild(card);
+    });
+    parent_div.appendChild(dayPlanning);
 }
