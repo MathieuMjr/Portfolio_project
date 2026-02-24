@@ -1,11 +1,11 @@
 from dotenv import load_dotenv
 import json
 from app import create_app, db
-from seed.seed_admin import create_default_admin
-from seed.seed_audience_types import create_audience_types
-from seed.seed_res_types_theme import create_reservation_types_and_themes
-from seed.seed_status import create_status
-from seed.seed_struct_types import create_structure_types
+from tests.seeds.seed_admin import create_default_admin
+from tests.seeds.seed_audience_types import create_audience_types
+from tests.seeds.seed_res_types_theme import create_reservation_types_and_themes
+from tests.seeds.seed_status import create_status
+from tests.seeds.seed_struct_types import create_structure_types
 from app.persistence.status_repository import StatusRepository
 from app.persistence.structure_type_repository import StructureTypeRepository
 from app.persistence.audience_type_repository import AudienceTypeRepository
