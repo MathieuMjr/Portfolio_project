@@ -1,25 +1,65 @@
 import { getCookie } from "./auth.js";
-import { API_BASE_URL } from "./config.js";
 import { setHeader } from "./header.js";
+import { fetchMonthRes } from "./api.js";
+import { formatDate} from "./utils.js";
 
 const token = getCookie('token');
 console.log(token);
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const response = await fetch('../html/header.html');
-    const header_content = await response.text();
-    const header = document.querySelector(".navigation");
-    header.innerHTML = header_content;
-
-    await setHeader();
-
     if (!token) {
         window.location.href = '../html/index.html'
     }
-    const now = new Date();
-    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    const responseHeader = await fetch('../html/header.html');
+    const headerContent = await responseHeader.text();
+    const header = document.querySelector(".navigation");
+    header.innerHTML = headerContent;
+    await setHeader();
+
+    const responsePlanNav = await fetch('../html/planning_nav.html');
+    const planNavContent = await responsePlanNav.text();
+    const headPlanNav = document.querySelector(".head_planning_nav");
+    const footPlanNav = document.querySelector('.foot_planning_nav');
+    headPlanNav.innerHTML = planNavContent;
+    footPlanNav.innerHTML = planNavContent;
+    
+    let currentDate = new Date();
+
+    renderMonth(currentDate);
+
+    headPlanNav.querySelector('.prev_nav_button').addEventListener('click', (event) => {
+        event.preventDefault();
+        currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() -1, 1);
+        renderMonth(currentDate);
+    });
+    headPlanNav.querySelector('.next_nav_button').addEventListener('click', (event) => {
+        event.preventDefault();
+        currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() +1, 1);
+        renderMonth(currentDate);
+    });
+    footPlanNav.querySelector('.prev_nav_button').addEventListener('click', (event) => {
+        event.preventDefault();
+        currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() -1, 1);
+        renderMonth(currentDate);
+    });
+    footPlanNav.querySelector('.next_nav_button').addEventListener('click', (event) => {
+        event.preventDefault();
+        currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() +1, 1);
+        renderMonth(currentDate);
+    });
+})
+
+// ---------------- FONCTIONS ------------------------------------------------
+
+async function renderMonth(date) {
+    const monthWrapper = document.querySelector(".month-wrapper");
+
+    monthWrapper.innerHTML = "";
+
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     console.log(firstDay);
-    const lastDay = new Date(now.getFullYear(), now.getMonth() +1, 0);
+    const lastDay = new Date(date.getFullYear(), date.getMonth() +1, 0);
     const firstDayString = formatDate(firstDay);
     const lastDayString = formatDate(lastDay);
     try {
@@ -27,31 +67,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         display_planning(firstDay, lastDay, reservations_data);
     } catch(error) {
         alert(error.message);
-    }
-
-    
-
-})
-// ---------------- FONCTIONS ------------------------------------------------
-async function fetchMonthRes(firstDay, lastDay, token) {
-    const response = await fetch(
-        `${API_BASE_URL}/api/reservations/me/reservations?from=${firstDay}&to=${lastDay}`, {
-            method: "GET",
-            headers: {
-                "Content-type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
-        });
-    if (!response.ok) {
-        if (response.status === 401) {
-            throw new Error("Votre session a expiré, reconnectez-vous");
-        } else if (response.status === 404) {
-            throw new Error("Le compte utilisateur est inexistant ou désactivé");
-        } else {
-            throw new Error("Une erreur inconnue s'est produite - contacter administrateur");
-        }
-    } else {
-        return await response.json();
     }
 }
 
@@ -62,8 +77,12 @@ function display_planning(firstDay, lastDay, res_data) {
         "Décembre"
     ];
 
-    const month_wrapper = document.querySelector(".month-wrapper");
-    month_wrapper.querySelector("h1").textContent = MONTHS[firstDay.getMonth()] + " " + firstDay.getFullYear();
+    const monthWrapper = document.querySelector(".month-wrapper");
+    console.log("Pouet");
+    console.log(monthWrapper);
+    const monthTitle = document.createElement("h1");
+    monthWrapper.appendChild(monthTitle);
+    monthTitle.textContent = MONTHS[firstDay.getMonth()] + " " + firstDay.getFullYear();
 
     let iterated_day = new Date(firstDay);
 
@@ -77,47 +96,54 @@ function display_planning(firstDay, lastDay, res_data) {
             (a, b) => a.hour.localeCompare(b.hour)
         );
         
-        displayReservationCards(sortedRes, month_wrapper, iterated_day);
+        displayReservationCards(sortedRes, monthWrapper, iterated_day);
 
         iterated_day = new Date(
             iterated_day.getFullYear(),
             iterated_day.getMonth(),
             iterated_day.getDate() +1)
-    }}
-
-function formatDate(date) {
-    return date.toISOString().split("T")[0];
-}
+    }};
 
 function displayReservationCards(data, parent_div, dayDate) {
     const DAYS = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+
     const dayTitle = document.createElement('h2');
     dayTitle.textContent = `${DAYS[dayDate.getDay()]} ${dayDate.getDate()}`;
     parent_div.appendChild(dayTitle);
+
     const dayPlanning = document.createElement('div');
     dayPlanning.classList.add('day-planning');
+
     data.forEach((element) => {
         const card = document.createElement('div');
         card.classList.add('day-card');
+
         const link = document.createElement('a');
         link.href = `reservation.html?id=${element.id}`;
+
         const pHour = document.createElement('p');
         pHour.classList.add('hour');
         pHour.textContent = element.hour.slice(0, 5);
         link.appendChild(pHour);
+
         const pTheme = document.createElement('p');
         pTheme.classList.add('theme');
         const themes = element.themes.map(theme => theme.name);
-        pTheme.textContent = themes.join('<br>');
+        pTheme.innerHTML = themes.join('<br>');
         link.appendChild(pTheme);
+
         const pResType = document.createElement('p');
         pResType.textContent = element.reservation_type.name;
+        pResType.classList.add('res_type');
         link.appendChild(pResType);
+    
         const pStruct = document.createElement('p');
         const dpt = element.structure.zip_code.slice(0, 2);
         pStruct.textContent = `${element.structure.name} (${dpt})`;
         link.appendChild(pStruct);
+
         card.appendChild(link);
+
         dayPlanning.appendChild(card);
     });
     parent_div.appendChild(dayPlanning);
