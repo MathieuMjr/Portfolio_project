@@ -4,7 +4,6 @@ import { fetchMonthRes } from "./api.js";
 import { formatDate} from "./utils.js";
 
 const token = getCookie('token');
-console.log(token);
 
 document.addEventListener('DOMContentLoaded', async () => {
     if (!token) {
@@ -58,9 +57,10 @@ async function renderMonth(date) {
     monthWrapper.innerHTML = "";
 
     const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    console.log(firstDay);
+
     const lastDay = new Date(date.getFullYear(), date.getMonth() +1, 0);
     const firstDayString = formatDate(firstDay);
+
     const lastDayString = formatDate(lastDay);
     try {
         const reservations_data = await fetchMonthRes(firstDayString, lastDayString, token);
@@ -78,8 +78,7 @@ function display_planning(firstDay, lastDay, res_data) {
     ];
 
     const monthWrapper = document.querySelector(".month-wrapper");
-    console.log("Pouet");
-    console.log(monthWrapper);
+
     const monthTitle = document.createElement("h1");
     monthWrapper.appendChild(monthTitle);
     monthTitle.textContent = MONTHS[firstDay.getMonth()] + " " + firstDay.getFullYear();
