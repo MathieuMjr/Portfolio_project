@@ -1,13 +1,6 @@
-import { fetchCurrentUser } from "./auth.js";
-
-export async function setHeader() {
-    try {
-        const identity = await fetchCurrentUser();
-        const firstname = document.getElementById('firstname');
-        const lastname = document.getElementById('lastname');
-        firstname.textContent = identity.firstname;
-        lastname.textContent = identity.lastname;
-    } catch (error) {
-        alert(error.message);
-    }
+export async function setHeader(identity) {
+    const firstname = document.getElementById('firstname');
+    const lastname = document.getElementById('lastname');
+    firstname.textContent = identity.firstname;
+    lastname.textContent = identity.lastname;
 }
