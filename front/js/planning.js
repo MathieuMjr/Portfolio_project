@@ -1,4 +1,4 @@
-import { getCookie } from "./auth.js";
+import { fetchCurrentUser, getCookie } from "./auth.js";
 import { setHeader } from "./header.js";
 import { fetchMonthRes } from "./api.js";
 import { formatDate} from "./utils.js";
@@ -14,7 +14,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const headerContent = await responseHeader.text();
     const header = document.querySelector(".navigation");
     header.innerHTML = headerContent;
-    await setHeader();
+    try {
+        const identity = await fetchCurrentUser();
+        setHeader(identity);
+    } catch(error) {
+        alert(error.message);
+    }
+    
 
     const responsePlanNav = await fetch('../html/planning_nav.html');
     const planNavContent = await responsePlanNav.text();
