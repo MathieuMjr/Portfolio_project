@@ -24,6 +24,7 @@ main {
     display:flex;
     flex-direction: row;
     background-color:  rgb(51, 71, 152);
+    /* border-bottom: solid rgb(235, 199, 21); */
     padding: 1rem 3rem;
     align-items: center;
 }
@@ -32,9 +33,6 @@ main {
     display: flex;
     flex-direction: row;
     gap: clamp(1rem, 1.5rem, 2rem);
-}
-
-.navigation img {
     width: clamp(2rem, 5vw, 4rem);
     height: clamp(2rem, 5vw, 4rem);
 }
@@ -50,6 +48,7 @@ main {
     margin: 0.5rem;
     text-transform: uppercase;
     font-size: clamp(1rem, 2vw, 2rem);
+    font-weight: bold;
 }
 
 .form_container {
