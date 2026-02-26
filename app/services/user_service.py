@@ -52,14 +52,22 @@ class UserServices():
 
         self.user_repo.save(user)
 
-    #  --- GET A USER BY ID -------------------------------------------
-    def get_identity(self, identity):
+    #  --- GET IDENTITY -------------------------------------------
+    def get_identity(self, identity, claims):
         user = check_id('User', identity, self.user_repo)
-        return {
+        user_dict = {
             "firstname": user.firstname,
             "lastname": user.lastname,
         }
+        if not claims['role']:
+            return user_dict
+        else:
+            user_dict['reservation_types'] = [
+                element.to_dict() for element in self.res_type_repo.get_all()
+            ]
+        return user_dict
 
+    # --- GET USER BY ID ------------------------------------------
     def get_by_id(self, user_id):
         user = self.user_repo.get_id(user_id)
         if not user:
