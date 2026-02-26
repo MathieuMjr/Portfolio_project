@@ -45,8 +45,9 @@ class UserUpdate(Resource):
     @jwt_required()
     def get(self):
         identity = get_jwt_identity()
+        claims = get_jwt()
         try:
-            return user_service.get_identity(identity)
+            return user_service.get_identity(identity, claims)
         except (LookupError, DeactivatedResourceError) as e:
             return {'error': str(e)}, 404
 
