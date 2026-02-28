@@ -51,7 +51,7 @@ export async function login(payload) {
         } else if (response.status === 401) {
             throw new Error("Votre session a expiré, veuillez vous reconnecter");
         } else {
-            throw new Error("Une erreur inconnue est survenue - contacter administrateur");
+            throw new Error("Erreur lors de la récupération de l'identité utilisateur - contacter administrateur");
         }
     }
     return await response.json();
