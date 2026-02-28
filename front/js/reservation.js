@@ -1,7 +1,6 @@
-import { API_BASE_URL } from "./config.js";
 import { fetchCurrentUser, getCookie } from "./auth.js";
 import { setHeader } from "./header.js";
-import { fetchStatus, fetchThemes } from "./api.js";
+import { fetchStatus, fetchThemes, fetchAudienceTypes} from "./api.js";
 
 const payload = {
     "structure_id": null,
@@ -18,6 +17,16 @@ const payload = {
     "themes_id_list": [],
     "audiences": []
 };
+
+// Liste des champs : permet de ne pas ajouter aux payloads certains
+// input du formulaire lors d'un change detecté par eventlistener
+const payloadFields = [
+    "structure_id", "reservation_type_id", "reservation_date",
+    "hour", "contact_firstname", "contact_lastname",
+    "contact_phone", "contact_email", "contact_role", "price", "status_id",
+    "themes_id_list", "audiences"
+]
+
 const test = [
     {
         id: "pouet",
@@ -27,7 +36,7 @@ const test = [
         id:"good",
         name:"good"
     }];
-    console.log(test);
+
 
 const token = getCookie('token');
 
@@ -35,75 +44,107 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!token) {
             window.location.href = '../html/index.html'
         }
+
+     // header   
     const responseHeader = await fetch('../html/header.html');
     const headerContent = await responseHeader.text();
     const header = document.querySelector(".navigation");
     header.innerHTML = headerContent;
-    try {
-        const identity = await fetchCurrentUser();
+    
+    // fetches
+    const [identity, audienceTypes, statuses] = await Promise.all([
+        safeFetch(fetchCurrentUser),
+        safeFetch(fetchAudienceTypes),
+        safeFetch(fetchStatus),
+    ])
+
+    // Header, reservation types, themes
+    if (identity) {
         setHeader(identity);
-        console.log(identity);
         displayResTypes(identity.reservation_types);
+
         const resTypeSelect = document.getElementById('res_type');
         resTypeSelect.addEventListener('change', async (e) => {
             payload.reservation_type_id = e.target.value;
-            console.log(e.target.value);
-            try {
-                const themeList = await fetchThemes(e.target.value);
-                displayThemes(themeList);
-
-                const themes = document.querySelector('.theme');
-                themes.addEventListener('change', (event) => {
-                    if (!event.target.matches("input[type='checkbox']")) return;
-                
-                    const themeId = event.target.value;
-
-                    if (event.target.checked) {
-                        payload.themes_id_list.push(themeId);
-                    } else {
-                        payload.themes_id_list = payload.themes_id_list.filter(
-                            id => id !==themeId);
-                    }
-                    console.log(payload);
-                    });
-                } catch(error) {
-                    alert(error.message);
-                }
-            });
             console.log(payload);
-        } catch(error) {
-            alert(error.message);
-        }
-    });
-    try {
-        const statuses =  await fetchStatus();
-        displayStatus(statuses);
-        const statusSelect = document.getElementById('status');
-        statusSelect.addEventListener('change', (event) => {
-        payload.status_id = event.target.value;
-        console.log(payload);
-    })
-    } catch(error) {
-        alert(error.message)
+
+            const themeList = await safeFetch(fetchThemes, e.target.value);
+            if (themeList) {
+                console.log(themeList);
+                displayThemes(themeList);
+            }
+        })
     }
-    
+
+    if (statuses) {
+        displayStatus(statuses);
+    }
+
+    if (audienceTypes) {
+        displayAudienceTypes(audienceTypes);
+    }
+
     displayStructType(test);
     displayStruct(test);
-    
-    const structType = document.getElementById('struct_type');
-    const structSelect = document.getElementById('struct_name');
 
-    
+    // Event listener and paylaod construction
+    document.querySelector('.form_container').addEventListener(
+        'change', (event) => {
+            const input = event.target;
+            // Si est un champs date, heure ou de contact
+            if (input.matches(
+                "input[type='number'], input[type='text'], input[type='date'], input[type='time'], input[type='email'], input[type='tel']") && payloadFields.includes(input.name)) {
+                payload[input.name] = input.value;
+                console.log(payload);
+            }
+            // Si est un champs d'audience
+            else if (input.matches("input[type='number'][name='audience']")) {
+                const audienceId = input.dataset.audienceT_id;
+                const audienceNumber = Number(event.target.value);
 
-    
-
-    structSelect.addEventListener('change', (event) => {
-        payload.structure_id = event.target.value;
-        console.log(payload);
+                if (audienceNumber > 0) {
+                    const existingAudience = payload.audiences.find(
+                        (element) => element.audienceT_id === audienceId);
+                    if (existingAudience) {
+                        existingAudience.count = audienceNumber;
+                    } else {
+                        payload.audiences.push({
+                            "count": audienceNumber,
+                            "audience_type_id": audienceId
+                        });
+                    }
+                } else {
+                    payload.audiences = payload.audiences.filter(
+                        (element) => element.audience_type_id !== audienceId);
+                }
+                console.log(payload);
+            }
+            // si est un status
+            else if (input.matches("#status")) {
+                payload.status_id = input.value;
+                console.log(payload);
+            }
+            // si est un thème coché/décoché
+            else if (input.matches("[name=themes]")) {
+                if (input.checked) {
+                    payload.themes_id_list.push(input.value);
+                } else {
+                    payload.themes_id_list = payload.themes_id_list.filter(
+                        id => id !== input.value);
+                }
+                console.log(payload);
+            }
+        })
     })
+    // document.getElementById('struct_type').addEventListener('change', (event) => {
+    //     payload.structure_id = event.target.value;
+    //     console.log(payload);
+    // })
 
-    
 
+// --- DISPLAY FUNCTIONS    
+
+// -- RESERVATION TYPES
 function displayResTypes(data) {
     const ResTypeContainer = document.querySelector('.res_type');
 
@@ -111,7 +152,7 @@ function displayResTypes(data) {
     resTypeField.classList.add('field');
 
     const resTypeLabel = document.createElement('label');
-    resTypeLabel.setAttribute('for', 'res_Type');
+    resTypeLabel.setAttribute('for', 'res_type');
     // resTypeLabel.textContent ='Type de réservation';
     resTypeField.appendChild(resTypeLabel);
 
@@ -135,6 +176,7 @@ function displayResTypes(data) {
     ResTypeContainer.appendChild(resTypeField);
 }
 
+// -- STATUSES
 function displayStatus(data) {
     const statusContainer = document.querySelector('.status');
     const statusField = document.createElement('div');
@@ -164,6 +206,7 @@ function displayStatus(data) {
     statusContainer.appendChild(statusField);
 }
 
+// -- THEMES
 function displayThemes(data) {
     const themeContainer = document.querySelector('.theme');
     themeContainer.innerHTML = "";
@@ -183,6 +226,7 @@ function displayThemes(data) {
     })
 }
 
+// STRUCTURE TYPES
 function displayStructType(data) {
     const select = document.getElementById('struct_type');
     data.forEach((element) => {
@@ -193,6 +237,7 @@ function displayStructType(data) {
     })
 }
 
+// STRUCTURES
 function displayStruct(data) {
     const select = document.getElementById('struct_name');
     data.forEach((element) => {
@@ -201,4 +246,54 @@ function displayStruct(data) {
         option.textContent = element.name;
         select.appendChild(option);
     })
+}
+
+// -- AUDIENCE TYPES
+function displayAudienceTypes(data) {
+    const audienceForm = document.querySelector('.audience_form');
+    const categories = [];
+    // extrait les catégories existantes
+    data.forEach((element) => {
+        if (!categories.includes(element.category)) {
+            categories.push(element.category);
+        }
+    });
+    // pour chaque catégorie, créer les div, titres et champs
+    categories.forEach((element) => {
+        // Selectionner les data de la catégorie
+        const categoryData = data.filter((n) => n.category === element);
+        const sortedData = categoryData.sort((a, b) => a.order_index - b.order_index);
+        //Créer la div de la catégorie
+        const categoryDiv = document.createElement('div');
+        categoryDiv.classList.add("category");
+        const title = document.createElement('h3');
+        title.textContent = element;
+        categoryDiv.appendChild(title);
+        // Pour chaque data de la catégorie :
+        sortedData.forEach((data) => {
+            const field = document.createElement('div');
+            field.classList.add('field');
+            const label = document.createElement('label');
+            label.setAttribute('for', data.name);
+            label.innerText = data.name;
+            field.appendChild(label);
+            const input = document.createElement('input');
+            input.type = "number";
+            input.id = data.name;
+            input.name = "audience";
+            input.dataset.audienceT_id = data.id;
+            field.appendChild(input);
+            categoryDiv.appendChild(field);
+        });
+        audienceForm.appendChild(categoryDiv);
+    });
+}
+
+async function safeFetch(fetchFunction, ...arg) {
+    try{
+        return await fetchFunction(...arg);
+    } catch (error) {
+        alert(error.message);
+        return null;
+    }
 }
