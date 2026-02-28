@@ -1,6 +1,10 @@
 import { fetchCurrentUser, getCookie } from "./auth.js";
 import { setHeader } from "./header.js";
-import { fetchStatus, fetchThemes, fetchAudienceTypes} from "./api.js";
+import { fetchStatus,
+    fetchThemes,
+    fetchAudienceTypes,
+    fetchStructureTypes, 
+    fetchStructures} from "./api.js";
 
 const payload = {
     "structure_id": null,
@@ -27,17 +31,6 @@ const payloadFields = [
     "themes_id_list", "audiences"
 ]
 
-const test = [
-    {
-        id: "pouet",
-        name: "pouet"
-    },
-    {
-        id:"good",
-        name:"good"
-    }];
-
-
 const token = getCookie('token');
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -52,12 +45,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     header.innerHTML = headerContent;
     
     // fetches
-    const [identity, audienceTypes, statuses] = await Promise.all([
-        safeFetch(fetchCurrentUser),
-        safeFetch(fetchAudienceTypes),
-        safeFetch(fetchStatus),
-    ])
-
+    let identity, audienceTypes, statuses, structT;
+    try {
+        [identity, audienceTypes, statuses, structT] = await Promise.all([
+        fetchCurrentUser(),
+        fetchAudienceTypes(),
+        fetchStatus(),
+        fetchStructureTypes(),
+        ])
+    } catch(error) {
+        alert(error.message);
+    }
+    
     // Header, reservation types, themes
     if (identity) {
         setHeader(identity);
@@ -84,8 +83,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         displayAudienceTypes(audienceTypes);
     }
 
-    displayStructType(test);
-    displayStruct(test);
+    if (structT) {
+        displayStructType(structT);
+        let structT_id, zipCode;
+        document.getElementById('struct_type').addEventListener(
+            'change', async (event) => {
+                structT_id = event.target.value;
+                const structures = await safeFetch(fetchStructures, structT_id, zipCode);
+                if (structures) displayStructNames(structures);
+            }
+        )
+        document.getElementById('struct_zip').addEventListener(
+            'change', async (event) => {
+                zipCode = event.target.value;
+                const structures = await safeFetch(fetchStructures, structT_id, zipCode);
+                if (structures) displayStructNames(structures);
+            }
+        )
+    }
 
     // Event listener and paylaod construction
     document.querySelector('.form_container').addEventListener(
@@ -134,16 +149,33 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
                 console.log(payload);
             }
+            // si une sutructure est selectionnée 
+            else if (input.matches("#struct_name")) {
+                payload.structure_id = input.value;
+                const selectedOption = input.selectedOptions[0];
+                const address = selectedOption.dataset.address;
+                console.log(address);
+                const town = selectedOption.dataset.town;
+                const email = selectedOption.dataset.email;
+                const phone = selectedOption.dataset.phone;
+                displayStructDetails(address, town, email, phone);
+                console.log(payload);
+            }
         })
     })
-    // document.getElementById('struct_type').addEventListener('change', (event) => {
-    //     payload.structure_id = event.target.value;
-    //     console.log(payload);
-    // })
-
 
 // --- DISPLAY FUNCTIONS ---------------------------------------------------   
+function displayStructDetails(address, town, email, phone) {
+    const addressInput = document.getElementById('struct_address');
+    const townInput = document.getElementById('struct_town');
+    const emailInput = document.getElementById('struct_mail');
+    const phoneInput = document.getElementById('struct_tel');
 
+    addressInput.value = address;
+    townInput.value = town;
+    emailInput.value = email;
+    phoneInput.value = phone;
+}
 // -- RESERVATION TYPES
 function displayResTypes(data) {
     const ResTypeContainer = document.querySelector('.res_type');
@@ -238,12 +270,17 @@ function displayStructType(data) {
 }
 
 // STRUCTURES
-function displayStruct(data) {
+function displayStructNames(data) {
     const select = document.getElementById('struct_name');
+    select.innerHTML = "";
     data.forEach((element) => {
         const option = document.createElement('option');
         option.value = element.id;
         option.textContent = element.name;
+        option.dataset.address = element.address;
+        option.dataset.town = element.town;
+        option.dataset.phone = element.phone;
+        option.dataset.email = element.email;
         select.appendChild(option);
     })
 }

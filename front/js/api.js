@@ -12,7 +12,7 @@ export async function fetchMonthRes(firstDay, lastDay, token) {
         });
     if (!response.ok) {
         if (response.status === 401) {
-            throw new Error("Votre session a expiré, reconnectez-vous");
+            throw new Error("Votre session a expiré, veuillez vous reconnecter");
         } else if (response.status === 404) {
             throw new Error("Le compte utilisateur est inexistant ou désactivé");
         } else {
@@ -33,8 +33,12 @@ export async function fetchStatus() {
             }
         });
     if (!response.ok) {
-        throw new Error(
+        if (response.status === 401) {
+            throw new Error("Votre session a expiré, veuillez vous reconnecter");
+        } else {
+            throw new Error(
             "Erreur lors de la récupération des status de réservation - contacter administrateur");
+        }
     } else {
         return response.json();
     }
@@ -54,7 +58,7 @@ export async function fetchThemes(resTypeId) {
         if (response.status === 400) {
             throw new Error("Le type de réservation fourni n'a pas été trouvé");
         } else if (response.status === 401) {
-            throw new Error("Votre session a expiré, reconnectez-vous");
+            throw new Error("Votre session a expiré, veuillez vous reconnecter");
         } else {
             throw new Error("Erreur lors de la récupération des thèmes - contacter administrateur");
         }
@@ -73,8 +77,60 @@ export async function fetchAudienceTypes() {
         }
     });
     if (!response.ok) {
-        throw new Error("Erreur lors de la récupération des types d'audience - contacter Admin");
+        if (response.status === 401) {
+            throw new Error("Votre session a expiré, veuillez vous reconnecter");
+        } else {
+            throw new Error(
+                "Erreur lors de la récupération des types d'audience - contacter Admin");
+        }
     } else {
         return response.json();
+    }
+}
+
+export async function fetchStructureTypes() {
+    const token = getCookie("token");
+    const response = await fetch(`${API_BASE_URL}/api/struct_types/`, {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    });
+    if (!response.ok) {
+        if (response.status === 401) {
+            throw new Error("Votre session a expiré, veuillez vous reconnecter");
+        } else {
+            throw new Error(
+                "Erreur lors de la récupération des types de structure - contacter Admin");
+        }
+    } else {
+        return response.json();
+    }
+}
+
+export async function fetchStructures(strucT_id, zipCode) {
+    if ((!strucT_id) || (!zipCode)) {
+        return null;
+    } else {
+        const token = getCookie("token");
+        const response = await fetch(
+            `${API_BASE_URL}/api/structures/?type_id=${strucT_id}&zip=${zipCode}`, {
+            method: "GET",
+            headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            if (response.status === 401) {
+            throw new Error("Votre session a expiré, veuillez vous reconnecter");
+            } else {
+                throw new Error(
+                    "Erreur lors de la récupération des structures - contacter Admin");
+            }
+        } else {
+            return response.json();
+        }
     }
 }
