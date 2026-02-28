@@ -29,7 +29,7 @@
             <h2>Status</h2>
             <div class="status">
                 <!-- <div class="field">
-                        <label for="res_status">Type</label><br>
+                        <label for="res_status">Type</label>
                         <select id="res_status" name="res_status">
                             Nourri dynamiquement par un fetch API
                             <option value="">Veuillez choisir une option</option>
@@ -39,7 +39,7 @@
                             <option value="reservee">Réservée</option>
                             <option value="facture">A facturer</option>
                             <option value="clot">Réservation close</option>
-                        </select><br>
+                        </select>
                     </div> -->
             </div>
             <div class="bloc-row">
@@ -64,12 +64,12 @@
                 <div class="date_hour_form">
                     <h2>Date et heure</h2>
                     <div class="field">
-                        <label for="date">Date de la réservation</label><br>
-                        <input type="date" id="date" name="date" required>
+                        <label for="reservation_date">Date de la réservation</label>
+                        <input type="date" id="reservation_date" name="reservation_date" required>
                     </div>
                     <div class="field">
-                        <label for="heure">Heure de la réservation</label><br>
-                        <input type="time" id="heure" name="heure" required>
+                        <label for="hour">Heure de la réservation</label>
+                        <input type="time" id="hour" name="hour" required>
                     </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                 <div class="struct_form">
                     <h2>Structure</h2>
                     <div class="field">
-                        <label for="struct_type">Type</label><br>
+                        <label for="struct_type">Type</label>
                         <select id="struct_type" name="struct_type" required>
                             <!-- Nourri dynamiquement par un fetch API -->
                             <option value="">Veuillez choisir une option</option>
@@ -85,147 +85,151 @@
                             <option value="college">Collège</option>
                             <option value="lycée">Lycée</option>
                             <option value="library">Bibliothèque</option> -->
-                        </select><br>
+                        </select>
                     </div>
                     <div class="field">
-                        <label for="struct_zip">Code postal</label><br>
-                        <input type="text" id="struct_zip" name="struct_zip" required><br>
+                        <label for="struct_zip">Code postal</label>
+                        <input type="text" id="struct_zip" name="struct_zip" required>
                     </div>
                     <div class="field">
-                        <label for="struct_name">Nom de la structure</label><br>
+                        <label for="struct_name">Nom de la structure</label>
                         <select id="struct_name" name="struct_name" required>
                             <!-- Nourri dynamiquement par un fetch API en utilisant le type et le zip -->
                             <option value="">Selectionner la structure</option>
                             <!-- Ajouter une icone pour ouvrir une creation de structure + div -->
                             <!-- <option value="Ecole Saint-Exupéry">Ecole Saint-Exupéry</option>
                             <option value="Collège de Montsauche">Collège de Montsauche</option> -->
-                        </select><br>
+                        </select>
                     </div>
                     <!--Les inputs doivent se remplire automatiquement avec la selection de la structure-->
                     <div class="field">
-                        <label for="struct_adress">Adresse</label><br>
-                        <input id="struct_adress" name="struct_adress" required><br>
+                        <label for="struct_adress">Adresse</label>
+                        <input id="struct_adress" name="struct_adress" required>
                     </div>
                     <div class="field">
-                        <label for="struct_mail">Email</label><br>
-                        <input id="struct_mail" name="struct_mail" required><br>
+                        <label for="struct_mail">Email</label>
+                        <input id="struct_mail" name="struct_mail" required>
                     </div>
                     <div class="field">
-                        <label for="struct_tel">Telephone</label><br>
-                        <input id="struct_tel" name="struct_tel" required><br>
+                        <label for="struct_tel">Telephone</label>
+                        <input id="struct_tel" name="struct_tel" required>
                     </div>
                 </div>
                 <div class="contact_form">
                     <h2>Contact</h2>
                     <div class="field">
-                        <label for="contact_firstname">Nom</label><br>
-                        <input type="text" id="contact_firstname" name="contact_firstname" required><br>
+                        <label for="contact_firstname">Nom</label>
+                        <input type="text" id="contact_firstname" name="contact_firstname" required>
                     </div>
                     <div class="field">
-                        <label for="contact_lastname">Prénom</label><br>
-                        <input type="text" id="contact_lastname" name="contact_lastname" required><br>
+                        <label for="contact_lastname">Prénom</label>
+                        <input type="text" id="contact_lastname" name="contact_lastname" required>
                     </div>
                     <div class="field">
-                        <label for="contact_mail">Email</label><br>
-                        <input id="contact_mail" name="contact_mail" required><br>
+                        <label for="contact_email">Email</label>
+                        <input type="email" id="contact_email" name="contact_email" required>
                     </div>
                     <div class="field">
-                        <label for="contact_tel">Telephone</label><br>
-                        <input id="contact_tel" name="contact_tel" required><br>
+                        <label for="contact_phone">Telephone</label>
+                        <input type="tel" id="contact_phone" name="contact_phone" required>
+                    </div>
+                    <div class="field">
+                        <label for="contact_role">Role</label>
+                        <input type="text" id="contact_role" name="contact_role" required>
                     </div>
                 </div>
             </div>
             <h2>Audiences</h2>
             <div class="audience_form">
-                <div class="maternelle">
-                    <h3>Maternelle</h3><br>
+                <!-- <div class="maternelle">
+                    <h3>Maternelle</h3>
                     <div class="field">
-                        <label for="PS">PS</label><br>
-                        <input type="number" id="PS" name="PS"><br>
+                        <label for="PS">PS</label>
+                        <input type="number" id="PS" name="PS">
                     </div>
                     <div class="field">
-                        <label for="MS">MS</label><br>
-                        <input type="number" id="MS" name="MS"><br>
+                        <label for="MS">MS</label>
+                        <input type="number" id="MS" name="MS">
                     </div>
                     <div class="field">
-                        <label for="GS">GS</label><br>
-                        <input type="number" id="GS" name="GS"><br>
+                        <label for="GS">GS</label>
+                        <input type="number" id="GS" name="GS">
                     </div>
                 </div>
                 <div class="primaire">
-                    <h3>Primaire</h3><br>
+                    <h3>Primaire</h3>
                     <div class="field">
-                        <label for="CP">CP</label><br>
-                        <input type="number" id="CP" name="CP"><br>
+                        <label for="CP">CP</label>
+                        <input type="number" id="CP" name="CP">
                     </div>
                     <div class="field">
-                        <label for="CE1">CE1</label><br>
-                        <input type="number" id="CE1" name="CE1"><br>
+                        <label for="CE1">CE1</label>
+                        <input type="number" id="CE1" name="CE1">
                     </div>
                     <div class="field">
-                        <label for="CE2">CE2</label><br>
-                        <input type="number" id="CE2" name="CE2"><br>
+                        <label for="CE2">CE2</label>
+                        <input type="number" id="CE2" name="CE2">
                     </div>
                     <div class="field">
-                        <label for="CM1">CM1</label><br>
-                        <input type="number" id="CM1" name="CM1"><br>
+                        <label for="CM1">CM1</label>
+                        <input type="number" id="CM1" name="CM1">
                     </div>
                     <div class="field">
-                        <label for="CM2">CM2</label><br>
-                        <input type="number" id="CM2" name="CM2"><br>
+                        <label for="CM2">CM2</label>
+                        <input type="number" id="CM2" name="CM2">
                     </div>
                 </div>
                 <div class="college">
-                    <h3>Collège</h3><br>
+                    <h3>Collège</h3>
                     <div class="field">
-                        <label for="6e">6e</label><br>
-                        <input type="number" id="6e" name="6e"><br>
+                        <label for="6e">6e</label>
+                        <input type="number" id="6e" name="6e">
                     </div>
                     <div class="field">
-                        <label for="5e">5e</label><br>
-                        <input type="number" id="5e" name="5e"><br>
+                        <label for="5e">5e</label>
+                        <input type="number" id="5e" name="5e">
                     </div>
                     <div class="field">
-                        <label for="4e">4e</label><br>
-                        <input type="number" id="4e" name="4e"><br>
+                        <label for="4e">4e</label>
+                        <input type="number" id="4e" name="4e">
                     </div>
                     <div class="field">
-                        <label for="3e">3e</label><br>
-                        <input type="number" id="3e" name="3e"><br>
+                        <label for="3e">3e</label>
+                        <input type="number" id="3e" name="3e">
                     </div>
                 </div>
                 <div class="lycee">
-                    <h3>Lycée</h3><br>
+                    <h3>Lycée</h3>
                     <div class="field">
-                        <label for="seconde">Seconde</label><br>
-                        <input type="number" id="seconde" name="seconde"><br>
+                        <label for="seconde">Seconde</label>
+                        <input type="number" id="seconde" name="seconde">
                     </div>
                     <div class="field">
-                        <label for="premiere">Première</label><br>
-                        <input type="number" id="premiere" name="premiere"><br>
+                        <label for="premiere">Première</label>
+                        <input type="number" id="premiere" name="premiere">
                     </div>
                     <div class="field">
-                        <label for="terminale">Terminale</label><br>
-                        <input type="number" id="terminale" name="terminale"><br>
+                        <label for="terminale">Terminale</label>
+                        <input type="number" id="terminale" name="terminale">
                     </div>
                 </div>
                 <div class="no_school">
-                    <h3>Non scolaire</h3><br>
+                    <h3>Non scolaire</h3>
                     <div class="field">
-                        <label for="enfants">Enfants</label><br>
-                        <input type="number" id="enfants" name="enfants"><br>
+                        <label for="enfants">Enfants</label>
+                        <input type="number" id="enfants" name="enfants">
                     </div>
                     <div class="field">
-                        <label for="adultes">Adultes</label><br>
-                        <input type="number" id="adultes" name="adultes"><br>
+                        <label for="adultes">Adultes</label>
+                        <input type="number" id="adultes" name="adultes">
                     </div>
-                </div>
+                </div>  -->
             </div>
             <div class="price_form">
                 <h2>Prix</h2>
                 <div class="field">
-                        <label for="prix">Montant</label><br>
-                        <input type="number" id="prix" name="prix   "><br>
+                        <label for="price">Montant</label>
+                        <input type="number" id="price" name="price">
                     </div>
             </div>
         <input type="submit" value="Enregistrer">
