@@ -16,7 +16,7 @@ export async function fetchMonthRes(firstDay, lastDay, token) {
         } else if (response.status === 404) {
             throw new Error("Le compte utilisateur est inexistant ou désactivé");
         } else {
-            throw new Error("Une erreur inconnue s'est produite - contacter administrateur");
+            throw new Error("Erreur lors de la récupération des réservations - contacter administrateur");
         }
     } else {
         return await response.json();
@@ -33,7 +33,8 @@ export async function fetchStatus() {
             }
         });
     if (!response.ok) {
-        throw new Error("Une erreur inconnue s'est produite - contacter administrateur");
+        throw new Error(
+            "Erreur lors de la récupération des status de réservation - contacter administrateur");
     } else {
         return response.json();
     }
@@ -55,8 +56,24 @@ export async function fetchThemes(resTypeId) {
         } else if (response.status === 401) {
             throw new Error("Votre session a expiré, reconnectez-vous");
         } else {
-            throw new Error("Une erreur inconnue s'est produite - contacter administrateur");
+            throw new Error("Erreur lors de la récupération des thèmes - contacter administrateur");
         }
+    } else {
+        return response.json();
+    }
+}
+
+export async function fetchAudienceTypes() {
+    const token = getCookie("token");
+    const response = await fetch(`${API_BASE_URL}/api/audience_types/`, {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    });
+    if (!response.ok) {
+        throw new Error("Erreur lors de la récupération des types d'audience - contacter Admin");
     } else {
         return response.json();
     }
