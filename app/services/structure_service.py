@@ -27,3 +27,15 @@ class StructureService():
         self.struct_repo.add(new_struct)
 
         return new_struct.to_dict()
+
+    def get_struct_id_zip(self, structT_id, zip_code):
+        check_id('Structure type', structT_id, self.structT_repo)
+
+        if not isinstance(zip_code, str) or len(zip_code) != 5:
+            raise ValueError('Zip code must be 5 characters long')
+
+        structures_list = self.struct_repo.structure_by_type_and_zip(
+            structT_id, zip_code)
+        print(structures_list)
+        dict_list = [element.to_dict() for element in structures_list]
+        return dict_list
