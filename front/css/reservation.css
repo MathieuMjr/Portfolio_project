@@ -61,7 +61,13 @@ label {
 }
 
 .field {
+    display: flex;
+    flex-direction: column;
     padding-top: 1rem;
+    gap: 0.25rem;
+    width: 100%;
+    max-width: 15rem;
+
 }
 
 .bloc-row, .audience_form, .theme {
