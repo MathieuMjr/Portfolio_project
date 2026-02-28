@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // })
 
 
-// --- DISPLAY FUNCTIONS    
+// --- DISPLAY FUNCTIONS ---------------------------------------------------   
 
 // -- RESERVATION TYPES
 function displayResTypes(data) {
