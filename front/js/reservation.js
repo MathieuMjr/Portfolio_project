@@ -4,7 +4,8 @@ import { fetchStatus,
     fetchThemes,
     fetchAudienceTypes,
     fetchStructureTypes, 
-    fetchStructures} from "./api.js";
+    fetchStructures,
+    postReservation} from "./api.js";
 
 const payload = {
     "structure_id": null,
@@ -55,6 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         ])
     } catch(error) {
         alert(error.message);
+        window.location.href = '../html/index.html'
     }
     
     // Header, reservation types, themes
@@ -161,8 +163,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 displayStructDetails(address, town, email, phone);
                 console.log(payload);
             }
-        })
     })
+    document.querySelector('.form_container').addEventListener(
+        'submit', async (event) => {
+            event.preventDefault();
+            if (checkPayload(payload)) {
+                const response = await safeFetch(postReservation, payload);
+                if (response) alert('Réservation créée avec succès');
+            } else {
+                alert("Champs manquant(s) ou invalide(s)")
+            }
+        }
+    )
+})
 
 // --- DISPLAY FUNCTIONS ---------------------------------------------------   
 function displayStructDetails(address, town, email, phone) {
@@ -273,6 +286,10 @@ function displayStructType(data) {
 function displayStructNames(data) {
     const select = document.getElementById('struct_name');
     select.innerHTML = "";
+    const defaultOption = document.createElement('option');
+    defaultOption.value = "";
+    defaultOption.textContent = "Veuillez choisir une option";
+    select.appendChild(defaultOption);
     data.forEach((element) => {
         const option = document.createElement('option');
         option.value = element.id;
@@ -326,6 +343,12 @@ function displayAudienceTypes(data) {
     });
 }
 
+function checkPayload(payload) {
+    return Object.entries(payload).every(([key, value]) => {
+    if (Array.isArray(value)) return value.length > 0;
+    return value !== null && value !== "";
+})
+}
 async function safeFetch(fetchFunction, ...arg) {
     try{
         return await fetchFunction(...arg);
