@@ -10,55 +10,19 @@
 
 <body>
     <header class = "navigation">
-        <!-- <div class="icons">
-            <img src="../medias/add-icon.png" alt="Nouvelle réservation"></img>
-            <img src="../medias/import-icon.png" alt="Exporter"></img>
-        </div>
-
-       <div class = "identity">
-        <p><b>Mathieu</b></p>
-        <p><b>Majérus</b></p>
-        </div> -->
     </header>
     <main>
         <form class="form_container">
             <h2>Type de réservation</h2>
             <div class="res_type">
-                
             </div>
             <h2>Status</h2>
             <div class="status">
-                <!-- <div class="field">
-                        <label for="res_status">Type</label>
-                        <select id="res_status" name="res_status">
-                            Nourri dynamiquement par un fetch API
-                            <option value="">Veuillez choisir une option</option>
-                            <option value="attente">En attente d'informations</option>
-                            <option value="signature1">Signature établissement en cours</option>
-                            <option value="signature2">Signature direction en cours</option>
-                            <option value="reservee">Réservée</option>
-                            <option value="facture">A facturer</option>
-                            <option value="clot">Réservation close</option>
-                        </select>
-                    </div> -->
             </div>
             <div class="bloc-row">
                 <div class="theme_form">
                     <h2>Thèmes</h2>
                     <div class="theme">
-                        <!-- Nourri dynamiquement par un fetch api -->
-                        <!-- <div class="field">
-                            <input type="checkbox" id="retour_vers_la_prehistoire" name="retour_vers_la_prehistoire">
-                            <label for="retour_vers_la_prehistoire">Retour vers la Péehistoire</label>
-                        </div>
-                        <div class="field">
-                            <input type="checkbox" id="lait" name="lait">
-                            <label for="lait">Les métamorphoses du lait</label>
-                        </div>
-                        <div class="field">
-                            <input type="checkbox" id="electricite" name="electricte">
-                            <label for="electricite">Eléctricité</label>
-                        </div> -->
                     </div>
                 </div>
                 <div class="date_hour_form">
@@ -80,11 +44,7 @@
                         <label for="struct_type">Type</label>
                         <select id="struct_type" name="struct_type" required>
                             <!-- Nourri dynamiquement par un fetch API -->
-                            <option value="">Veuillez choisir une option</option>
-                            <!-- <option value="school">Ecole primaire</option>
-                            <option value="college">Collège</option>
-                            <option value="lycée">Lycée</option>
-                            <option value="library">Bibliothèque</option> -->
+                            <option value="">Selectionnez un type de structure</option>
                         </select>
                     </div>
                     <div class="field">
@@ -95,10 +55,8 @@
                         <label for="struct_name">Nom de la structure</label>
                         <select id="struct_name" name="struct_name" required>
                             <!-- Nourri dynamiquement par un fetch API en utilisant le type et le zip -->
-                            <option value="">Selectionner la structure</option>
+                            <option value="">Renseignez un type de structure et un code postal</option>
                             <!-- Ajouter une icone pour ouvrir une creation de structure + div -->
-                            <!-- <option value="Ecole Saint-Exupéry">Ecole Saint-Exupéry</option>
-                            <option value="Collège de Montsauche">Collège de Montsauche</option> -->
                         </select>
                     </div>
                     <!--Les inputs doivent se remplire automatiquement avec la selection de la structure-->
@@ -145,89 +103,6 @@
             </div>
             <h2>Audiences</h2>
             <div class="audience_form">
-                <!-- <div class="maternelle">
-                    <h3>Maternelle</h3>
-                    <div class="field">
-                        <label for="PS">PS</label>
-                        <input type="number" id="PS" name="PS">
-                    </div>
-                    <div class="field">
-                        <label for="MS">MS</label>
-                        <input type="number" id="MS" name="MS">
-                    </div>
-                    <div class="field">
-                        <label for="GS">GS</label>
-                        <input type="number" id="GS" name="GS">
-                    </div>
-                </div>
-                <div class="primaire">
-                    <h3>Primaire</h3>
-                    <div class="field">
-                        <label for="CP">CP</label>
-                        <input type="number" id="CP" name="CP">
-                    </div>
-                    <div class="field">
-                        <label for="CE1">CE1</label>
-                        <input type="number" id="CE1" name="CE1">
-                    </div>
-                    <div class="field">
-                        <label for="CE2">CE2</label>
-                        <input type="number" id="CE2" name="CE2">
-                    </div>
-                    <div class="field">
-                        <label for="CM1">CM1</label>
-                        <input type="number" id="CM1" name="CM1">
-                    </div>
-                    <div class="field">
-                        <label for="CM2">CM2</label>
-                        <input type="number" id="CM2" name="CM2">
-                    </div>
-                </div>
-                <div class="college">
-                    <h3>Collège</h3>
-                    <div class="field">
-                        <label for="6e">6e</label>
-                        <input type="number" id="6e" name="6e">
-                    </div>
-                    <div class="field">
-                        <label for="5e">5e</label>
-                        <input type="number" id="5e" name="5e">
-                    </div>
-                    <div class="field">
-                        <label for="4e">4e</label>
-                        <input type="number" id="4e" name="4e">
-                    </div>
-                    <div class="field">
-                        <label for="3e">3e</label>
-                        <input type="number" id="3e" name="3e">
-                    </div>
-                </div>
-                <div class="lycee">
-                    <h3>Lycée</h3>
-                    <div class="field">
-                        <label for="seconde">Seconde</label>
-                        <input type="number" id="seconde" name="seconde">
-                    </div>
-                    <div class="field">
-                        <label for="premiere">Première</label>
-                        <input type="number" id="premiere" name="premiere">
-                    </div>
-                    <div class="field">
-                        <label for="terminale">Terminale</label>
-                        <input type="number" id="terminale" name="terminale">
-                    </div>
-                </div>
-                <div class="no_school">
-                    <h3>Non scolaire</h3>
-                    <div class="field">
-                        <label for="enfants">Enfants</label>
-                        <input type="number" id="enfants" name="enfants">
-                    </div>
-                    <div class="field">
-                        <label for="adultes">Adultes</label>
-                        <input type="number" id="adultes" name="adultes">
-                    </div>
-                </div>  -->
             </div>
             <div class="price_form">
                 <h2>Prix</h2>
@@ -236,7 +111,7 @@
                         <input type="number" id="price" name="price">
                     </div>
             </div>
-        <input type="submit" value="Enregistrer">
+        <input type="submit" id="submit" value="Enregistrer">
         </form>
         <script type="module" src="../js/reservation.js"></script>
     </main>
