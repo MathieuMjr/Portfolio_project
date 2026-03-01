@@ -17,8 +17,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const identity = await fetchCurrentUser();
         setHeader(identity);
+        renderMonth(currentDate);
     } catch(error) {
         alert(error.message);
+        window.location.href = 'index.html'
     }
     
 
