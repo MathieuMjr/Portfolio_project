@@ -134,3 +134,26 @@ export async function fetchStructures(strucT_id, zipCode) {
         }
     }
 }
+
+export async function postReservation(payload) {
+    const token = getCookie("token");
+    const response = await fetch(`${API_BASE_URL}/api/reservations/`, {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+    });
+    if (!response.ok) {
+        if (response.status === 401) {
+            throw new Error("Votre session a expiré, veuillez vous reconnecter");
+        } else if (response.status === 400) {
+            throw new Error('Un champs incorrect a été saisi');
+        } else {
+            throw new Error('Une erreur est survenue');
+        }
+        } else {
+            return await response.json();
+    }
+}
