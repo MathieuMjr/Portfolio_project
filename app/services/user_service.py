@@ -60,7 +60,8 @@ class UserServices():
             "lastname": user.lastname,
         }
         if not claims['role']:
-            return user_dict
+            user_dict['reservation_types'] = [
+                element.to_dict() for element in user.reservation_types]
         else:
             user_dict['reservation_types'] = [
                 element.to_dict() for element in self.res_type_repo.get_all()
