@@ -5,7 +5,18 @@ import { fetchStatus,
     fetchAudienceTypes,
     fetchStructureTypes, 
     fetchStructures,
-    postReservation} from "./api.js";
+    postReservation,
+    fetchReservation, 
+    putReservation} from "./api.js";
+
+import { displayAudienceTypes,
+    displayExistingRes,
+    displayResTypes,
+    displayStatus,
+    displayStructDetails,
+    displayStructNames,
+    displayStructType,
+    displayThemes} from "./reservation_ui.js";
 
 const payload = {
     "structure_id": null,
@@ -39,6 +50,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             window.location.href = '../html/index.html'
         }
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const reservationId = urlParams.get('id');
+
      // header   
     const responseHeader = await fetch('../html/header.html');
     const headerContent = await responseHeader.text();
@@ -62,11 +76,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Header, reservation types, themes
     if (identity) {
         setHeader(identity);
+        console.log(identity);
         displayResTypes(identity.reservation_types);
 
         const resTypeSelect = document.getElementById('res_type');
         resTypeSelect.addEventListener('change', async (e) => {
             payload.reservation_type_id = e.target.value;
+            payload.themes_id_list = [];
             console.log(payload);
 
             const themeList = await safeFetch(fetchThemes, e.target.value);
@@ -164,183 +180,50 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.log(payload);
             }
     })
+
+    if (reservationId) {
+        try {
+            const resDetails = await fetchReservation(reservationId);
+            displayExistingRes(resDetails);
+            payloadFromExistingRes(resDetails, payload);
+            console.log(payload);
+        } catch (error) {
+            alert(error.message);
+        }  
+    }
+
     document.querySelector('.form_container').addEventListener(
         'submit', async (event) => {
             event.preventDefault();
-            if (checkPayload(payload)) {
-                const response = await safeFetch(postReservation, payload);
-                if (response) alert('Réservation créée avec succès');
+            if (!checkPayload(payload)) {
+                alert("Champs manquant(s) ou invalide(s)");
+                return;
+            }
+            if (reservationId) {
+                const response = await safeFetch(putReservation, payload, reservationId);
+                if (response) {
+                    alert("Réservation mise à jour avec succès");
+                    window.location.href="../html/planning.htm";
+                }
             } else {
-                alert("Champs manquant(s) ou invalide(s)")
+                const response = await safeFetch(postReservation, payload);
+                if (response) {
+                    alert('Réservation créée avec succès');
+                    window.location.href="../html/planning.htm";
+                }
             }
         }
     )
 })
 
-// --- DISPLAY FUNCTIONS ---------------------------------------------------   
-function displayStructDetails(address, town, email, phone) {
-    const addressInput = document.getElementById('struct_address');
-    const townInput = document.getElementById('struct_town');
-    const emailInput = document.getElementById('struct_mail');
-    const phoneInput = document.getElementById('struct_tel');
-
-    addressInput.value = address;
-    townInput.value = town;
-    emailInput.value = email;
-    phoneInput.value = phone;
-}
-// -- RESERVATION TYPES
-function displayResTypes(data) {
-    const ResTypeContainer = document.querySelector('.res_type');
-
-    const resTypeField = document.createElement('div');
-    resTypeField.classList.add('field');
-
-    const resTypeLabel = document.createElement('label');
-    resTypeLabel.setAttribute('for', 'res_type');
-    // resTypeLabel.textContent ='Type de réservation';
-    resTypeField.appendChild(resTypeLabel);
-
-    const resTypeSelect = document.createElement('select');
-    resTypeSelect.id ='res_type';
-    resTypeSelect.name = 'res_type';
-
-    const resTypeChoose = document.createElement('option');
-    resTypeChoose.value = "";
-    resTypeChoose.textContent = "Choisir le type de réservation";
-    resTypeSelect.appendChild(resTypeChoose);
-
-    data.forEach((element) => {
-        const option = document.createElement('option');
-        option.value = element.id;
-        option.innerText = element.name;
-        resTypeSelect.appendChild(option);
-    })
-
-    resTypeField.appendChild(resTypeSelect);
-    ResTypeContainer.appendChild(resTypeField);
-}
-
-// -- STATUSES
-function displayStatus(data) {
-    const statusContainer = document.querySelector('.status');
-    const statusField = document.createElement('div');
-    statusField.classList.add('field');
-
-    const statusLabel = document.createElement('label');
-    statusLabel.setAttribute('for', 'status');
-    statusField.appendChild(statusLabel);
-    
-    const statusSelect = document.createElement('select');
-    statusSelect.id = "status";
-    statusSelect.name = "status";
-
-    const defaultOption = document.createElement('option');
-    defaultOption.value ="";
-    defaultOption.textContent = "Choisir le statut";
-    statusSelect.appendChild(defaultOption);
-
-    data.forEach((element) => {
-        const option = document.createElement('option');
-        option.value = element.id;
-        option.textContent = element.name;
-        statusSelect.appendChild(option);
-    })
-
-    statusField.appendChild(statusSelect);
-    statusContainer.appendChild(statusField);
-}
-
-// -- THEMES
-function displayThemes(data) {
-    const themeContainer = document.querySelector('.theme');
-    themeContainer.innerHTML = "";
-    data.forEach((element) => {
-        const field = document.createElement('field');
-        const input = document.createElement('input');
-        input.type = "checkbox";
-        input.id = `theme_${element.id}`;
-        input.name = "themes";
-        input.value = element.id;
-        const label = document.createElement('label');
-        label.setAttribute('for', `theme_${element.id}`);
-        label.textContent = element.name;
-        field.appendChild(input);
-        field.appendChild(label);
-        themeContainer.appendChild(field);
-    })
-}
-
-// STRUCTURE TYPES
-function displayStructType(data) {
-    const select = document.getElementById('struct_type');
-    data.forEach((element) => {
-        const option = document.createElement('option');
-        option.value = element.id;
-        option.textContent = element.name;
-        select.appendChild(option);
-    })
-}
-
-// STRUCTURES
-function displayStructNames(data) {
-    const select = document.getElementById('struct_name');
-    select.innerHTML = "";
-    const defaultOption = document.createElement('option');
-    defaultOption.value = "";
-    defaultOption.textContent = "Veuillez choisir une option";
-    select.appendChild(defaultOption);
-    data.forEach((element) => {
-        const option = document.createElement('option');
-        option.value = element.id;
-        option.textContent = element.name;
-        option.dataset.address = element.address;
-        option.dataset.town = element.town;
-        option.dataset.phone = element.phone;
-        option.dataset.email = element.email;
-        select.appendChild(option);
-    })
-}
-
-// -- AUDIENCE TYPES
-function displayAudienceTypes(data) {
-    const audienceForm = document.querySelector('.audience_form');
-    const categories = [];
-    // extrait les catégories existantes
-    data.forEach((element) => {
-        if (!categories.includes(element.category)) {
-            categories.push(element.category);
-        }
-    });
-    // pour chaque catégorie, créer les div, titres et champs
-    categories.forEach((element) => {
-        // Selectionner les data de la catégorie
-        const categoryData = data.filter((n) => n.category === element);
-        const sortedData = categoryData.sort((a, b) => a.order_index - b.order_index);
-        //Créer la div de la catégorie
-        const categoryDiv = document.createElement('div');
-        categoryDiv.classList.add("category");
-        const title = document.createElement('h3');
-        title.textContent = element;
-        categoryDiv.appendChild(title);
-        // Pour chaque data de la catégorie :
-        sortedData.forEach((data) => {
-            const field = document.createElement('div');
-            field.classList.add('field');
-            const label = document.createElement('label');
-            label.setAttribute('for', data.name);
-            label.innerText = data.name;
-            field.appendChild(label);
-            const input = document.createElement('input');
-            input.type = "number";
-            input.id = data.name;
-            input.name = "audience";
-            input.dataset.audienceT_id = data.id;
-            field.appendChild(input);
-            categoryDiv.appendChild(field);
-        });
-        audienceForm.appendChild(categoryDiv);
-    });
+// Util function
+async function safeFetch(fetchFunction, ...arg) {
+    try{
+        return await fetchFunction(...arg);
+    } catch (error) {
+        alert(error.message);
+        return null;
+    }
 }
 
 function checkPayload(payload) {
@@ -349,11 +232,28 @@ function checkPayload(payload) {
     return value !== null && value !== "";
 })
 }
-async function safeFetch(fetchFunction, ...arg) {
-    try{
-        return await fetchFunction(...arg);
-    } catch (error) {
-        alert(error.message);
-        return null;
-    }
+
+function payloadFromExistingRes(resDetails, payload) {
+    payload.structure_id = resDetails.structure.id;
+    payload.reservation_type_id = resDetails.reservation_type.id;
+    payload.reservation_date = resDetails.reservation_date;
+    payload.hour = resDetails.hour;
+    payload.contact_firstname = resDetails.contact.firstname;
+    payload.contact_lastname = resDetails.contact.lastname;
+    payload.contact_phone = resDetails.contact.phone;
+    payload.contact_email = resDetails.contact.email;
+    payload.contact_role = resDetails.contact.role;
+    payload.price = resDetails.price;
+    payload.status_id = resDetails.status.id;
+    resDetails.themes.forEach((theme) => {
+        payload.themes_id_list.push(theme.id);
+    });
+    resDetails.audiences.forEach((audience) => {
+        const audienceDict = {
+            "count": audience.count,
+            "audience_type_id": audience.audience_type.id
+        };
+        payload.audiences.push(audienceDict);
+    });
+    payload.author_id = resDetails.author.id;
 }
