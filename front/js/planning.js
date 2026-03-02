@@ -14,26 +14,41 @@ document.addEventListener('DOMContentLoaded', async () => {
     const headerContent = await responseHeader.text();
     const header = document.querySelector(".navigation");
     header.innerHTML = headerContent;
+
+    let identity, monthReservations;
+    let currentDate = new Date();
+    // Required for displayPlanning
+    const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() +1, 0);
+    // Required for fetchMontRes
+    const firstDayString = formatDate(firstDay);
+    const lastDayString = formatDate(lastDay);
     try {
-        const identity = await fetchCurrentUser();
-        setHeader(identity);
-        renderMonth(currentDate);
+        [identity, monthReservations] = await Promise.all([
+            fetchCurrentUser(),
+            fetchMonthRes(firstDayString, lastDayString, token),
+        ])
     } catch(error) {
         alert(error.message);
         window.location.href = 'index.html'
     }
-    
 
+    if (identity) {
+        setHeader(identity);
+    }
+        
+    if (monthReservations) {
+        display_planning(firstDay, lastDay, monthReservations);
+    }
+    
+    
+// PLANNING NAVIGATION-----------------------------------------------------
     const responsePlanNav = await fetch('../html/planning_nav.html');
     const planNavContent = await responsePlanNav.text();
     const headPlanNav = document.querySelector(".head_planning_nav");
     const footPlanNav = document.querySelector('.foot_planning_nav');
     headPlanNav.innerHTML = planNavContent;
     footPlanNav.innerHTML = planNavContent;
-    
-    let currentDate = new Date();
-
-    renderMonth(currentDate);
 
     headPlanNav.querySelector('.prev_nav_button').addEventListener('click', (event) => {
         event.preventDefault();
@@ -59,25 +74,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // ---------------- FONCTIONS ------------------------------------------------
 
-async function renderMonth(date) {
-    const monthWrapper = document.querySelector(".month-wrapper");
-
-    monthWrapper.innerHTML = "";
-
-    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-
-    const lastDay = new Date(date.getFullYear(), date.getMonth() +1, 0);
-    const firstDayString = formatDate(firstDay);
-
-    const lastDayString = formatDate(lastDay);
-    try {
-        const reservations_data = await fetchMonthRes(firstDayString, lastDayString, token);
-        display_planning(firstDay, lastDay, reservations_data);
-    } catch(error) {
-        alert(error.message);
-    }
-}
-
 function display_planning(firstDay, lastDay, res_data) {
 
     const MONTHS = ["Janvier", "Février", "Mars", "Avril", "Mai",
@@ -86,6 +82,7 @@ function display_planning(firstDay, lastDay, res_data) {
     ];
 
     const monthWrapper = document.querySelector(".month-wrapper");
+    monthWrapper.innerHTML = "";
 
     const monthTitle = document.createElement("h1");
     monthWrapper.appendChild(monthTitle);
