@@ -134,6 +134,13 @@ class ReservationService:
         # Validate payload
         valid_payload = ReservationPayload(**data).model_dump()
 
+        if valid_payload['author_id'] != existing_res.author_id:
+            raise ValueError('Changing author is not allowed')
+        if valid_payload['structure_id'] != existing_res.structure_id:
+            raise ValueError('Changing structure is not allowed')
+        if valid_payload['reservation_type_id'
+                         ] != existing_res.reservation_type_id:
+            raise ValueError('Changing reservation type is not allowed')
         # Remove field that cannot be updated
         # /!\ success will be return but field not modified
         valid_payload.pop('author_id')
