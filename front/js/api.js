@@ -153,7 +153,55 @@ export async function postReservation(payload) {
         } else {
             throw new Error('Une erreur est survenue');
         }
+    } else {
+        return await response.json();
+    }
+}
+
+export async function fetchReservation(reservationId) {
+    const token = getCookie("token");
+    const response = await fetch(`${API_BASE_URL}/api/reservations/${reservationId}`, {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    });
+    if (!response.ok) {
+        if (response.status === 401) {
+            throw new Error("Votre session a expiré, veuillez vous reconnecter");
         } else {
-            return await response.json();
+            throw new Error(
+                "Erreur lors de la récupération de la réservation - contacter Admin");
+        }
+    } else {
+        return response.json();
+    }
+}
+
+export async function putReservation(payload, reservationId) {
+    const token = getCookie("token");
+    const response = await fetch(`${API_BASE_URL}/api/reservations/${reservationId}`, {
+        method: "PUT",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+    });
+    if (!response.ok) {
+        if (response.status === 401) {
+            throw new Error("Votre session a expiré, veuillez vous reconnecter");
+        } else if (response.status === 400) {
+            // A revoir !
+            const errorMessage = await response.json()
+            throw new Error(errorMessage.error);
+        } else if (response.status === 404) {
+            throw new Error("Ressource introuvable (réservation, status, theme ou audiences)")
+        } else {
+            throw new Error(error.message);
+        }
+    } else {
+        return await response.json();
     }
 }
