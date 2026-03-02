@@ -168,7 +168,7 @@ export function displayAudienceTypes(data) {
 
 export async function displayExistingRes(resDetails) {
     const select = document.getElementById('struct_name');
-    select.readOnly = true;
+    select.disabled = true;
     const option = document.createElement('option');
     option.value = resDetails.structure.id;
     option.textContent = resDetails.structure.name;
@@ -178,7 +178,9 @@ export async function displayExistingRes(resDetails) {
     document.getElementById('struct_address').value = resDetails.structure.address;
     document.getElementById('struct_mail').value = resDetails.structure.email;
     document.getElementById('struct_tel').value = resDetails.structure.phone;
+    document.getElementById('struct_type').disabled = true;
     document.getElementById('struct_type').value = resDetails.structure.structure_type.id;
+    document.getElementById('struct_zip').disabled = true;
     document.getElementById('struct_zip').value = resDetails.structure.zip_code;
     document.getElementById('contact_firstname').value = resDetails.contact.firstname;
     document.getElementById('contact_lastname').value = resDetails.contact.lastname;
@@ -192,7 +194,8 @@ export async function displayExistingRes(resDetails) {
     document.getElementById('reservation_date').value = resDetails.reservation_date;
     document.getElementById('hour').value = resDetails.hour;
     document.getElementById('status').value = resDetails.status.id;
-    document.getElementById('res_type').value=resDetails.reservation_type.id;
+    document.getElementById('res_type').value = resDetails.reservation_type.id;
+    document.getElementById('res_type').disabled = true;
     const themeList = await fetchThemes(resDetails.reservation_type.id);
     if (themeList) {
         console.log(themeList);
