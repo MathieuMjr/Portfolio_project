@@ -133,3 +133,7 @@ class ReservationId(Resource):
             return {'error': str(e)}, 404
         except UnauthorizedAction as e:
             return {'error': str(e)}, 403
+        except ThemeDontMatchResType as e:
+            return {'error': str(e)}, 400
+        except ValueError as e:
+            return {'error': str(e)}, 400
