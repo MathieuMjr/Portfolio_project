@@ -189,6 +189,8 @@ def status(status_data):
 def audience_type_data():
     return {
         'name': 'CE2',
+        'category': 'Primaire',
+        'order_index': 3,
         'is_school': True
     }
 
