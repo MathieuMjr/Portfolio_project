@@ -114,7 +114,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\": \"mathieu@trolol.fr\",\r\n    \"password\": \"123mdp!\"\r\n}",
+              "raw": "{\r\n    \"email\": \"mathieu@kotools.fr\",\r\n    \"password\": \"123mdp!\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -169,7 +169,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"firstname\": \"Mathieu\",\r\n    \"lastname\": \"Mjr\",\r\n    \"email\": \"mathieu@trolol.fr\",\r\n    \"password\": \"123mdp!\",\r\n    \"role\": false,\r\n    \"reservation_types\": [\"{{Animation}}\"]\r\n}",
+              "raw": "{\r\n    \"firstname\": \"Mathieu\",\r\n    \"lastname\": \"Mjr\",\r\n    \"email\": \"mathieu@kotools.fr\",\r\n    \"password\": \"123mdp!\",\r\n    \"role\": false,\r\n    \"reservation_types\": [\"{{Animation}}\"]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -498,6 +498,34 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Get user identity as admin",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "me"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -604,6 +632,44 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Get structures by type id and zip_code",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/structures/?type_id={{Ecole primaire}}&zip=21000",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "structures",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "type_id",
+                  "value": "{{Ecole primaire}}"
+                },
+                {
+                  "key": "zip",
+                  "value": "21000"
+                }
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -641,7 +707,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"structure_id\": \"{{Ecole St Jo}}\",\r\n    \"reservation_type_id\": \"{{Animation}}\",\r\n    \"reservation_date\": \"2027-02-10\",\r\n    \"hour\": \"10:00\",\r\n    \"contact_firstname\": \"Martin\",\r\n    \"contact_lastname\": \"Matin\",\r\n    \"contact_phone\": \"0678541717\",\r\n    \"contact_email\": \"martin.matin@trodrole.com\",\r\n    \"contact_role\": \"Prof d'histoire\",\r\n    \"price\": 200,\r\n    \"status_id\": \"{{En attente d'informations}}\",\r\n    \"themes_id_list\": [\"{{Retour vers la Préhistoire}}\", \"{{Fée éléctricité}}\"],\r\n    \"audiences\": [{\r\n        \"count\": 25,\r\n        \"audience_type_id\": \"{{CE2}}\"\r\n    }, {\r\n        \"count\": 15,\r\n        \"audience_type_id\": \"{{CE1}}\"\r\n    }]\r\n}",
+              "raw": "{\r\n    \"structure_id\": \"{{Ecole St Jo}}\",\r\n    \"reservation_type_id\": \"{{Animation}}\",\r\n    \"reservation_date\": \"2026-02-28\",\r\n    \"hour\": \"08:30\",\r\n    \"contact_firstname\": \"Martin\",\r\n    \"contact_lastname\": \"Matin\",\r\n    \"contact_phone\": \"0678541717\",\r\n    \"contact_email\": \"martin.matin@trodrole.com\",\r\n    \"contact_role\": \"Prof d'histoire\",\r\n    \"price\": 200,\r\n    \"status_id\": \"{{En attente d'informations}}\",\r\n    \"themes_id_list\": [\"{{Retour vers la Préhistoire}}\", \"{{Fée éléctricité}}\"],\r\n    \"audiences\": [{\r\n        \"count\": 25,\r\n        \"audience_type_id\": \"{{CE2}}\"\r\n    }, {\r\n        \"count\": 15,\r\n        \"audience_type_id\": \"{{CE1}}\"\r\n    }]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -778,7 +844,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/reservations/me/reservations?from=2027-02-01&to=2027-02-28",
+              "raw": "{{base_url}}/reservations/me/reservations?from=2026-03-01&to=2027-02-28",
               "host": [
                 "{{base_url}}"
               ],
@@ -790,7 +856,7 @@
               "query": [
                 {
                   "key": "from",
-                  "value": "2027-02-01"
+                  "value": "2026-03-01"
                 },
                 {
                   "key": "to",
