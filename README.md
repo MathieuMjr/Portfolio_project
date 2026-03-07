@@ -1,3 +1,7 @@
+# UPDATE INCOMING SOON
+Your are currently reading the technical documentation written during the preparatory work. 
+An actual technical documentation is coming.
+
 # PORTFOLIO PROJECT - HOLBERTON SCHOOL DIJON
 
 This project is part the first-year "Fundamentals" curriculum at Holberton School.
