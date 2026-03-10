@@ -11,6 +11,9 @@ from app.api.struct_types import api as struct_types_ns
 from app.api.statuses import api as statuses_ns
 from app.api.res_types import api as res_types_ns
 from app.api.audience_types import api as audience_types_ns
+from jwt.exceptions import ExpiredSignatureError
+from flask_jwt_extended.exceptions import (InvalidHeaderError,
+                                           NoAuthorizationError)
 
 
 def create_app(config_class=Config):
@@ -22,6 +25,19 @@ def create_app(config_class=Config):
     db.init_app(app)
     jwt.init_app(app)
     bcrypt.init_app(app)
+
+    @api.errorhandler(ExpiredSignatureError)
+    def handle_expired_token(error):
+        return {'error': 'Token expiré, veuillez vous reconnecter'}, 401
+
+    @api.errorhandler(NoAuthorizationError)
+    def handle_missing_token(error):
+        return {'error': 'Token manquant'}, 401
+
+    @api.errorhandler(InvalidHeaderError)
+    def handle_invalid_token(error):
+        return {'error': 'Token invalide'}, 401
+
     CORS(app, resources={r"/api/*": {"origins": "http://localhost:5500"}})
 
     api.add_namespace(users_ns, path='/api/users')
