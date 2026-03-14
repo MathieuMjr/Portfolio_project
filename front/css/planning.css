@@ -1,65 +1,110 @@
-/* couleurs : 
-#EB9315 orange : 235, 147, 21
-#1550EA bleu : 21, 80, 234
-#EBC715 jaune: 235, 199, 21
-Adobe colour wheel : complémentaires partagées */
+/* ============================================================
+   Kō.tools — planning.css
+   Police : DM Sans (Google Fonts)
+   ============================================================ */
 
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+/* ── Variables ─────────────────────────────────────────────── */
+:root {
+    --color-header:  rgba(71, 119, 151);
+    --color-title:   #1e4d8c;
+    --color-accent:  #EB9315;
+    --color-bg:      #f4f6fb;
+    --color-surface: #ffffff;
+    --shadow:        0 2px 8px rgba(0, 0, 0, 0.12);
+    --font-main:     'DM Sans', sans-serif;
+}
+
+/* ── Reset ──────────────────────────────────────────────────── */
 * {
     box-sizing: border-box;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    /* min-height:100vh; */
-    /* il faut une width sur le body pour que es boîtes sachent où s'arrêter, malheureusement déclarer en vw est pour l'instant impossible, se pencher sur le box-sizingu */
-/* width:1200px; */
-/* end stance */
+    font-family: var(--font-main);
+    background-color: var(--color-bg);
     display: flex;
     flex-direction: column;
-    margin: 0;
+    min-height: 100vh;
 }
 
-main h1 {
-    text-transform: uppercase;
-}
-
-main {
-    display: flex;
-    flex-direction: column;
-    margin-top: 2rem;
-    padding : 2rem;
-    
-}
-
+/* ── Header ─────────────────────────────────────────────────── */
 .navigation {
-    display:flex;
+    display: flex;
     flex-direction: row;
-    background-color:  rgb(51, 71, 152);
-    /* border-bottom: solid rgb(235, 199, 21); */
-    padding: 1rem 3rem;
     align-items: center;
+    background-color: var(--color-header);
+    padding: 1.1rem 2.5rem;
 }
 
 .icons {
     display: flex;
     flex-direction: row;
-    gap: clamp(1rem, 1.5rem, 2rem);
-    width: clamp(2rem, 5vw, 4rem);
-    height: clamp(2rem, 5vw, 4rem);
+    gap: 1.25rem;
+    align-items: center;
+}
+
+.icons img {
+    width: clamp(1.75rem, 3vw, 2.25rem);
+    height: clamp(1.75rem, 3vw, 2.25rem);
 }
 
 .identity {
-    text-align: right;
     margin-left: auto;
+    text-align: right;
     color: white;
 }
 
 .identity p {
-    /* color: rgb(248, 248, 248); */
-    margin: 0.5rem;
+    margin: 0.15rem 0;
+    font-size: clamp(0.9rem, 1.5vw, 1.15rem);
+    font-weight: 600;
     text-transform: uppercase;
-    font-size: clamp(1rem, 2vw, 2rem);
-    font-weight: bold;
+}
+
+/* ── Main ───────────────────────────────────────────────────── */
+main {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 3rem;
+    gap: 1rem;
+    flex: 1;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* ── Navigation mois ────────────────────────────────────────── */
+.head_planning_nav,
+.foot_planning_nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.prev_nav_button,
+.next_nav_button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 1.2rem;
+    border: 2px solid var(--color-header);
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--color-header);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.prev_nav_button img,
+.next_nav_button img {
+    width: 1rem;
+    height: 1rem;
 }
 
 .month-wrapper {
@@ -67,60 +112,79 @@ main {
     flex-direction: column;
 }
 
-.month-wrapper h2 {
+/* ── Titre du mois ──────────────────────────────────────────── */
+.month-wrapper h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--color-title);
     text-transform: uppercase;
+    margin-bottom: 1.5rem;
 }
 
+/* ── Jours ──────────────────────────────────────────────────── */
+
+.month-wrapper h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-title);
+    text-transform: uppercase;
+    padding: 0.75rem 0 0.4rem 0;
+    border-top: 1px solid #dde3f0;
+    margin-top: 0.5rem;
+}
+
+/* ── Planning du jour ───────────────────────────────────────── */
 .day-planning {
-    display:flex;
+    display: flex;
     flex-direction: row;
-    gap: 2rem;
+    gap: 1rem;
     flex-wrap: wrap;
+    padding-bottom: 0.5rem;
+    min-height: 0.5rem;
 }
 
+/* ── Cards ──────────────────────────────────────────────────── */
 .day-card {
-    border: solid;
+    background-color: var(--color-surface);
     border-radius: 10px;
-    padding: 1rem;
-    border-color: rgba(23, 56, 187, 0.755);
-    border-width: 0.3rem;
+    padding: 0.85rem 1.1rem;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--color-accent);
+    width: clamp(180px, 25%, 260px);
 }
 
-.day-card a:link, a:visited, a:hover, a:active{
+.day-card a,
+.day-card a:link,
+.day-card a:visited,
+.day-card a:hover,
+.day-card a:active {
     text-decoration: none;
-    color:black;
+    color: inherit;
 }
 
 .hour {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-title);
+    margin-bottom: 0.3rem;
 }
 
 .theme {
-    font-weight: bold;
-    color: rgb(225, 118, 17);
+    font-weight: 600;
+    color: var(--color-accent);
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+    line-height: 1.4;
 }
 
 .res_type {
     font-style: italic;
+    font-size: 0.95rem;
+    margin-bottom: 0.15rem;
+    color: #6b7a99;
 }
 
-.head_planning_nav, .foot_planning_nav {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.prev_nav_button, .next_nav_button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.75rem 0.75rem;
-    border: 3px, solid rgb(21, 80, 234);
-    text-transform: uppercase;
-    font-size: 0.9rem;
-    border-radius: 999px;
-    font-weight: bold;
-    text-decoration: none;
+.struct {
+    font-size: 0.95rem;
+    color: #6b7a99;
 }
