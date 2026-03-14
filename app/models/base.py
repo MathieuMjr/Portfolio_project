@@ -1,5 +1,6 @@
 from app.extensions import db
-from sqlalchemy import Boolean, String, DateTime
+from sqlalchemy import Boolean, String
+from sqlalchemy.dialects.mysql import DATETIME
 from sqlalchemy.orm import Mapped, mapped_column
 import uuid
 from datetime import datetime, timezone
@@ -22,13 +23,13 @@ class BaseClass(db.Model):
         nullable=False,
         unique=True)
     creation_date: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.now(timezone.utc),
+        DATETIME(fsp=6),
+        default=lambda: datetime.now(timezone.utc),
         nullable=False)
     update_date: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.now(timezone.utc),
-        onupdate=datetime.now(timezone.utc),
+        DATETIME(fsp=6),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
         nullable=False)
     is_active: Mapped[bool] = mapped_column(
         Boolean,
