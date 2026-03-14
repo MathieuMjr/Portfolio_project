@@ -79,7 +79,8 @@ export function displayThemes(data) {
     const themeContainer = document.querySelector('.theme');
     themeContainer.innerHTML = "";
     data.forEach((element) => {
-        const field = document.createElement('field');
+        const field = document.createElement('div');
+        field.classList.add('field');
         const input = document.createElement('input');
         input.type = "checkbox";
         input.id = `theme_${element.id}`;
