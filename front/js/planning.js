@@ -50,28 +50,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     headPlanNav.innerHTML = planNavContent;
     footPlanNav.innerHTML = planNavContent;
 
-    headPlanNav.querySelector('.prev_nav_button').addEventListener('click', (event) => {
-        event.preventDefault();
-        currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() -1, 1);
-        renderMonth(currentDate);
-    });
-    headPlanNav.querySelector('.next_nav_button').addEventListener('click', (event) => {
-        event.preventDefault();
-        currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() +1, 1);
-        renderMonth(currentDate);
-    });
-    footPlanNav.querySelector('.prev_nav_button').addEventListener('click', (event) => {
-        event.preventDefault();
-        currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() -1, 1);
-        renderMonth(currentDate);
-    });
-    footPlanNav.querySelector('.next_nav_button').addEventListener('click', (event) => {
-        event.preventDefault();
-        currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() +1, 1);
-        renderMonth(currentDate);
-    });
+    headPlanNav.querySelector('.prev_nav_button').addEventListener('click', async (event) => {
+    event.preventDefault();
+    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+    await navigateToMonth(currentDate);
 })
 
+    headPlanNav.querySelector('.next_nav_button').addEventListener('click', async (event) => {
+    event.preventDefault();
+    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+    await navigateToMonth(currentDate);
+})
+
+    footPlanNav.querySelector('.prev_nav_button').addEventListener('click', async (event) => {
+    event.preventDefault();
+    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+    await navigateToMonth(currentDate);
+})
+
+    footPlanNav.querySelector('.next_nav_button').addEventListener('click', async (event) => {
+    event.preventDefault();
+    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+    await navigateToMonth(currentDate);
+})
+})
 // ---------------- FONCTIONS ------------------------------------------------
 
 function display_planning(firstDay, lastDay, res_data) {
@@ -142,6 +144,7 @@ function displayReservationCards(data, parent_div, dayDate) {
         link.appendChild(pResType);
     
         const pStruct = document.createElement('p');
+        pStruct.classList.add('struct');
         const dpt = element.structure.zip_code.slice(0, 2);
         pStruct.textContent = `${element.structure.name} (${dpt})`;
         link.appendChild(pStruct);
@@ -151,4 +154,11 @@ function displayReservationCards(data, parent_div, dayDate) {
         dayPlanning.appendChild(card);
     });
     parent_div.appendChild(dayPlanning);
+}
+
+async function navigateToMonth(date) {
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    const monthReservations = await fetchMonthRes(formatDate(firstDay), formatDate(lastDay), token);
+    if (monthReservations) display_planning(firstDay, lastDay, monthReservations);
 }
