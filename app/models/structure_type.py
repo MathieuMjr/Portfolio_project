@@ -14,7 +14,7 @@ class StructureType(BaseClass):
     __tablename__ = 'structure_types'
 
     name: Mapped[str] = mapped_column(
-        String,
+        String(100),
         nullable=False,
         unique=True
     )

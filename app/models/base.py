@@ -16,7 +16,7 @@ class BaseClass(db.Model):
     """
     __abstract__ = True
     id: Mapped[str] = mapped_column(
-        String,
+        String(36),
         default=lambda: str(uuid.uuid4()),
         primary_key=True,
         nullable=False,

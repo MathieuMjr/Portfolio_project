@@ -18,12 +18,12 @@ class Audience(BaseClass):
         nullable=False
     )
     audience_type_id: Mapped[str] = mapped_column(
-        String,
+        String(36),
         ForeignKey('audience_types.id'),
         nullable=False
     )
     reservation_id: Mapped[str] = mapped_column(
-        String,
+        String(36),
         ForeignKey('reservations.id'),
         nullable=False
     )

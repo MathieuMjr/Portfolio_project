@@ -18,32 +18,32 @@ class Structure(BaseClass):
     __tablename__ = 'structures'
 
     name: Mapped[str] = mapped_column(
-        String,
+        String(100),
         nullable=False,
         unique=True
     )
     phone: Mapped[str] = mapped_column(
-        String,
+        String(20),
         nullable=False,
     )
     email: Mapped[str] = mapped_column(
-        String,
+        String(255),
         nullable=False
     )
     zip_code: Mapped[str] = mapped_column(
-        String,
+        String(10),
         nullable=False
     )
     address: Mapped[str] = mapped_column(
-        String,
+        String(255),
         nullable=False
     )
     town: Mapped[str] = mapped_column(
-        String,
+        String(100),
         nullable=False
     )
     structure_type_id: Mapped[str] = mapped_column(
-        String,
+        String(36),
         ForeignKey('structure_types.id'),
         nullable=False
     )

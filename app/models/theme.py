@@ -16,11 +16,11 @@ class Theme(BaseClass):
     __tablename__ = 'themes'
 
     name: Mapped[str] = mapped_column(
-        String,
+        String(100),
         nullable=False
     )
     reservation_type_id: Mapped[str] = mapped_column(
-        String,
+        String(36),
         ForeignKey('reservation_types.id'),
         nullable=False
     )

@@ -13,7 +13,7 @@ class ReservationType(BaseClass):
     __tablename__ = 'reservation_types'
 
     name: Mapped[str] = mapped_column(
-        String,
+        String(100),
         nullable=False,
         unique=True
     )

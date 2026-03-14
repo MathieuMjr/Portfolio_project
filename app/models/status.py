@@ -12,7 +12,7 @@ class Status(BaseClass):
     __tablename__ = 'status'
 
     name: Mapped[str] = mapped_column(
-        String,
+        String(100),
         nullable=False,
         unique=True,
     )

@@ -14,12 +14,12 @@ class AudienceType(BaseClass):
     __tablename__ = 'audience_types'
 
     name: Mapped[str] = mapped_column(
-        String,
+        String(100),
         nullable=False,
         unique=True
     )
     category: Mapped[str] = mapped_column(
-        String,
+        String(100),
         nullable=False
     )
     order_index: Mapped[int] = mapped_column(

@@ -11,12 +11,12 @@ user_reservation_type = Table(
     'user_reservation_type',
     db.metadata,
     Column('user_id',
-           String,
+           String(36),
            ForeignKey('users.id'),
            nullable=False,
            primary_key=True),
     Column('reservation_type_id',
-           String,
+           String(36),
            ForeignKey('reservation_types.id'),
            nullable=False,
            primary_key=True)
@@ -36,20 +36,20 @@ class User(BaseClass):
     __tablename__ = 'users'
 
     firstname: Mapped[str] = mapped_column(
-        String,
+        String(100),
         nullable=False
     )
     lastname: Mapped[str] = mapped_column(
-        String,
+        String(100),
         nullable=False
     )
     email: Mapped[str] = mapped_column(
-        String,
+        String(255),
         unique=True,
         nullable=False
     )
     password: Mapped[str] = mapped_column(
-        String(128),
+        String(60),
         nullable=False
     )
     role: Mapped[bool] = mapped_column(

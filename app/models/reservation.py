@@ -16,12 +16,12 @@ reservation_theme = Table(
     db.metadata,
     Column(
         'reservation_id',
-        String,
+        String(36),
         ForeignKey('reservations.id'),
         primary_key=True,
         nullable=False),
     Column('theme_id',
-           String,
+           String(36),
            ForeignKey('themes.id'),
            primary_key=True,
            nullable=False)
@@ -46,17 +46,17 @@ class Reservation(BaseClass):
     __tablename__ = 'reservations'
 
     author_id: Mapped[str] = mapped_column(
-        String,
+        String(36),
         ForeignKey('users.id'),
         nullable=False
     )
     structure_id: Mapped[str] = mapped_column(
-        String,
+        String(36),
         ForeignKey('structures.id'),
         nullable=False
     )
     reservation_type_id: Mapped[str] = mapped_column(
-        String,
+        String(36),
         ForeignKey('reservation_types.id'),
         nullable=False
     )
@@ -69,23 +69,23 @@ class Reservation(BaseClass):
         nullable=False
     )
     contact_firstname: Mapped[str] = mapped_column(
-        String,
+        String(100),
         nullable=False
     )
     contact_lastname: Mapped[str] = mapped_column(
-        String,
+        String(100),
         nullable=False
     )
     contact_phone: Mapped[str] = mapped_column(
-        String,
+        String(20),
         nullable=False
     )
     contact_email: Mapped[str] = mapped_column(
-        String,
+        String(255),
         nullable=False
     )
     contact_role: Mapped[str] = mapped_column(
-        String,
+        String(100),
         nullable=False
     )
     price: Mapped[Decimal] = mapped_column(
@@ -93,7 +93,7 @@ class Reservation(BaseClass):
         nullable=False
     )
     status_id: Mapped[str] = mapped_column(
-        String,
+        String(36),
         ForeignKey('status.id'),
         nullable=False
     )
