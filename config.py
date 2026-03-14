@@ -1,4 +1,5 @@
 import os
+from urllib.parse import quote_plus
 from dotenv import load_dotenv
 # from datetime import timedelta
 
@@ -10,7 +11,9 @@ class Config:
     TESTING = False
     SECRET_KEY = os.getenv('SECRET_KEY')
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
-    SQLALCHEMY_DATABASE_URI = "sqlite:///project.db"
+    SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://{
+        os.getenv('DB_USER')}:{
+            quote_plus(os.getenv('DB_PASSWORD'))}@localhost/kotools"
 
 
 class DevelopmentConfig(Config):
