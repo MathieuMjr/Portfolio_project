@@ -1,0 +1,87 @@
+* {
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+main h1 {
+    text-transform: uppercase;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    padding : 4rem;
+}
+
+.navigation {
+    display:flex;
+    flex-direction: row;
+    background-color:  rgb(51, 71, 152);
+    /* border-bottom: solid rgb(235, 199, 21); */
+    padding: 1rem 3rem;
+    align-items: center;
+}
+
+.icons {
+    display: flex;
+    flex-direction: row;
+    gap: clamp(1rem, 1.5rem, 2rem);
+    width: clamp(2rem, 5vw, 4rem);
+    height: clamp(2rem, 5vw, 4rem);
+}
+
+.identity {
+    text-align: right;
+    margin-left: auto;
+    color: white;
+}
+
+.identity p {
+    /* color: rgb(248, 248, 248); */
+    margin: 0.5rem;
+    text-transform: uppercase;
+    font-size: clamp(1rem, 2vw, 2rem);
+    font-weight: bold;
+}
+
+.form_container {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 1rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1rem;
+    gap: 0.25rem;
+    width: 100%;
+    max-width: 15rem;
+
+}
+
+.bloc-row, .audience_form, .theme {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.struct_form, .contact_form, .theme_form, .date_hour_form {
+    flex:1;
+}
+
+input[type="submit"] {
+    margin-top: 2rem;
+    width: 7rem;
+}
