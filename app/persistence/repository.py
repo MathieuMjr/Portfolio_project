@@ -23,9 +23,14 @@ class Repository:
         """
         if not include_inactive:
             return db.session.scalars(
-                db.select(self.model).filter_by(
-                    is_active=True)).all()
-        return db.session.scalars(db.select(self.model)).all()
+                db.select(self.model)
+                .filter_by(is_active=True)
+                .order_by(self.model.creation_date)
+                ).all()
+        return db.session.scalars(
+            db.select(self.model)
+            .order_by(self.model.creation_date)
+        ).all()
 
     def add(self, obj):
         db.session.add(obj)
