@@ -202,14 +202,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (reservationId) {
                 const response = await safeFetch(putReservation, payload, reservationId);
                 if (response) {
+                    console.log(response);
                     alert("Réservation mise à jour avec succès");
-                    window.location.href="../html/planning.htm";
+                    window.location.href = "../html/planning.html";
                 }
             } else {
                 const response = await safeFetch(postReservation, payload);
                 if (response) {
                     alert('Réservation créée avec succès');
-                    window.location.href="../html/planning.htm";
+                    window.location.href = "../html/planning.html";
                 }
             }
         }
