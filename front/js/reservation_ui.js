@@ -136,12 +136,19 @@ export function displayAudienceTypes(data) {
             categories.push(element.category);
         }
     });
-    // pour chaque catégorie, créer les div, titres et champs
+    // trier les category sur la base des index order
+    const categoryMinIndex = {};
     categories.forEach((element) => {
         // Selectionner les data de la catégorie
         const categoryData = data.filter((n) => n.category === element);
+        const minIndex = Math.min(...categoryData.map((el) => el.order_index));
+        categoryMinIndex[element] = minIndex;
+    });
+    // Sort the categories list using the categoryMinIndex
+    categories.sort((a, b) => categoryMinIndex[a] - categoryMinIndex[b]);
+    categories.forEach((element) => {
+        const categoryData = data.filter((n) => n.category === element);
         const sortedData = categoryData.sort((a, b) => a.order_index - b.order_index);
-        //Créer la div de la catégorie
         const categoryDiv = document.createElement('div');
         categoryDiv.classList.add("category");
         const title = document.createElement('h3');
@@ -162,9 +169,9 @@ export function displayAudienceTypes(data) {
             input.dataset.audienceT_id = data.id;
             field.appendChild(input);
             categoryDiv.appendChild(field);
-        });
-        audienceForm.appendChild(categoryDiv);
     });
+    audienceForm.appendChild(categoryDiv);
+});  
 }
 
 export async function displayExistingRes(resDetails) {
