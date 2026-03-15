@@ -36,8 +36,12 @@ class Users(Resource):
         except UniqueContraintError as e:
             return {'error': str(e)}, 409
 
+    @jwt_required()
     def get(self):
-        pass
+        claims = get_jwt()
+        if not claims['role']:
+            return {'error': 'Priviledge authorizations required'}, 403
+        return [element.to_dict() for element in user_service.get_all()]
 
 
 @api.route('/me')
