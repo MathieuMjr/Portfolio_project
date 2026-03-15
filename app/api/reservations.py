@@ -63,14 +63,15 @@ class Reservations(Resource):
             return {'error': str(e)}, 404
 
 
-@api.route('/me/reservations')
+@api.route('/<user_id>/reservations')
 class UserReservations(Resource):
     @jwt_required()
     @api.response(200, 'OK')
     @api.response(400, 'Invalid input')
     @api.response(404, 'Resource not found')
-    def get(self):
+    def get(self, user_id):
         identity = get_jwt_identity()
+        claims = get_jwt()
         start = request.args.get('from')
         end = request.args.get('to')
 
@@ -84,9 +85,11 @@ class UserReservations(Resource):
         end_date = datetime.strptime(end, "%Y-%m-%d").date()
         try:
             return res_service.user_reservations(
-                identity, start_date, end_date), 200
+                user_id, identity, claims, start_date, end_date), 200
         except (LookupError, DeactivatedResourceError) as e:
             return {'error': str(e)}, 404
+        except UnauthorizedAction as e:
+            return {'error': str(e)}, 403
 
 
 @api.route('/<reservation_id>')
