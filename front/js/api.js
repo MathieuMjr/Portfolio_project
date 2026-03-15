@@ -1,9 +1,10 @@
 import { API_BASE_URL } from "./config.js";
 import { getCookie } from "./auth.js";
 
-export async function fetchMonthRes(firstDay, lastDay, token) {
+export async function fetchMonthRes(firstDay, lastDay, token, user_id) {
+    console.log('fetch month triggered')
     const response = await fetch(
-        `${API_BASE_URL}/api/reservations/me/reservations?from=${firstDay}&to=${lastDay}`, {
+        `${API_BASE_URL}/api/reservations/${user_id}/reservations?from=${firstDay}&to=${lastDay}`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -204,4 +205,26 @@ export async function putReservation(payload, reservationId) {
     } else {
         return await response.json();
     }
+}
+
+export async function fetchUsers() {
+    const token = getCookie("token");
+    const response = await fetch(`${API_BASE_URL}/api/users/`, {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    });
+    if (!response.ok) {
+        if (response.status === 401) {
+            throw new Error("Votre session a expiré, veuillez vous reconnecter");
+        } else if (response.status === 403) {
+            throw new Error("Accès refusé");
+        } else {
+            throw new Error(error.message);
+        }
+    } else {
+        return await response.json();
+    } 
 }
