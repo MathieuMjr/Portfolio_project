@@ -100,7 +100,7 @@ class ReservationService:
         return new_res.to_dict()
 
     # --- GET USER'S RESERVATION IN A DATE INTERVAL --------------
-    def user_reservations(self, user_id, start, end):
+    def user_reservations(self, user_id,  identity, claims, start, end):
         """
         Retrieves reservations made by a user in a specific
         date interval (for pagination).
@@ -110,6 +110,9 @@ class ReservationService:
         :param start: Start date of the reservation interval (inclusive)
         :param end: End date of the reservation interval (inclusive)
         """
+        if user_id != identity and not claims['role']:
+            raise UnauthorizedAction('Unauthorized action')
+
         user = check_id('User', user_id, self.user_repo)
 
         user_res = self.res_repo.user_res_beetween(user.id, start, end)
