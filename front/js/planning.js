@@ -1,6 +1,6 @@
 import { fetchCurrentUser, getCookie } from "./auth.js";
 import { setHeader } from "./header.js";
-import { fetchMonthRes } from "./api.js";
+import { fetchMonthRes, fetchUsers } from "./api.js";
 import { formatDate} from "./utils.js";
 
 const token = getCookie('token');
@@ -24,22 +24,46 @@ document.addEventListener('DOMContentLoaded', async () => {
     const firstDayString = formatDate(firstDay);
     const lastDayString = formatDate(lastDay);
     try {
-        [identity, monthReservations] = await Promise.all([
-            fetchCurrentUser(),
-            fetchMonthRes(firstDayString, lastDayString, token),
-        ])
+        identity = await fetchCurrentUser()
     } catch(error) {
         alert(error.message);
         window.location.href = 'index.html'
     }
 
+    let usersList;
+
     if (identity) {
         setHeader(identity);
+        if (identity.role) {
+            try {
+                usersList = await fetchUsers();
+                displayUsersSelect(identity.role, usersList);
+            } catch(error) {
+                alert(error.message);
+            }
+        }
+        try {
+            monthReservations = await fetchMonthRes(firstDayString, lastDayString, token, identity.id);
+        } catch(error) {
+            alert(error.message);
+        }
     }
         
     if (monthReservations) {
         display_planning(firstDay, lastDay, monthReservations);
     }
+
+    if (document.getElementById("usersList")) {
+            document.getElementById("usersList").addEventListener('change', async (e) => {
+                try {
+                    identity.role = e.target.value;
+                    const userMonthReservations  = await fetchMonthRes(firstDayString, lastDayString, token, identity.role);
+                    display_planning(firstDay, lastDay, userMonthReservations);
+                } catch(error) {
+                    alert(error.message)
+                }
+            })
+        }
     
     
 // PLANNING NAVIGATION-----------------------------------------------------
@@ -53,25 +77,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     headPlanNav.querySelector('.prev_nav_button').addEventListener('click', async (event) => {
     event.preventDefault();
     currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
-    await navigateToMonth(currentDate);
+    await navigateToMonth(currentDate, identity.role);
 })
 
     headPlanNav.querySelector('.next_nav_button').addEventListener('click', async (event) => {
     event.preventDefault();
     currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
-    await navigateToMonth(currentDate);
+    await navigateToMonth(currentDate, identity.role);
 })
 
     footPlanNav.querySelector('.prev_nav_button').addEventListener('click', async (event) => {
     event.preventDefault();
     currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
-    await navigateToMonth(currentDate);
+    await navigateToMonth(currentDate, identity.role);
 })
 
     footPlanNav.querySelector('.next_nav_button').addEventListener('click', async (event) => {
     event.preventDefault();
     currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
-    await navigateToMonth(currentDate);
+    await navigateToMonth(currentDate, identity.role);
 })
 })
 // ---------------- FONCTIONS ------------------------------------------------
@@ -156,9 +180,35 @@ function displayReservationCards(data, parent_div, dayDate) {
     parent_div.appendChild(dayPlanning);
 }
 
-async function navigateToMonth(date) {
+async function navigateToMonth(date, role) {
     const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    const monthReservations = await fetchMonthRes(formatDate(firstDay), formatDate(lastDay), token);
+    const monthReservations = await fetchMonthRes(formatDate(firstDay), formatDate(lastDay), token, role);
     if (monthReservations) display_planning(firstDay, lastDay, monthReservations);
+}
+
+function displayUsersSelect(role, usersList) {
+        if (role && usersList) {
+            const userListDiv = document.getElementById('users_select');
+            const userListLabel = document.createElement('label');
+            userListLabel.setAttribute('for', 'usersList');
+            userListDiv.append(userListLabel);
+
+            const userListSelect = document.createElement('select');
+            userListSelect.id='usersList';
+            userListSelect.name='usersList';
+
+            const defaultOption = document.createElement('option');
+            defaultOption.value = "";
+            defaultOption.textContent = "Planning utilisateur";
+            userListSelect.appendChild(defaultOption);
+
+            usersList.forEach((user) => {
+                const option = document.createElement('option');
+                option.value = user.id;
+                option.innerText = `${user.firstname} ${user.lastname}`;
+                userListSelect.appendChild(option);
+            })
+            userListDiv.appendChild(userListSelect);
+    }
 }
