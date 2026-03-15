@@ -42,6 +42,10 @@ class UserServices():
 
         return new_user.to_dict()
 
+    # --- GET ALL USERS -----------------------------------------------
+    def get_all(self):
+        return self.user_repo.get_all()
+
     # --- SELF UPDATE -------------------------------------------------
 
     def self_update(self, token_identity, data):
@@ -56,8 +60,10 @@ class UserServices():
     def get_identity(self, identity, claims):
         user = check_id('User', identity, self.user_repo)
         user_dict = {
+            "id": user.id,
             "firstname": user.firstname,
             "lastname": user.lastname,
+            "role": user.role
         }
         if not claims['role']:
             user_dict['reservation_types'] = [
