@@ -17,12 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let identity, monthReservations;
     let currentDate = new Date();
-    // Required for displayPlanning
-    const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-    const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() +1, 0);
-    // Required for fetchMontRes
-    const firstDayString = formatDate(firstDay);
-    const lastDayString = formatDate(lastDay);
+
     try {
         identity = await fetchCurrentUser()
     } catch(error) {
@@ -43,22 +38,22 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
         try {
-            monthReservations = await fetchMonthRes(firstDayString, lastDayString, token, identity.id);
+            monthReservations = await navigateToMonth(currentDate, identity.id);
         } catch(error) {
             alert(error.message);
         }
     }
-        
-    if (monthReservations) {
-        display_planning(firstDay, lastDay, monthReservations);
-    }
+
+    document.getElementById("logout").addEventListener("click", () => {
+    document.cookie = "token=; Max-Age=0; path=/";
+    window.location.href = "../html/index.html";
+    });
 
     if (document.getElementById("usersList")) {
             document.getElementById("usersList").addEventListener('change', async (e) => {
                 try {
-                    identity.role = e.target.value;
-                    const userMonthReservations  = await fetchMonthRes(firstDayString, lastDayString, token, identity.role);
-                    display_planning(firstDay, lastDay, userMonthReservations);
+                    identity.id = e.target.value;
+                    const userMonthReservations  = await navigateToMonth(currentDate, identity.id);
                 } catch(error) {
                     alert(error.message)
                 }
@@ -77,25 +72,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     headPlanNav.querySelector('.prev_nav_button').addEventListener('click', async (event) => {
     event.preventDefault();
     currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
-    await navigateToMonth(currentDate, identity.role);
+    await navigateToMonth(currentDate, identity.id);
 })
 
     headPlanNav.querySelector('.next_nav_button').addEventListener('click', async (event) => {
     event.preventDefault();
     currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
-    await navigateToMonth(currentDate, identity.role);
+    await navigateToMonth(currentDate, identity.id);
 })
 
     footPlanNav.querySelector('.prev_nav_button').addEventListener('click', async (event) => {
     event.preventDefault();
     currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
-    await navigateToMonth(currentDate, identity.role);
+    await navigateToMonth(currentDate, identity.id);
 })
 
     footPlanNav.querySelector('.next_nav_button').addEventListener('click', async (event) => {
     event.preventDefault();
     currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
-    await navigateToMonth(currentDate, identity.role);
+    await navigateToMonth(currentDate, identity.id);
 })
 })
 // ---------------- FONCTIONS ------------------------------------------------
@@ -180,10 +175,11 @@ function displayReservationCards(data, parent_div, dayDate) {
     parent_div.appendChild(dayPlanning);
 }
 
-async function navigateToMonth(date, role) {
+async function navigateToMonth(date, userId) {
     const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    const monthReservations = await fetchMonthRes(formatDate(firstDay), formatDate(lastDay), token, role);
+    const monthReservations = await fetchMonthRes(formatDate(firstDay), formatDate(lastDay), token, userId);
+     console.log("RESERVATIONS:", monthReservations);
     if (monthReservations) display_planning(firstDay, lastDay, monthReservations);
 }
 
