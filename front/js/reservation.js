@@ -47,8 +47,8 @@ const token = getCookie('token');
 
 document.addEventListener('DOMContentLoaded', async () => {
     if (!token) {
-            window.location.href = '../html/index.html'
-        }
+        window.location.href = '../html/index.html'
+    }
 
     const urlParams = new URLSearchParams(window.location.search);
     const reservationId = urlParams.get('id');
@@ -92,6 +92,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         })
     }
+    document.getElementById("logout").addEventListener("click", () => {
+    document.cookie = "token=; Max-Age=0; path=/";
+    window.location.href = "../html/index.html";
+    });
 
     if (statuses) {
         displayStatus(statuses);
