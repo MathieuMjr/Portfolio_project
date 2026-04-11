@@ -278,6 +278,27 @@ To access API documentation :
 
 Please, notice that for now, parameters are missing and will be updated next. (Focused on Pydantic validation instead of Swagger validation).
 
+<details><summary>Users</summary>
+
+Method | Route | Parameters | Body | Code responses | Example response | Privilèges requis ?
+--|--|--|--|--|--|--|
+**GET** | /api/users/ | / | / |200 - Success<br> | {<br>"id": string,<br>"firstname": string,<br>"email": string,<br>"role": boolean,<br>"reservation_types":[strings],<br>"is_active": boolean<br>}
+**POST**| /api/users/ | / | {<br>""} | 201 Created<br>400 Invalid input<br>404 Resource not found<br> 409 Unique Constraint Violation | {<br>}
+**GET** | /api/me | / | / | 200 Sucess | A remplir
+**PUT** | /api/me | / | A remplir | 200 Success<br> Ajouter échec d'inputs | A remplir
+**GET** | /api/users/ | user_id | / | 200 OK<br> 403 Priviledge required <br> 404 Ressource not found | A remplir
+**PATCH** | /api/users/ | user_id | / | 200 OK<br> 403 Priviledge required <br> 404 Ressource not found<br> 409 Unique constraint violation | A remplir
+**DELETE** | /api/users/ | user_id | A remplir | 200 OK<br> 403 Priviledge required <br> 404 Ressource not found | A remplir
+
+404	
+Resource not found
+
+409	
+Unique constraint violation
+
+</details>
+
+
 ## HOW TO INSTALL AND USE KO.TOOLS
 **Requirements**
 **Seed**
