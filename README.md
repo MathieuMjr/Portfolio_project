@@ -248,9 +248,11 @@ Ko.tools uses a three layer architecture :
 - Persistence layer in charge of the database.
 <br>
 <br>
+
 Front-end | Back-end | Database
 |--|--|--|
 HTML 5<br> CSS3<br> Vanilla JavaScript | Python 3<br> Flask<br> Flask RestX <br> Flask JWT extended <br> Flask BCrypt<br> Pydantic<br>Dotenv | SQL Alchemy<br> MySQL <br> SQLite (for tests)
+
 
 **ER Diagram**<br>
 The following Entity-Relationship diagram explain you the main entity of the web application.
