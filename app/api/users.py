@@ -4,8 +4,12 @@ from app.services import user_service
 from pydantic import ValidationError
 from app.services.errors import (UniqueContraintError,
                                  DeactivatedResourceError)
+from app.validators.users import UserPayload
 
 api = Namespace('users', description='User operations')
+
+user_payload = api.schema_model(
+    'User paylaod', UserPayload.model_json_schema())
 
 
 @api.route('/')
@@ -15,6 +19,7 @@ class Users(Resource):
     @api.response(400, 'Invalid input')
     @api.response(404, 'Resource not found')
     @api.response(409, 'Unique constraint violation')
+    @api.expect(user_payload, validate=False)
     def post(self):
         data = api.payload
         claims = get_jwt()
