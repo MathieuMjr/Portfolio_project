@@ -3,12 +3,18 @@ from typing import Optional
 
 
 class UserPayload(BaseModel):
-    firstname: str = Field(min_length=1)
-    lastname: str = Field(min_length=1)
-    email: EmailStr
-    password: str = Field(min_length=5)
-    role: bool
-    reservation_types: list[str] = Field(min_length=1)
+    firstname: str = Field(description="Firstname of a user",
+                           min_length=1)
+    lastname: str = Field(description="Lastname of a user",
+                          min_length=1)
+    email: EmailStr = Field(description="Email of a user")
+    password: str = Field(description="Password of a user",
+                          min_length=5)
+    role: bool = Field(description="Is the new user an admin or not")
+    reservation_types: list[str] = Field(
+        description="List of reservation type IDs the user "
+        "is authorized to use",
+        min_length=1)
 
     model_config = ConfigDict(extra='forbid')
 
