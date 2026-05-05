@@ -12,8 +12,12 @@ from app.persistence.user_repository import UserRepository
 from app.services.utils import check_id
 from flask import request
 from datetime import datetime
+from app.validators.reservation import ReservationPayload
 
 api = Namespace('reservations', description='Reservations operations')
+
+reservation_payload = api.model(
+    "Reservation payload", ReservationPayload.model_json_schema())
 
 
 @api.route('/')
@@ -24,6 +28,7 @@ class Reservations(Resource):
     @api.response(403, 'Priviledge required')
     @api.response(404, 'Resource not found or deactivated')
     @api.response(409, 'Unique constraint violation')
+    @api.expect(reservation_payload, validate=False)
     def post(self):
         # fetch data
         data = api.payload
