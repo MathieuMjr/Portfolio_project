@@ -16,7 +16,7 @@ from app.validators.reservation import ReservationPayload
 
 api = Namespace('reservations', description='Reservations operations')
 
-reservation_payload = api.model(
+reservation_payload = api.schema_model(
     "Reservation payload", ReservationPayload.model_json_schema())
 
 
