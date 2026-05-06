@@ -103,6 +103,7 @@ class ReservationId(Resource):
     @api.response(200, 'OK')
     @api.response(403, 'Priviledge required')
     @api.response(404, 'Resource not found')
+    @api.expect(reservation_payload, validate=False)
     def get(self, reservation_id):
         identity = get_jwt_identity()
         claims = get_jwt()
