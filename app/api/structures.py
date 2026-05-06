@@ -5,8 +5,13 @@ from app.services import structure_service
 from pydantic import ValidationError
 from app.services.errors import (UniqueContraintError,
                                  DeactivatedResourceError)
+from app.validators.structure import StructurePaylaod
 
 api = Namespace('structures', description='Structures operations')
+
+# Pydantic schemas for swagger doc
+structure_payload = api.schema_model(
+    'Structure payload', StructurePaylaod.model_json_schema())
 
 
 @api.route('/')
@@ -17,6 +22,7 @@ class Structures(Resource):
     @api.response(401, 'Authentication needed')
     @api.response(404, 'Resource not found or deactivated')
     @api.response(409, 'Unique constraint violation')
+    @api.expect(structure_payload, validate=False)
     def post(self):
         data = api.payload
         try:
