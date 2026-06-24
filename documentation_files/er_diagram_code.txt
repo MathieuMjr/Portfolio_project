@@ -43,9 +43,6 @@ erDiagram
     AUDIENCE_TYPES {
         varchar id(PK)
         varchar name
-        bool is_school
-        varchar category
-        int order_index
     }
     STRUCTURES {
         varchar id(PK)
@@ -59,21 +56,21 @@ erDiagram
     }
     STRUCTURE_TYPES {
         varchar id(PK)
-        string name
+        varchar name
         bool is_school
     }
     RESERVATION_TYPES{
-        string id(PK)
-        string name
+        varchar id(PK)
+        varchar name
     }
     THEMES {
-        string id(PK)
-        string reservation_type_id(FK)
-        string name
+        varchar id(PK)
+        varchar reservation_type_id(FK)
+        varchar name
     }
     RESERVATION_THEMES {
-        string reservations_id(FK)
-        string theme_id(FK)
+        varchar reservations_id(FK)
+        varchar theme_id(FK)
     }
     RESERVATIONS }o--|| RESERVATION_TYPES : has
     THEMES ||--|{ RESERVATION_THEMES : part_of
