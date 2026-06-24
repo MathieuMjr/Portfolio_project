@@ -2,7 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from flask_restx import Api
 from .extensions import db, jwt, bcrypt
-from config import DevelopmentConfig
+from config import DevelopmentConfig, Config
 from app.api.users import api as users_ns
 from app.api.login import api as login_ns
 from app.api.structures import api as structures_ns
@@ -16,7 +16,7 @@ from flask_jwt_extended.exceptions import (InvalidHeaderError,
                                            NoAuthorizationError)
 
 
-def create_app(config_class=DevelopmentConfig):
+def create_app(config_class=Config):
     app = Flask(__name__)
     api = Api(app, version='1.0', title='Sample API',
               description='A sample API using Flask-RESTX',
