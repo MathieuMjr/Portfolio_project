@@ -1,0 +1,23 @@
+services:
+  back:
+    build: ./back
+    image: back
+    depends_on:
+      - db
+
+  front:
+    build: ./front
+    image: front
+    depends_on:
+      - back
+    ports:
+      - 80:443
+
+  db:
+    build: ./db
+    image: db
+    restart: always
+    environment:
+      - MYSQL_DATABASE: Kotools
+      - MYSQL_USER: mathieu
+      - MYSQL_PASSWORD: 
