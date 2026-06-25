@@ -1,5 +1,3 @@
-# UPDATE IN PROGRESS - 2026 - 04 - 02
-
 # PORTFOLIO PROJECT - HOLBERTON SCHOOL DIJON
 
 During my Fundamentals curriculum at Holberton School, I was asked to imagin, design and develop a web application as a end-of-the-year project.
@@ -251,7 +249,7 @@ Ko.tools uses a three layer architecture :
 
 Front-end | Back-end | Database
 |--|--|--|
-HTML 5<br> CSS3<br> Vanilla JavaScript | Python 3<br> Flask<br> Flask RestX <br> Flask JWT extended <br> Flask BCrypt<br> Pydantic<br>Dotenv | SQL Alchemy<br> MySQL <br> SQLite (for tests)
+HTML 5<br> CSS3<br> JavaScript (*Vanilla*) | Python 3<br> Flask<br> Flask RestX <br> Flask JWT extended <br> Flask BCrypt<br> Pydantic<br>Dotenv | SQL Alchemy<br> MySQL <br> SQLite (for tests)
 
 
 **ER Diagram**<br>
@@ -275,31 +273,9 @@ A soft delete policy has been defined : entities cannot be hard deleted to avoid
 **API Documentation**
 
 To access API documentation : 
-- run the application
+- clone the repository
+- run the application `python run.py`
 - access http://localhost:5000/api
-
-Please, notice that for now, parameters are missing and will be updated next. (Focused on Pydantic validation instead of Swagger validation).
-
-<details><summary>Users</summary>
-
-Method | Route | Parameters | Body | Code responses | Example response | Privilèges requis ?
---|--|--|--|--|--|--|
-**GET** | /api/users/ | / | / |200 - Success<br> | {<br>"id": string,<br>"firstname": string,<br>"email": string,<br>"role": boolean,<br>"reservation_types":[strings],<br>"is_active": boolean<br>}
-**POST**| /api/users/ | / | {<br>""} | 201 Created<br>400 Invalid input<br>404 Resource not found<br> 409 Unique Constraint Violation | {<br>}
-**GET** | /api/me | / | / | 200 Sucess | A remplir
-**PUT** | /api/me | / | A remplir | 200 Success<br> Ajouter échec d'inputs | A remplir
-**GET** | /api/users/ | user_id | / | 200 OK<br> 403 Priviledge required <br> 404 Ressource not found | A remplir
-**PATCH** | /api/users/ | user_id | / | 200 OK<br> 403 Priviledge required <br> 404 Ressource not found<br> 409 Unique constraint violation | A remplir
-**DELETE** | /api/users/ | user_id | A remplir | 200 OK<br> 403 Priviledge required <br> 404 Ressource not found | A remplir
-
-404	
-Resource not found
-
-409	
-Unique constraint violation
-
-</details>
-
 
 ## HOW TO INSTALL AND USE KO.TOOLS
 **Requirements**
