@@ -6,9 +6,9 @@ from decimal import Decimal
 
 
 class ReservationPayload(BaseModel):
-    author_id: str = Field(min_length=1)
-    structure_id: str = Field(min_length=1)
-    reservation_type_id: str = Field(min_length=1)
+    author_id: str = Field(min_length=36)
+    structure_id: str = Field(min_length=36)
+    reservation_type_id: str = Field(min_length=36)
     reservation_date: date
     hour: time
     contact_firstname: str = Field(min_length=1)
@@ -16,8 +16,8 @@ class ReservationPayload(BaseModel):
     contact_phone: str = Field(min_length=10, max_length=10)
     contact_email: EmailStr
     contact_role: str = Field(min_length=1)
-    price: Decimal = Field(gt=0)
-    status_id: str = Field(min_length=1)
+    price: Decimal = Field(gt=100)
+    status_id: str = Field(min_length=36)
     themes_id_list: list[str] = Field(min_length=1)
 
     model_config = ConfigDict(extra='forbid')
