@@ -2,7 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from flask_restx import Api
 from .extensions import db, jwt, bcrypt
-from config import DevelopmentConfig, Config
+from config import Config
 from app.api.users import api as users_ns
 from app.api.login import api as login_ns
 from app.api.structures import api as structures_ns
