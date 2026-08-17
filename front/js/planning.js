@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     document.getElementById("logout").addEventListener("click", () => {
-    document.cookie = "token=; Max-Age=0; path=/";
-    window.location.href = "../html/index.html";
+        document.cookie = "token=; Max-Age=0; path=/";
+        window.location.href = "../html/index.html";
     });
 
     if (document.getElementById("usersList")) {
@@ -179,7 +179,6 @@ async function navigateToMonth(date, userId) {
     const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     const monthReservations = await fetchMonthRes(formatDate(firstDay), formatDate(lastDay), token, userId);
-     console.log("RESERVATIONS:", monthReservations);
     if (monthReservations) display_planning(firstDay, lastDay, monthReservations);
 }
 
