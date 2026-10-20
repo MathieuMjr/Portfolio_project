@@ -21,12 +21,13 @@ export function displayResTypes(data) {
 
     const resTypeLabel = document.createElement('label');
     resTypeLabel.setAttribute('for', 'res_type');
-    // resTypeLabel.textContent ='Type de réservation';
+    resTypeLabel.textContent ='Type de réservation';
     resTypeField.appendChild(resTypeLabel);
 
     const resTypeSelect = document.createElement('select');
     resTypeSelect.id ='res_type';
     resTypeSelect.name = 'res_type';
+    resTypeSelect.required = true;
 
     const resTypeChoose = document.createElement('option');
     resTypeChoose.value = "";
@@ -57,6 +58,7 @@ export function displayStatus(data) {
     const statusSelect = document.createElement('select');
     statusSelect.id = "status";
     statusSelect.name = "status";
+    statusSelect.required = true;
 
     const defaultOption = document.createElement('option');
     defaultOption.value ="";
