@@ -49,7 +49,7 @@ You can take a look at the preparatory work on Kō.tools made during for Holbert
 
 ## WORK IN PROGRESS
 **Short term:**
-- Security improvement : sensible data encryption, front-end field validation, stronger back-end field validation to avoid injection, server-side cookie generation for token.
+- Security improvement : sensible data encryption, front-end field validation, stronger back-end field validation to avoid injection, server-side cookie generation for token, rate limiter against 
 - Front-end : admin dashboard with access to catalog entities management, structure creation from reservation form screen.
 - Back-end : required information policy for entities so it make sense to use the reservation status "waiting for more information", rework pydantic schemas with stronger on values validations.
 - Deployement : create docker containers
