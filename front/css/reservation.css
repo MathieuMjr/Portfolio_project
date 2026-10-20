@@ -133,6 +133,22 @@ select:disabled {
     cursor: not-allowed;
 }
 
+:is(input, select):required:valid {
+    border-style:solid;
+    border-width: thin;
+    border-color: green;
+}
+
+:is(input, select):required:invalid {
+    border-style:solid;
+    border-width: medium;
+    border-color: red;
+}
+
+input[type=checkbox]:checked {
+    accent-color:green;
+}
+
 /* ── Blocs en ligne ─────────────────────────────────────────── */
 .bloc-row {
     display: flex;
