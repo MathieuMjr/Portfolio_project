@@ -1,8 +1,9 @@
 import { API_BASE_URL } from "./config.js";
 import { getCookie } from "./auth.js";
 
+// Fetch reservation of a specific month
 export async function fetchMonthRes(firstDay, lastDay, token, user_id) {
-    console.log('fetch month triggered')
+    // console.log('fetch month triggered')
     const response = await fetch(
         `${API_BASE_URL}/api/reservations/${user_id}/reservations?from=${firstDay}&to=${lastDay}`, {
             method: "GET",
@@ -24,6 +25,7 @@ export async function fetchMonthRes(firstDay, lastDay, token, user_id) {
     }
 }
 
+// Fetch the list of existing statuses
 export async function fetchStatus() {
     const token = getCookie("token");
     const response = await fetch(`${API_BASE_URL}/api/statuses/`, {
@@ -45,6 +47,7 @@ export async function fetchStatus() {
     }
 }
 
+// Fetch the list of existing themes
 export async function fetchThemes(resTypeId) {
     const token = getCookie("token");
     const response = await fetch(
@@ -68,6 +71,7 @@ export async function fetchThemes(resTypeId) {
     }
 }
 
+// Fetch the list of existing audience types
 export async function fetchAudienceTypes() {
     const token = getCookie("token");
     const response = await fetch(`${API_BASE_URL}/api/audience_types/`, {
@@ -89,6 +93,7 @@ export async function fetchAudienceTypes() {
     }
 }
 
+// Fetch the list of existing structure types
 export async function fetchStructureTypes() {
     const token = getCookie("token");
     const response = await fetch(`${API_BASE_URL}/api/struct_types/`, {
@@ -110,6 +115,7 @@ export async function fetchStructureTypes() {
     }
 }
 
+// Fetch the list of existing structures for a given structure type and zip code
 export async function fetchStructures(strucT_id, zipCode) {
     if ((!strucT_id) || (!zipCode)) {
         return null;
@@ -136,6 +142,7 @@ export async function fetchStructures(strucT_id, zipCode) {
     }
 }
 
+// Send a payload to create a new reservation
 export async function postReservation(payload) {
     const token = getCookie("token");
     const response = await fetch(`${API_BASE_URL}/api/reservations/`, {
@@ -159,6 +166,7 @@ export async function postReservation(payload) {
     }
 }
 
+// Fetch a specific reservation detail
 export async function fetchReservation(reservationId) {
     const token = getCookie("token");
     const response = await fetch(`${API_BASE_URL}/api/reservations/${reservationId}`, {
@@ -180,6 +188,7 @@ export async function fetchReservation(reservationId) {
     }
 }
 
+// Update a specific reservation
 export async function putReservation(payload, reservationId) {
     const token = getCookie("token");
     const response = await fetch(`${API_BASE_URL}/api/reservations/${reservationId}`, {
@@ -207,6 +216,7 @@ export async function putReservation(payload, reservationId) {
     }
 }
 
+// Fetch the list of existing users
 export async function fetchUsers() {
     const token = getCookie("token");
     const response = await fetch(`${API_BASE_URL}/api/users/`, {
