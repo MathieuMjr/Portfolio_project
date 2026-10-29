@@ -319,6 +319,6 @@ dist
 .svelte-kit
 
 project.db
-.exports
+/exports/
 
 # End of https://www.toptal.com/developers/gitignore/api/node
