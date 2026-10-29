@@ -5,6 +5,10 @@
 Required field policy :
 - consider having some optional fields = pydantics needs to be modified.
 
+
+Validation Front : 
+- Vérifier le JS : on doit pouvoir valider sans mettre d'audiences -> on doit voir comment ça se comporte dans le back en service sans réservation !
+
 ## BACK
 - HTTPonly token
 - ratelimiter 
