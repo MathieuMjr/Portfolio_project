@@ -96,7 +96,7 @@ class ReservationService:
             for audience in checked_audiences:
                 new_audience = Audience(**audience)
                 self.audience_repo.add(new_audience)
-                
+
         return new_res.to_dict()
 
     # --- GET USER'S RESERVATION IN A DATE INTERVAL --------------
