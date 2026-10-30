@@ -20,7 +20,9 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SECRET_KEY = 'dev-key'
     JWT_SECRET_KEY = 'jwt-dev-key'
-    SQLALCHEMY_DATABASE_URI = "sqlite:///project.db"
+    SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://{
+        os.getenv('DB_USER')}:{
+            quote_plus(os.getenv('DB_PASSWORD'))}@localhost/kotools"
 
 
 class TestingConfig(Config):
