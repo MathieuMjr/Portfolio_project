@@ -83,20 +83,20 @@ class ReservationService:
         self.res_repo.add(new_res)
 
         # Audience check (pydantic, ids)
-        checked_audiences = []
-        for audience in audiences:
-            audience['reservation_id'] = new_res.id
-            valid_audience = AudiencePayload(**audience).model_dump()
-            audience_type_id = valid_audience['audience_type_id']
-            check_id(
-                'Audience type', audience_type_id, self.audienceT_repo)
-            checked_audiences.append(valid_audience)
-
-        # Audience creation after check
-        for audience in checked_audiences:
-            new_audience = Audience(**audience)
-            self.audience_repo.add(new_audience)
-
+        if audiences:
+            checked_audiences = []
+            for audience in audiences:
+                audience['reservation_id'] = new_res.id
+                valid_audience = AudiencePayload(**audience).model_dump()
+                audience_type_id = valid_audience['audience_type_id']
+                check_id(
+                    'Audience type', audience_type_id, self.audienceT_repo)
+                checked_audiences.append(valid_audience)
+            # Audience creation after check
+            for audience in checked_audiences:
+                new_audience = Audience(**audience)
+                self.audience_repo.add(new_audience)
+                
         return new_res.to_dict()
 
     # --- GET USER'S RESERVATION IN A DATE INTERVAL --------------
