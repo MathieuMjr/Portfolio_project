@@ -199,10 +199,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.querySelector('.form_container').addEventListener(
         'submit', async (event) => {
             event.preventDefault();
-            if (!checkPayload(payload)) {
-                alert("Champs manquant(s) ou invalide(s)");
-                return;
-            }
+            // if (!checkPayload(payload)) {
+            //     alert("Champs manquant(s) ou invalide(s)");
+            //     return;
+            // }
             if (reservationId) {
                 const response = await safeFetch(putReservation, payload, reservationId);
                 if (response) {
@@ -231,12 +231,12 @@ async function safeFetch(fetchFunction, ...arg) {
     }
 }
 
-function checkPayload(payload) {
-    return Object.entries(payload).every(([key, value]) => {
-        if (Array.isArray(value)) return value.length > 0;
-        return value !== null && value !== "";
-})
-}
+// function checkPayload(payload) {
+//     return Object.entries(payload).every(([key, value]) => {
+//         if (Array.isArray(value)) return value.length > 0;
+//         return value !== null && value !== "";
+// })
+// }
 
 function payloadFromExistingRes(resDetails, payload) {
     payload.structure_id = resDetails.structure.id;
