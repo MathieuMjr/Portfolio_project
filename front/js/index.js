@@ -1,7 +1,5 @@
 import { getCookie, login } from "./auth.js";
 
-const token = getCookie('token');
-console.log(token);
 
 document.addEventListener('DOMContentLoaded', async () => {
 
@@ -17,7 +15,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         try {
             const apiToken = await login(payload);
-            document.cookie = "token=" + apiToken.access_token + "; path=/; SameSite=strict";
             window.location.href = '../html/planning.html';
         } catch (error) {
             errorParagraph.textContent = error.message;
