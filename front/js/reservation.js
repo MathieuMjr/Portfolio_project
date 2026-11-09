@@ -199,6 +199,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.querySelector('.form_container').addEventListener(
         'submit', async (event) => {
             event.preventDefault();
+            if (payload.themes_id_list.length == 0) {
+                alert("Cocher au moins un thème");
+                return;
+            }
             // if (!checkPayload(payload)) {
             //     alert("Champs manquant(s) ou invalide(s)");
             //     return;
