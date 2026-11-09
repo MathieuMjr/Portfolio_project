@@ -14,6 +14,10 @@ class Config:
     SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://{
         os.getenv('DB_USER')}:{
             quote_plus(os.getenv('DB_PASSWORD'))}@localhost/kotools"
+    JWT_COOKIE_SECURE = True
+    JWT_ACCESS_COOKIE_NAME = "access_token_cookie"
+    JWT_COOKIE_SAMESITE = "None"
+    JWT_TOKEN_LOCATION = ["cookies"]
 
 
 class DevelopmentConfig(Config):
@@ -23,6 +27,11 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://{
         os.getenv('DB_USER')}:{
             quote_plus(os.getenv('DB_PASSWORD'))}@localhost/kotools"
+    JWT_COOKIE_SECURE = False
+    JWT_ACCESS_COOKIE_NAME = "access_token_cookie"
+    JWT_COOKIE_SAMESITE = "Strict"
+    JWT_TOKEN_LOCATION = ["cookies"]
+    JWT_COOKIE_CSRF_PROTECT = True
 
 
 class TestingConfig(Config):
