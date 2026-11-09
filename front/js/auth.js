@@ -17,6 +17,7 @@ export function getCookie(cookie_name) {
 export async function login(payload) {
     const response = await fetch(`${API_BASE_URL}/api/login/`, {
         method: "POST",
+        credentials: "include",
         headers: {
             "Content-Type": "application/json"
         },
@@ -37,11 +38,11 @@ export async function login(payload) {
 
 // --- FETCH CURRENT USER ------------------------------------------
     export async function fetchCurrentUser() {
-    const token = getCookie("token");
     const response = await fetch(`${API_BASE_URL}/api/users/me`, {
+        credentials: "include",
         headers: {
-            "Authorization": `Bearer ${token}`
-        }
+            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+        },
     })
     if (!response.ok) {
         if (response.status === 404) {
