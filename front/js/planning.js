@@ -3,13 +3,8 @@ import { setHeader } from "./header.js";
 import { fetchMonthRes, fetchUsers } from "./api.js";
 import { formatDate} from "./utils.js";
 
-const token = getCookie('token');
 
 document.addEventListener('DOMContentLoaded', async () => {
-    if (!token) {
-        window.location.href = '../html/index.html'
-    }
-
     const responseHeader = await fetch('../html/header.html');
     const headerContent = await responseHeader.text();
     const header = document.querySelector(".navigation");
@@ -45,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     document.getElementById("logout").addEventListener("click", () => {
-        document.cookie = "token=; Max-Age=0; path=/";
+        document.cookie = "csrf_access_token=; Max-Age=0; path=/";
         window.location.href = "../html/index.html";
     });
 
@@ -178,7 +173,7 @@ function displayReservationCards(data, parent_div, dayDate) {
 async function navigateToMonth(date, userId) {
     const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    const monthReservations = await fetchMonthRes(formatDate(firstDay), formatDate(lastDay), token, userId);
+    const monthReservations = await fetchMonthRes(formatDate(firstDay), formatDate(lastDay), userId);
     if (monthReservations) display_planning(firstDay, lastDay, monthReservations);
 }
 
