@@ -38,7 +38,8 @@ def create_app(config_class=Config):
     def handle_invalid_token(error):
         return {'error': 'Token invalide'}, 401
 
-    CORS(app, resources={r"/api/*": {"origins": "http://localhost:5500"}})
+    CORS(app, resources={r"/api/*": {"origins": "http://localhost:5500"}},
+         supports_credentials=True)
 
     api.add_namespace(users_ns, path='/api/users')
     api.add_namespace(login_ns, path='/api/login')
