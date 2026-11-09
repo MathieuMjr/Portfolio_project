@@ -1,6 +1,7 @@
 from flask_restx import Namespace, Resource
 from app.services import user_service
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, set_access_cookies
+from flask import make_response
 
 api = Namespace('login', description='Login route and token creation')
 
@@ -23,6 +24,8 @@ class Login(Resource):
                         'reservation_types': res_types_ids
                     }
                 )
-                return {'access_token': access_token}, 200
+                response = make_response({'message': "success"}, 200)
+                set_access_cookies(response, access_token)
+                return response
             else:
                 return {'error': 'Invalid credentials'}, 401
