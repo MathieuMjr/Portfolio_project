@@ -2,15 +2,12 @@ import { API_BASE_URL } from "./config.js";
 import { getCookie } from "./auth.js";
 
 // Fetch reservation of a specific month
-export async function fetchMonthRes(firstDay, lastDay, token, user_id) {
+export async function fetchMonthRes(firstDay, lastDay, user_id) {
     // console.log('fetch month triggered')
     const response = await fetch(
         `${API_BASE_URL}/api/reservations/${user_id}/reservations?from=${firstDay}&to=${lastDay}`, {
             method: "GET",
-            headers: {
-                "Content-type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
+            credentials: "include",
         });
     if (!response.ok) {
         if (response.status === 401) {
@@ -168,12 +165,11 @@ export async function postReservation(payload) {
 
 // Fetch a specific reservation detail
 export async function fetchReservation(reservationId) {
-    const token = getCookie("token");
     const response = await fetch(`${API_BASE_URL}/api/reservations/${reservationId}`, {
         method: "GET",
+        credentials: "include",
         headers: {
-            "Content-type": "application/json",
-            "Authorization": `Bearer ${token}`
+            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
         }
     });
     if (!response.ok) {
@@ -218,12 +214,11 @@ export async function putReservation(payload, reservationId) {
 
 // Fetch the list of existing users
 export async function fetchUsers() {
-    const token = getCookie("token");
     const response = await fetch(`${API_BASE_URL}/api/users/`, {
         method: "GET",
+        credentials: "include",
         headers: {
-            "Content-type": "application/json",
-            "Authorization": `Bearer ${token}`
+            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
         }
     });
     if (!response.ok) {
