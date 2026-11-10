@@ -43,12 +43,7 @@ const payloadFields = [
     "themes_id_list", "audiences"
 ]
 
-const token = getCookie('token');
-
 document.addEventListener('DOMContentLoaded', async () => {
-    if (!token) {
-        window.location.href = '../html/index.html'
-    }
 
     const urlParams = new URLSearchParams(window.location.search);
     const reservationId = urlParams.get('id');
