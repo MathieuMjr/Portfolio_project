@@ -11,7 +11,9 @@ Mettre à jour les appels API côté front pour ajouter les credentials, retirer
 
 Voir pour révoquer le token à la deconnexion.
 
-Voir pour le refresh des token. 
+Voir pour le refresh des token.
+
+Faire des affichage d'erreurs propre et des relais d'erreur depuis le back : propre
 
 
 - ratelimiter 
