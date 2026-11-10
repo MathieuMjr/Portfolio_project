@@ -1,4 +1,4 @@
-import { fetchCurrentUser, getCookie } from "./auth.js";
+import { fetchCurrentUser } from "./auth.js";
 import { setHeader } from "./header.js";
 import { fetchStatus,
     fetchThemes,
