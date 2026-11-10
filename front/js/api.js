@@ -24,13 +24,9 @@ export async function fetchMonthRes(firstDay, lastDay, user_id) {
 
 // Fetch the list of existing statuses
 export async function fetchStatus() {
-    const token = getCookie("token");
     const response = await fetch(`${API_BASE_URL}/api/statuses/`, {
         method: "GET",
-        headers: {
-                "Content-type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
+        credentials: "include",
         });
     if (!response.ok) {
         if (response.status === 401) {
@@ -46,14 +42,10 @@ export async function fetchStatus() {
 
 // Fetch the list of existing themes
 export async function fetchThemes(resTypeId) {
-    const token = getCookie("token");
     const response = await fetch(
         `${API_BASE_URL}/api/res_types/${resTypeId}/themes`, {
             method: "GET",
-            headers: {
-                "Content-type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
+            credentials: "include",
         });
     if (!response.ok) {
         if (response.status === 400) {
@@ -70,13 +62,9 @@ export async function fetchThemes(resTypeId) {
 
 // Fetch the list of existing audience types
 export async function fetchAudienceTypes() {
-    const token = getCookie("token");
     const response = await fetch(`${API_BASE_URL}/api/audience_types/`, {
         method: "GET",
-        headers: {
-            "Content-type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
+        credentials: "include",
     });
     if (!response.ok) {
         if (response.status === 401) {
@@ -92,13 +80,9 @@ export async function fetchAudienceTypes() {
 
 // Fetch the list of existing structure types
 export async function fetchStructureTypes() {
-    const token = getCookie("token");
     const response = await fetch(`${API_BASE_URL}/api/struct_types/`, {
         method: "GET",
-        headers: {
-            "Content-type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
+        credentials: "include",
     });
     if (!response.ok) {
         if (response.status === 401) {
@@ -117,14 +101,10 @@ export async function fetchStructures(strucT_id, zipCode) {
     if ((!strucT_id) || (!zipCode)) {
         return null;
     } else {
-        const token = getCookie("token");
         const response = await fetch(
             `${API_BASE_URL}/api/structures/?type_id=${strucT_id}&zip=${zipCode}`, {
             method: "GET",
-            headers: {
-            "Content-type": "application/json",
-            "Authorization": `Bearer ${token}`
-            }
+            credentials: "include",
         });
         if (!response.ok) {
             if (response.status === 401) {
@@ -141,12 +121,12 @@ export async function fetchStructures(strucT_id, zipCode) {
 
 // Send a payload to create a new reservation
 export async function postReservation(payload) {
-    const token = getCookie("token");
     const response = await fetch(`${API_BASE_URL}/api/reservations/`, {
         method: "POST",
+        credentials: "include",
         headers: {
-            "Content-type": "application/json",
-            "Authorization": `Bearer ${token}`
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
         },
         body: JSON.stringify(payload)
     });
@@ -186,12 +166,12 @@ export async function fetchReservation(reservationId) {
 
 // Update a specific reservation
 export async function putReservation(payload, reservationId) {
-    const token = getCookie("token");
     const response = await fetch(`${API_BASE_URL}/api/reservations/${reservationId}`, {
         method: "PUT",
+        credentials: "include",
         headers: {
-            "Content-type": "application/json",
-            "Authorization": `Bearer ${token}`
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
         },
         body: JSON.stringify(payload)
     });
